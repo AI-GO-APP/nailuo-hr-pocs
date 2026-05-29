@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>業務日誌填寫 ｜ Lia demo</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #2563EB;
+  --primary-dark: #1D4ED8;
+  --primary-light: #DBEAFE;
+  --danger: #DC2626;
+  --danger-light: #FEE2E2;
+  --warning: #EA580C;
+  --warning-light: #FFEDD5;
+  --yellow: #CA8A04;
+  --yellow-light: #FEF3C7;
+  --success: #16A34A;
+  --success-light: #DCFCE7;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --text: #0F172A;
+  --text-2: #475569;
+  --text-3: #94A3B8;
+  --border: #E2E8F0;
+  --bg: #F8FAFC;
+}
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  font-size: 14px;
+  line-height: 1.5;
+}
+button, input, select, textarea { font-family: inherit; }
+button { cursor: pointer; border: none; background: none; color: inherit; }
+a { color: inherit; text-decoration: none; }
+.app { display: grid; grid-template-columns: 232px 1fr; min-height: 100vh; }
+
+/* ===== Sidebar ===== */
+.sidebar { background: #FFFFFF; border-right: 1px solid var(--border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 16px 18px; border-bottom: 1px solid var(--border); }
+.brand-logo { width: 32px; height: 32px; background: linear-gradient(135deg, #16A34A, #2563EB); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; }
+.brand-name { font-weight: 600; font-size: 15px; }
+.brand-sub { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+.nav { flex: 1; overflow-y: auto; padding: 12px 8px; }
+.nav-group-label { font-size: 11px; color: var(--text-3); padding: 14px 12px 6px; font-weight: 500; letter-spacing: 0.5px; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; color: var(--text-2); cursor: pointer; font-size: 14px; margin: 1px 0; }
+.nav-item:hover { background: #F1F5F9; color: var(--text); }
+.nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+.nav-item .count-tag { margin-left: auto; font-size: 11px; padding: 1px 7px; border-radius: 10px; background: var(--bg); color: var(--text-2); font-weight: 500; }
+.nav-item.active .count-tag { background: white; color: var(--primary); }
+
+.user-card { padding: 12px; margin: 8px; border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; gap: 10px; }
+.avatar { width: 32px; height: 32px; background: linear-gradient(135deg, #16A34A, #2563EB); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; }
+.user-info { flex: 1; min-width: 0; }
+.user-name { font-size: 13px; font-weight: 500; }
+.user-email { font-size: 11px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ===== Main ===== */
+.main { padding: 0; }
+.topbar { display: flex; align-items: center; gap: 10px; padding: 14px 32px; border-bottom: 1px solid var(--border); background: white; position: sticky; top: 0; z-index: 5; }
+.collapse-btn { padding: 6px; border-radius: 6px; color: var(--text-2); }
+.collapse-btn:hover { background: #F1F5F9; }
+.breadcrumb { font-size: 14px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+.breadcrumb .sep { color: var(--text-3); }
+.breadcrumb .current { color: var(--text); font-weight: 500; }
+.topbar-spacer { flex: 1; }
+.notif-btn { padding: 6px 12px; border-radius: 8px; color: var(--text-2); display: flex; align-items: center; gap: 6px; font-size: 13px; }
+.notif-btn:hover { background: var(--bg); }
+.notif-badge { background: var(--danger); color: white; font-size: 10px; padding: 1px 6px; border-radius: 8px; }
+
+.page { padding: 28px 32px; }
+.page-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+.page-title { font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+.page-subtitle { color: var(--text-2); font-size: 14px; }
+
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: all .15s; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover:not(:disabled) { background: var(--primary-dark); }
+.btn-primary:disabled { background: #CBD5E1; cursor: not-allowed; }
+.btn-ghost { color: var(--text-2); border: 1px solid var(--border); background: white; }
+.btn-ghost:hover { background: var(--bg); color: var(--text); }
+.btn-lg { padding: 12px 24px; font-size: 15px; }
+
+/* ===== Screen ===== */
+.screen { display: none; }
+.screen.active { display: block; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== Form ===== */
+.form-card { background: white; border: 1px solid var(--border); border-radius: 12px; max-width: 820px; }
+.form-card-head { padding: 20px 24px; border-bottom: 1px solid var(--border); }
+.form-card-title { font-size: 16px; font-weight: 600; }
+.form-card-desc { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+.form-body { padding: 24px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.form-row.full { grid-template-columns: 1fr; }
+.form-field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--text); }
+.form-field label .required { color: var(--danger); margin-left: 2px; }
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  color: var(--text);
+  transition: border-color 0.15s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+.form-textarea { min-height: 160px; resize: vertical; font-family: inherit; line-height: 1.6; }
+.form-textarea.large { min-height: 240px; }
+.form-help { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+.form-actions { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-top: 1px solid var(--border); background: var(--bg); border-radius: 0 0 12px 12px; }
+.form-status { font-size: 13px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+
+/* AI preview box */
+.ai-preview { background: linear-gradient(135deg, #DBEAFE 0%, #EDE9FE 100%); border: 1px solid #93C5FD; border-radius: 10px; padding: 14px 16px; margin-top: 8px; display: flex; gap: 12px; align-items: flex-start; }
+.ai-preview-icon { width: 32px; height: 32px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.ai-preview-content { flex: 1; }
+.ai-preview-label { font-size: 11px; font-weight: 600; color: var(--primary); margin-bottom: 2px; }
+.ai-preview-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+.ai-preview-loading { font-size: 13px; color: var(--text-2); font-style: italic; }
+.spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--primary-light); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 6px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Risk badge */
+.risk-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 500; }
+.risk-tag.r-4 { background: var(--danger); color: white; }
+.risk-tag.r-3 { background: var(--warning); color: white; }
+.risk-tag.r-2 { background: var(--yellow-light); color: var(--yellow); }
+.risk-tag.r-1 { background: #F1F5F9; color: var(--text-2); }
+.risk-tag.r-0 { background: var(--success-light); color: var(--success); }
+
+/* Success modal */
+.success-modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.5); z-index: 50; align-items: center; justify-content: center; animation: fadeIn .2s; }
+.success-modal-backdrop.show { display: flex; }
+.success-modal { background: white; border-radius: 16px; max-width: 520px; width: 90%; padding: 32px; text-align: center; box-shadow: 0 20px 60px rgba(15,23,42,0.2); }
+.success-icon { width: 64px; height: 64px; background: var(--success-light); color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+.success-title { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+.success-desc { font-size: 14px; color: var(--text-2); margin-bottom: 20px; line-height: 1.6; }
+.success-ai-card { background: linear-gradient(135deg, #DBEAFE 0%, #EDE9FE 100%); border-radius: 12px; padding: 16px; margin-bottom: 20px; text-align: left; }
+.success-ai-label { font-size: 11px; font-weight: 600; color: var(--primary); margin-bottom: 4px; }
+.success-ai-text { font-size: 14px; line-height: 1.6; }
+.success-actions { display: flex; gap: 10px; justify-content: center; }
+
+/* History/My customers */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+.kpi-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.kpi-icon.blue { background: var(--primary-light); color: var(--primary); }
+.kpi-icon.green { background: var(--success-light); color: var(--success); }
+.kpi-icon.red { background: var(--danger-light); color: var(--danger); }
+.kpi-icon.purple { background: var(--purple-light); color: var(--purple); }
+.kpi-label { font-size: 12px; color: var(--text-2); margin-bottom: 4px; }
+.kpi-value { font-size: 24px; font-weight: 700; line-height: 1.1; }
+.kpi-meta { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+
+.panel { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.panel-title { font-size: 16px; font-weight: 600; }
+.panel-sub { font-size: 12px; color: var(--text-3); }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th { text-align: left; padding: 12px 14px; font-weight: 500; color: var(--text-2); font-size: 12px; border-bottom: 1px solid var(--border); background: var(--bg); white-space: nowrap; }
+tbody td { padding: 14px; border-bottom: 1px solid #F1F5F9; }
+tbody tr:hover { background: #FAFBFC; }
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+.badge.cat-competition { background: var(--danger-light); color: var(--danger); }
+.badge.cat-quality { background: var(--warning-light); color: var(--warning); }
+.badge.cat-decline { background: var(--purple-light); color: var(--purple); }
+.badge.cat-payment { background: var(--yellow-light); color: var(--yellow); }
+.badge.cat-relation { background: #FCE7F3; color: #BE185D; }
+.badge.grade { padding: 2px 8px; border: 1px solid var(--border); background: white; color: var(--text-2); font-weight: 600; }
+.badge.r4 { background: var(--danger); color: white; }
+.badge.r3 { background: var(--warning); color: white; }
+.badge.r2 { background: var(--yellow-light); color: var(--yellow); }
+.badge.r1 { background: #F1F5F9; color: var(--text-2); }
+.badge.r0 { background: var(--success-light); color: var(--success); }
+
+/* My customer alerts */
+.alert-card { background: linear-gradient(135deg, #FEF3C7 0%, #FEE2E2 100%); border: 1px solid #FDE68A; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; display: flex; gap: 14px; }
+.alert-icon { font-size: 28px; }
+.alert-content { flex: 1; }
+.alert-title { font-weight: 600; font-size: 14px; color: #92400E; margin-bottom: 4px; }
+.alert-desc { font-size: 13px; color: #78350F; line-height: 1.6; }
+.alert-actions { margin-top: 10px; display: flex; gap: 8px; }
+.alert-btn { background: white; padding: 5px 12px; border-radius: 6px; font-size: 12px; color: #92400E; font-weight: 500; border: 1px solid #FCD34D; }
+.alert-btn:hover { background: #FEF3C7; }
+
+.proto-tag { position: fixed; bottom: 14px; right: 16px; background: rgba(15, 23, 42, .8); color: white; padding: 5px 10px; border-radius: 6px; font-size: 11px; z-index: 100; pointer-events: none; }
+
+/* Quick tip */
+.quick-tip { background: var(--primary-light); border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 13px; color: var(--primary-dark); display: flex; align-items: center; gap: 8px; }
+
+.examples-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.example-chip { padding: 4px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 999px; font-size: 12px; color: var(--text-2); cursor: pointer; transition: all 0.15s; }
+.example-chip:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-logo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    </div>
+    <div>
+      <div class="brand-name">Lia demo</div>
+      <div class="brand-sub">業務工作平台</div>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-group-label">日常工作</div>
+    <div class="nav-item active" onclick="goTo('write')" id="nav-write">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      填寫業務日誌
+    </div>
+    <div class="nav-item" onclick="goTo('history')" id="nav-history">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+      我的歷史日誌
+      <span class="count-tag">28</span>
+    </div>
+    <div class="nav-item" onclick="goTo('customers')" id="nav-customers">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+      我的客戶
+      <span class="count-tag">12</span>
+    </div>
+
+    <div class="nav-group-label">資源</div>
+    <div class="nav-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      產品資料庫
+    </div>
+    <div class="nav-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      使用說明
+    </div>
+  </nav>
+
+  <div class="user-card">
+    <div class="avatar">張</div>
+    <div class="user-info">
+      <div class="user-name">張文武</div>
+      <div class="user-email">wenwu.zhang@urfit.com.tw</div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main -->
+<main class="main">
+  <div class="topbar">
+    <button class="collapse-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+    </button>
+    <div class="breadcrumb">
+      <span>業務工作平台</span>
+      <span class="sep">›</span>
+      <span class="current" id="breadcrumb-current">填寫業務日誌</span>
+    </div>
+    <div class="topbar-spacer"></div>
+    <button class="notif-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      通知 <span class="notif-badge">3</span>
+    </button>
+  </div>
+
+  <!-- =========== SCREEN: Write Log =========== -->
+  <section class="screen active" id="screen-write">
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">填寫業務日誌</h1>
+          <p class="page-subtitle">記錄本次與客戶的互動，AI 將即時判讀風險訊號並提醒主管。</p>
+        </div>
+      </div>
+
+      <div class="quick-tip">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        小提醒：請盡量寫清楚客戶的「弦外之音」，例如「客戶提到要評估其他供應商」、「貨款延遲到 X 月底」等具體資訊，AI 才能準確判讀。
+      </div>
+
+      <div class="form-card">
+        <div class="form-card-head">
+          <div class="form-card-title">新增日誌</div>
+          <div class="form-card-desc">填寫完成後，AI 會即時分析這筆日誌的風險程度</div>
+        </div>
+        <div class="form-body">
+          <div class="form-row">
+            <div class="form-field">
+              <label>拜訪日期 <span class="required">*</span></label>
+              <input type="date" class="form-input" id="f-date" value="2026-05-27" />
+            </div>
+            <div class="form-field">
+              <label>工作性質 <span class="required">*</span></label>
+              <select class="form-select" id="f-nature">
+                <option value="">請選擇</option>
+                <option>訂單追蹤</option>
+                <option>人脈建立維護</option>
+                <option>導入進度追蹤</option>
+                <option>探詢客戶產品資訊</option>
+                <option>技術規範研討</option>
+                <option>電話案例追蹤</option>
+                <option>客戶約訪</option>
+                <option>異常服務處理</option>
+                <option>客戶品質會議</option>
+                <option>Nycron 檢測</option>
+                <option>報價作業</option>
+                <option>客戶來廠參觀</option>
+                <option>舉辦說明會</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label>公司簡稱 <span class="required">*</span></label>
+              <input type="text" class="form-input" id="f-company" list="company-list" placeholder="輸入或選擇客戶" />
+              <datalist id="company-list">
+                <option value="昆山-仁寶二廠">
+                <option value="雷堤">
+                <option value="金盈佳">
+                <option value="昆山-杜爾伯">
+                <option value="嘉定-連盈">
+                <option value="昆山-濱中元川">
+                <option value="南通-聯鋼（昆一廠）">
+                <option value="耐力(耐鵬)">
+                <option value="惠州友仁">
+                <option value="泰都分廠">
+                <option value="伸銘">
+                <option value="蕪湖-奇瑞新能源">
+              </datalist>
+            </div>
+            <div class="form-field">
+              <label>使用時間（小時）</label>
+              <input type="number" class="form-input" id="f-hours" value="2" min="0" max="24" step="0.5" />
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="form-field">
+              <label>工作描述 <span class="required">*</span></label>
+              <textarea class="form-textarea large" id="f-desc" placeholder="詳細描述本次與客戶的互動內容、客戶反饋、議題進展…"></textarea>
+              <div class="form-help">提示：可從以下情境快速套用範例（測試 AI 風險判讀效果）</div>
+              <div class="examples-row">
+                <div class="example-chip" onclick="loadExample('competition')">💥 客戶提到轉單</div>
+                <div class="example-chip" onclick="loadExample('quality')">🔧 品質客訴</div>
+                <div class="example-chip" onclick="loadExample('payment')">💰 帳款延遲</div>
+                <div class="example-chip" onclick="loadExample('normal')">✅ 正常拜訪</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live AI preview -->
+          <div id="ai-preview-box" style="display:none;">
+            <div class="ai-preview">
+              <div class="ai-preview-icon">🧠</div>
+              <div class="ai-preview-content">
+                <div class="ai-preview-label">AI 即時判讀（初步）</div>
+                <div class="ai-preview-text" id="ai-preview-text"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <div class="form-status" id="form-status">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            尚未送出
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-ghost" onclick="clearForm()">清除</button>
+            <button class="btn btn-primary btn-lg" onclick="submitLog()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              送出日誌
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========== SCREEN: History =========== -->
+  <section class="screen" id="screen-history">
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">我的歷史日誌</h1>
+          <p class="page-subtitle">你近期送出的業務日誌與 AI 判讀結果</p>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon blue">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="kpi-label">本月日誌數</div>
+          <div class="kpi-value">28</div>
+          <div class="kpi-meta">較上月 +4</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon red">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
+          </div>
+          <div class="kpi-label">高風險日誌</div>
+          <div class="kpi-value">5</div>
+          <div class="kpi-meta">主管已關注</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon green">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="kpi-label">正面互動</div>
+          <div class="kpi-value">12</div>
+          <div class="kpi-meta">訂單成長/穩定</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon purple">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="kpi-label">平均填寫時間</div>
+          <div class="kpi-value">1.8<span style="font-size:14px;color:var(--text-2);"> 分</span></div>
+          <div class="kpi-meta">每筆日誌</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">最近送出</div>
+            <div class="panel-sub">10 筆</div>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>客戶</th>
+              <th>工作性質</th>
+              <th>摘要</th>
+              <th>AI 判讀</th>
+              <th>主管動態</th>
+            </tr>
+          </thead>
+          <tbody id="history-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========== SCREEN: My Customers =========== -->
+  <section class="screen" id="screen-customers">
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">我的客戶</h1>
+          <p class="page-subtitle">你負責的客戶與 AI 風險提醒</p>
+        </div>
+      </div>
+
+      <!-- High risk alert -->
+      <div class="alert-card">
+        <div class="alert-icon">🚨</div>
+        <div class="alert-content">
+          <div class="alert-title">AI 為你標記了 5 個需立即關注的客戶</div>
+          <div class="alert-desc">這些客戶的近期日誌出現了流失或品質風險訊號，建議優先安排拜訪或主動聯繫。</div>
+          <div class="alert-actions">
+            <button class="alert-btn">查看詳細</button>
+            <button class="alert-btn">產生拜訪計畫</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">我管轄的客戶</div>
+            <div class="panel-sub">共 12 個</div>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>公司簡稱</th>
+              <th>等級</th>
+              <th>最近接觸</th>
+              <th>本月接觸次數</th>
+              <th>AI 風險</th>
+              <th>建議行動</th>
+            </tr>
+          </thead>
+          <tbody id="mycustomers-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</div>
+
+<!-- Success modal -->
+<div class="success-modal-backdrop" id="success-backdrop" onclick="if(event.target===this) closeSuccess()">
+  <div class="success-modal">
+    <div class="success-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="success-title">日誌已送出！</div>
+    <div class="success-desc">日誌已即時同步至主管儀表板。AI 已完成判讀：</div>
+    <div class="success-ai-card" id="success-ai-card"></div>
+    <div class="success-actions">
+      <button class="btn btn-ghost" onclick="closeSuccess()">關閉</button>
+      <button class="btn btn-primary" onclick="closeSuccess(true)">繼續填寫下一筆</button>
+    </div>
+  </div>
+</div>
+
+<div class="proto-tag">PROTOTYPE · 業務端</div>
+
+<script>
+// ===== Examples =====
+const EXAMPLES = {
+  competition: {
+    company: '雷堤',
+    nature: '人脈建立維護',
+    desc: '和昇源共同拜訪採購簡先生、盧小姐，溝通近期訂單狀況。\n\n關於原本交 GB200 富士康料號，盧小姐表示確定被越南當地廠商切走，因為少了這些數量，預計雷堤每月加工量約在 250 萬上下。\n\n雷堤現在有其他新客戶的料件也是做對邊的，以及一些加工半周的新料號有陸續進來，一批在 2~10 萬支不等。\n\n後續動作：持續跟進雷堤訂單情況、配合雷堤交期爭取富士康新料件承認。',
+    aiResult: { risk: 4, category: '競爭搶單', reason: 'GB200 料號被越南當地廠商切走，將直接影響每月加工量。' }
+  },
+  quality: {
+    company: '昆山-仁寶二廠',
+    nature: '異常服務處理',
+    desc: '料號 MA00002HIGO M2*0.4*2.5 頭部相連，到現場確認不良率 10%，今日返工庫存 188K，產線庫存 140K。\n\n由於近半年連續發生頭部相連異常，請我方重視並需盡快提供改善報告，後續再發生，將按流程開立罰款單。\n\n現場抽查格琳、濱中庫存，並 Nycron 檢測，皆為我方產品。\n\n下期追蹤：報告回覆。',
+    aiResult: { risk: 4, category: '品質客訴', reason: '半年內連續異常，客戶已警告將開立罰款單。' }
+  },
+  payment: {
+    company: '太倉-文順(更名為金億嘉)',
+    nature: '客戶來廠參觀',
+    desc: '實際拜訪 太倉-文順\n\n拜訪目的：賬款催收, 客戶狀況瞭解\n\n拜訪重點：\n1. 催收貨款，聶總表示，賓科的貨款上個月又沒付，還在跟催。我司貨款盡量本週先用其他客戶付的款支付。\n2. 2025 年伺服器訂單比較好，賓科下單量大的幾顆料都是天弘的，預計 2026 年會採購 1 億元五金件。\n\n下期追蹤：持續保證我司唯一加工。',
+    aiResult: { risk: 4, category: '帳款問題', reason: '客戶資金緊張，貨款須依賴其他客戶款項支付。' }
+  },
+  normal: {
+    company: '泰都分廠',
+    nature: '人脈建立維護',
+    desc: '拜訪泰都採購陳小姐、PMC 劉主管，主要是探詢後續化學膠訂單情況與人脈關係維護。\n\n與客戶互動 M12x1.75 加工 PRE 80#（紅色）、M2.5x0.35 加工 PRE 50TF#（苔綠），這兩款料件年前訂單情況，劉小姐表示直到 2/8 號放假前，訂單量 7000-8000 支左右。\n\n客戶對我司品質、配合滿意，有防鬆需求的點膠螺絲，全部指定發往我司加工。\n\n下期工作重點：持續人脈維護',
+    aiResult: { risk: 0, category: '無風險', reason: '客戶指定我司加工，配合滿意，正面互動。' }
+  }
+};
+
+function loadExample(key) {
+  const ex = EXAMPLES[key];
+  document.getElementById('f-company').value = ex.company;
+  document.getElementById('f-nature').value = ex.nature;
+  document.getElementById('f-desc').value = ex.desc;
+  triggerLivePreview(ex.aiResult);
+}
+
+function triggerLivePreview(presetResult) {
+  const box = document.getElementById('ai-preview-box');
+  const text = document.getElementById('ai-preview-text');
+  box.style.display = 'block';
+  text.innerHTML = `<span class="spinner"></span><span class="ai-preview-loading">AI 正在閱讀你的日誌…</span>`;
+  setTimeout(() => {
+    const r = presetResult;
+    const riskLabel = r.risk >= 4 ? '極高風險' : r.risk >= 3 ? '高風險' : r.risk >= 2 ? '中度風險' : r.risk >= 1 ? '輕微注意' : '無風險';
+    text.innerHTML = `
+      <span class="risk-tag r-${r.risk}">Risk ${r.risk} · ${riskLabel}</span>
+      <span class="badge cat-${categoryClass(r.category)}" style="margin-left:6px;">${r.category}</span>
+      <div style="margin-top:6px;">${r.reason}</div>
+    `;
+  }, 1400);
+}
+
+function categoryClass(cat) {
+  return { '競爭搶單': 'competition', '品質客訴': 'quality', '營運下滑': 'decline', '帳款問題': 'payment', '關係惡化': 'relation', '無風險': 'normal' }[cat] || 'normal';
+}
+
+// Detect risk based on keywords (simulated)
+function detectRisk(text) {
+  if (!text || text.length < 20) return null;
+  if (/切走|搶單|搶走|轉給.{0,5}(別|其他|對手)|流失|被.{0,5}(切|搶)/.test(text))
+    return { risk: 4, category: '競爭搶單', reason: '偵測到「訂單流失/被切走」訊號，建議主管關注。' };
+  if (/罰款|不良率|連續.{0,5}異常|退貨|客訴|索賠/.test(text))
+    return { risk: 4, category: '品質客訴', reason: '偵測到「品質爭議/罰款」訊號，建議主管關注。' };
+  if (/(貨款|帳款|賬款).{0,5}(未付|沒付|逾期|催)|呆帳/.test(text))
+    return { risk: 4, category: '帳款問題', reason: '偵測到「貨款延遲/客戶資金問題」訊號。' };
+  if (/(下滑|下降|減量|減產|縮減).{0,10}(\d+%|%)/.test(text))
+    return { risk: 3, category: '營運下滑', reason: '偵測到客戶訂單下滑訊號。' };
+  if (/抱怨|不滿|拒絕.{0,5}(降價|議價|配合)|施壓/.test(text))
+    return { risk: 3, category: '關係惡化', reason: '偵測到客戶關係緊張訊號。' };
+  return { risk: 1, category: '無風險', reason: '未偵測到明顯風險訊號，屬於常規互動。' };
+}
+
+// Listen on description changes
+let previewTimer = null;
+document.getElementById('f-desc').addEventListener('input', e => {
+  clearTimeout(previewTimer);
+  const txt = e.target.value;
+  if (txt.length < 20) {
+    document.getElementById('ai-preview-box').style.display = 'none';
+    return;
+  }
+  previewTimer = setTimeout(() => {
+    const result = detectRisk(txt);
+    if (result) triggerLivePreview(result);
+  }, 800);
+});
+
+function clearForm() {
+  document.getElementById('f-company').value = '';
+  document.getElementById('f-nature').value = '';
+  document.getElementById('f-desc').value = '';
+  document.getElementById('f-hours').value = '2';
+  document.getElementById('ai-preview-box').style.display = 'none';
+}
+
+function submitLog() {
+  const company = document.getElementById('f-company').value.trim();
+  const nature = document.getElementById('f-nature').value;
+  const desc = document.getElementById('f-desc').value.trim();
+  if (!company || !nature || !desc) {
+    alert('請填寫完整：客戶、工作性質、工作描述');
+    return;
+  }
+  const result = detectRisk(desc);
+  showSuccess(result, company);
+}
+
+function showSuccess(result, company) {
+  const r = result;
+  const riskLabel = r.risk >= 4 ? '極高風險 ⚠️' : r.risk >= 3 ? '高風險 ⚠️' : r.risk >= 2 ? '中度風險' : r.risk >= 1 ? '輕微注意' : '無風險 ✓';
+  const cardHtml = `
+    <div class="success-ai-label">AI 判讀結果</div>
+    <div style="display:flex;gap:8px;margin:6px 0;">
+      <span class="risk-tag r-${r.risk}">Risk ${r.risk} · ${riskLabel}</span>
+      <span class="badge cat-${categoryClass(r.category)}">${r.category}</span>
+    </div>
+    <div class="success-ai-text">${r.reason}</div>
+    ${r.risk >= 3 ? `<div style="margin-top:10px;padding:8px 10px;background:rgba(220,38,38,0.1);border-radius:6px;font-size:12px;color:var(--danger);">📢 主管已收到此風險提醒，並更新「<strong>${company}</strong>」的客戶風險評分。</div>` : ''}
+  `;
+  document.getElementById('success-ai-card').innerHTML = cardHtml;
+  document.getElementById('success-backdrop').classList.add('show');
+}
+
+function closeSuccess(reset) {
+  document.getElementById('success-backdrop').classList.remove('show');
+  if (reset) clearForm();
+}
+
+// ===== Navigation =====
+function goTo(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
+  document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.remove('active'));
+  const navMap = { write: 'nav-write', history: 'nav-history', customers: 'nav-customers' };
+  const nav = document.getElementById(navMap[screen]);
+  if (nav) nav.classList.add('active');
+  const titleMap = { write: '填寫業務日誌', history: '我的歷史日誌', customers: '我的客戶' };
+  document.getElementById('breadcrumb-current').textContent = titleMap[screen];
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== History data =====
+const HISTORY_LOGS = [
+  { date: '2026-01-15', company: '金盈佳', nature: '探詢客戶產品資訊', desc: 'MP 訂單會減量 20-30%，呂總表示會逐步轉給特耐加工…', risk: 4, category: '競爭搶單', boss: '主管已關注' },
+  { date: '2026-01-14', company: '耐力(耐鵬)', nature: '異常服務處理', desc: '輝力採購王經理在耐力催貨，M3 六角柱特急件…', risk: 2, category: '品質客訴', boss: '—' },
+  { date: '2026-01-13', company: '惠州友仁', nature: '客戶來廠參觀', desc: '友仁今年訂單量一般，特別年底這兩個月相比去年下降較多…', risk: 3, category: '帳款問題', boss: '主管已關注' },
+  { date: '2026-01-12', company: '金盈佳', nature: '探詢客戶產品資訊', desc: '客戶來訪與協理/總經理共同接待，重點互動 P50 訂單…', risk: 4, category: '競爭搶單', boss: '主管已關注' },
+  { date: '2026-01-12', company: '泰都分廠', nature: '人脈建立維護', desc: '客戶對我司品質配合滿意，有防鬆需求的點膠螺絲，全部指定發往我司加工。', risk: 0, category: '無風險', boss: '—' },
+  { date: '2026-01-11', company: '伸銘', nature: '探詢客戶產品資訊', desc: '頭戴式耳機配件，使用非正版耐落，且客戶配件孔徑異常導致鬆脫…', risk: 1, category: '無風險', boss: '—' },
+  { date: '2026-01-10', company: '耐力(耐鵬)', nature: '異常服務處理', desc: '耐力 8 月賬款已到期還未付進，因此前耐力常有不良扣款少付…', risk: 3, category: '帳款問題', boss: '主管已關注' },
+  { date: '2026-01-09', company: '金盈佳', nature: '探詢客戶產品資訊', desc: 'P50 競爭切單，市場資訊…', risk: 4, category: '競爭搶單', boss: '主管已關注' },
+  { date: '2026-01-08', company: '泰都分廠', nature: '探詢客戶產品資訊', desc: '與客戶互動 M12 加工 PRE 80# 訂單情況…', risk: 0, category: '無風險', boss: '—' },
+  { date: '2026-01-07', company: '惠州友仁', nature: '人脈建立維護', desc: '友仁指交玳能的庫存物料，現已執行耐落 SIP 包裝…', risk: 1, category: '無風險', boss: '—' }
+];
+
+function renderHistory() {
+  document.getElementById('history-tbody').innerHTML = HISTORY_LOGS.map(l => `
+    <tr>
+      <td style="white-space:nowrap;">${l.date}</td>
+      <td><strong>${l.company}</strong></td>
+      <td style="color:var(--text-2);font-size:12px;">${l.nature}</td>
+      <td style="max-width:300px;color:var(--text-2);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${l.desc.replace(/"/g, '&quot;')}">${l.desc}</td>
+      <td>
+        <span class="badge r${l.risk}">Risk ${l.risk}</span>
+        <span class="badge cat-${categoryClass(l.category)}" style="margin-left:4px;">${l.category}</span>
+      </td>
+      <td style="font-size:12px;color:${l.boss === '—' ? 'var(--text-3)' : 'var(--danger)'};font-weight:500;">${l.boss}</td>
+    </tr>
+  `).join('');
+}
+
+// ===== My customers =====
+const MY_CUSTOMERS = [
+  { name: '金盈佳', grade: 'A', lastContact: '今天', visits: 8, risk: 4, action: '緊急：爭取 P50 報價空間' },
+  { name: '惠州友仁', grade: 'B', lastContact: '2 天前', visits: 4, risk: 3, action: '追蹤貨款付進' },
+  { name: '耐力(耐鵬)', grade: 'A', lastContact: '3 天前', visits: 5, risk: 3, action: '異常扣款釐清' },
+  { name: '伸銘', grade: 'D', lastContact: '4 天前', visits: 1, risk: 1, action: '持續維護人脈' },
+  { name: '泰都分廠', grade: 'D', lastContact: '5 天前', visits: 3, risk: 0, action: '正常維護' },
+  { name: '中盛達(中興達)', grade: 'A', lastContact: '6 天前', visits: 1, risk: 3, action: '客戶不滿價格,需溝通' },
+  { name: '太倉-文順(更名為金億嘉)', grade: 'E', lastContact: '7 天前', visits: 1, risk: 4, action: '緊急：催收貨款' },
+  { name: '億達利', grade: 'A', lastContact: '8 天前', visits: 2, risk: 3, action: '進料異常追蹤' },
+  { name: '建興安泰', grade: 'B', lastContact: '10 天前', visits: 1, risk: 2, action: '正常維護' },
+  { name: '蘇州-勁山', grade: 'Z', lastContact: '12 天前', visits: 1, risk: 2, action: '塗膠標注規範化' },
+  { name: '錩泰', grade: 'C', lastContact: '14 天前', visits: 1, risk: 3, action: '訂單減少需新開發' },
+  { name: '聚巨豐', grade: 'A', lastContact: '16 天前', visits: 2, risk: 1, action: '持續關注' }
+];
+
+function renderMyCustomers() {
+  document.getElementById('mycustomers-tbody').innerHTML = MY_CUSTOMERS.map(c => `
+    <tr>
+      <td><strong>${c.name}</strong></td>
+      <td><span class="badge grade">${c.grade}</span></td>
+      <td style="color:var(--text-2);font-size:12px;">${c.lastContact}</td>
+      <td>${c.visits}</td>
+      <td><span class="badge r${c.risk}">Risk ${c.risk}</span></td>
+      <td style="color:${c.risk >= 3 ? 'var(--danger)' : 'var(--text-2)'};font-size:12px;font-weight:${c.risk >= 3 ? '500' : 'normal'};">${c.action}</td>
+    </tr>
+  `).join('');
+}
+
+// ===== Init =====
+renderHistory();
+renderMyCustomers();
+</script>
+</body>
+</html>

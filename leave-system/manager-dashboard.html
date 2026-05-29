@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>耐落請假管理 ｜ 主管端</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #2563EB; --primary-d: #1D4ED8; --primary-l: #DBEAFE;
+  --danger: #DC2626; --danger-l: #FEE2E2;
+  --warning: #EA580C; --warning-l: #FFEDD5;
+  --yellow: #CA8A04; --yellow-l: #FEF3C7;
+  --success: #16A34A; --success-l: #DCFCE7;
+  --purple: #7C3AED; --purple-l: #EDE9FE;
+  --teal: #0891B2; --teal-l: #CFFAFE;
+  --pink: #BE185D; --pink-l: #FCE7F3;
+  --text: #0F172A; --text-2: #475569; --text-3: #94A3B8;
+  --border: #E2E8F0; --bg: #F8FAFC;
+}
+body { font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif; color: var(--text); background: var(--bg); font-size: 14px; }
+button { cursor: pointer; border: none; background: none; color: inherit; font-family: inherit; }
+.app { display: grid; grid-template-columns: 232px 1fr; min-height: 100vh; }
+
+/* sidebar */
+.sb { background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+.brand { padding: 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.brand-logo { width: 36px; height: 36px; background: linear-gradient(135deg, #2563EB, #7C3AED); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; }
+.brand-name { font-weight: 700; font-size: 15px; }
+.brand-sub { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+.nav { flex: 1; padding: 12px 8px; overflow-y: auto; }
+.nav-label { font-size: 11px; color: var(--text-3); padding: 14px 12px 6px; font-weight: 500; letter-spacing: 0.5px; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; color: var(--text-2); cursor: pointer; font-size: 14px; margin: 1px 0; }
+.nav-item:hover { background: #f1f5f9; }
+.nav-item.active { background: var(--primary-l); color: var(--primary); font-weight: 600; }
+.nav-item .badge-n { margin-left: auto; font-size: 10px; padding: 1px 6px; border-radius: 10px; background: var(--danger); color: white; font-weight: 600; }
+.user-card { margin: 8px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; gap: 10px; }
+.avatar { width: 32px; height: 32px; background: linear-gradient(135deg, #2563EB, #7C3AED); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+
+/* main */
+.main {}
+.topbar { display: flex; align-items: center; gap: 10px; padding: 14px 32px; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 5; }
+.breadcrumb { font-size: 14px; color: var(--text-2); display: flex; gap: 6px; }
+.breadcrumb .sep { color: var(--text-3); }
+.breadcrumb .cur { color: var(--text); font-weight: 500; }
+.topbar-r { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.region-switch { display: flex; gap: 2px; background: var(--bg); padding: 3px; border-radius: 8px; }
+.region-btn { padding: 5px 12px; font-size: 12px; color: var(--text-2); border-radius: 6px; }
+.region-btn.on { background: white; color: var(--text); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+.page { padding: 28px 32px; display: none; }
+.page.active { display: block; animation: fade .25s; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.page-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+.page-title { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+.page-sub { color: var(--text-2); font-size: 14px; }
+
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-d); }
+.btn-ghost { color: var(--text-2); border: 1px solid var(--border); background: white; }
+.btn-ghost:hover { background: var(--bg); }
+.btn-success { background: var(--success); color: white; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+
+/* KPI */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+.kpi-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 10px; }
+.kpi.b .kpi-icon { background: var(--primary-l); }
+.kpi.g .kpi-icon { background: var(--success-l); }
+.kpi.r .kpi-icon { background: var(--danger-l); }
+.kpi.o .kpi-icon { background: var(--warning-l); }
+.kpi.p .kpi-icon { background: var(--purple-l); }
+.kpi.t .kpi-icon { background: var(--teal-l); }
+.kpi-l { font-size: 12px; color: var(--text-2); margin-bottom: 4px; }
+.kpi-v { font-size: 24px; font-weight: 700; line-height: 1.1; }
+.kpi-m { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+.kpi-trend { font-size: 11px; font-weight: 700; }
+.kpi-trend.up { color: var(--success); }
+.kpi-trend.down { color: var(--danger); }
+.kpi.danger .kpi-v { color: var(--danger); }
+
+.panel { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.panel-title { font-size: 16px; font-weight: 600; }
+.panel-sub { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th { text-align: left; padding: 12px 14px; font-weight: 500; color: var(--text-2); font-size: 12px; border-bottom: 1px solid var(--border); background: var(--bg); white-space: nowrap; }
+tbody td { padding: 14px; border-bottom: 1px solid #f1f5f9; }
+tbody tr:hover { background: #fafbfc; }
+tbody tr:last-child td { border: 0; }
+
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+.badge.urgent { background: var(--danger); color: white; }
+.badge.normal { background: var(--primary-l); color: var(--primary); }
+.badge.warning { background: var(--warning); color: white; }
+.badge.success { background: var(--success-l); color: var(--success); font-weight: 600; }
+.badge.gray { background: var(--bg); color: var(--text-2); }
+.badge.cat-personal { background: var(--bg); color: var(--text-2); }
+.badge.cat-sick { background: var(--warning-l); color: var(--warning); }
+.badge.cat-special { background: var(--success-l); color: var(--success); }
+.badge.cat-marriage { background: var(--pink-l); color: var(--pink); }
+.badge.cat-funeral { background: #f3f4f6; color: #4b5563; }
+.badge.cat-family { background: var(--purple-l); color: var(--purple); }
+.badge.cat-other { background: var(--teal-l); color: var(--teal); }
+.badge.emp-rank { padding: 2px 8px; border: 1px solid var(--border); background: white; color: var(--text-2); font-weight: 600; }
+
+.dashboard-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px; }
+
+/* pending leave card */
+.leave-pending {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+  background: white;
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 12px;
+}
+.leave-pending.urgent { border-color: var(--danger); background: linear-gradient(135deg, var(--danger-l) 0%, #fff 60%); }
+.leave-pending-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #2563EB, #7C3AED); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+.leave-pending-info { min-width: 0; }
+.leave-pending-name { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.leave-pending-meta { font-size: 11px; color: var(--text-3); margin-top: 3px; }
+.leave-pending-detail { font-size: 12px; color: var(--text-2); margin-top: 6px; line-height: 1.5; }
+.leave-pending-ai { font-size: 11px; padding: 6px 10px; background: var(--primary-l); border-radius: 6px; margin-top: 8px; color: var(--primary-d); line-height: 1.5; }
+.leave-pending-actions { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+.leave-pending-time { font-size: 11px; color: var(--text-3); white-space: nowrap; }
+
+.ai-insight {
+  background: linear-gradient(135deg, #FEF3C7 0%, #FFEDD5 100%);
+  border: 1px solid #fbbf24;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.ai-insight.danger { background: linear-gradient(135deg, var(--danger-l) 0%, #FED7AA 100%); border-color: #fca5a5; }
+.ai-insight.success { background: linear-gradient(135deg, var(--success-l) 0%, #BBF7D0 100%); border-color: #86efac; }
+.ai-insight-title { font-size: 12px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.ai-insight-body { font-size: 13px; line-height: 1.7; }
+
+/* attendance map (grid of employees) */
+.att-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.att-cell {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+.att-cell.on { border-color: var(--success); background: var(--success-l); }
+.att-cell.leave { border-color: var(--warning); background: var(--warning-l); }
+.att-cell.absent { border-color: var(--danger); background: var(--danger-l); }
+.att-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #2563EB, #7C3AED); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+.att-content { flex: 1; min-width: 0; }
+.att-name { font-weight: 600; }
+.att-status { font-size: 10px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* bar chart */
+.bar-chart { padding: 4px 0; }
+.bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 13px; }
+.bar-label { width: 90px; color: var(--text-2); flex-shrink: 0; }
+.bar-track { flex: 1; height: 22px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s; display: flex; align-items: center; padding: 0 8px; color: white; font-size: 11px; font-weight: 600; }
+.bar-value { width: 60px; text-align: right; font-weight: 600; flex-shrink: 0; font-size: 12px; }
+
+.anomaly-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 12px;
+}
+.anomaly-card.high { border-color: var(--danger); background: var(--danger-l); }
+.anomaly-icon { width: 32px; height: 32px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.anomaly-content { flex: 1; }
+.anomaly-title { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
+.anomaly-meta { font-size: 11px; color: var(--text-2); line-height: 1.5; }
+.anomaly-action { font-size: 11px; padding: 3px 8px; background: var(--danger); color: white; border-radius: 5px; font-weight: 600; align-self: center; }
+
+.donut-wrap { display: flex; align-items: center; gap: 16px; }
+.donut { width: 140px; height: 140px; flex-shrink: 0; }
+.legend { flex: 1; font-size: 12px; }
+.legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.legend-name { flex: 1; color: var(--text-2); }
+.legend-val { font-weight: 600; }
+
+.proto-tag { position: fixed; bottom: 14px; right: 16px; background: rgba(15,23,42,0.8); color: white; padding: 5px 10px; border-radius: 6px; font-size: 11px; pointer-events: none; }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--success); color: white; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; box-shadow: 0 8px 20px rgba(22,163,74,0.3); z-index: 99; display: none; }
+.toast.show { display: block; }
+
+/* ===== Modal ===== */
+.lv-backdrop {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  z-index: 100;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 40px 16px;
+  animation: lvFade .2s ease;
+}
+.lv-backdrop.show { display: flex; }
+@keyframes lvFade { from { opacity: 0; } to { opacity: 1; } }
+.lv-modal { background: white; border-radius: 16px; width: 100%; max-width: 720px; overflow: hidden; box-shadow: 0 24px 60px rgba(15,23,42,0.25); animation: lvSlide .25s ease; }
+@keyframes lvSlide { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.lv-head {
+  padding: 22px 26px 18px;
+  background: linear-gradient(135deg, #DBEAFE 0%, #EDE9FE 100%);
+  border-bottom: 1px solid var(--border);
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.lv-head.urgent { background: linear-gradient(135deg, #FEE2E2 0%, #FED7AA 100%); }
+.lv-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: white; flex-shrink: 0; background: linear-gradient(135deg, #2563EB, #7C3AED); }
+.lv-head-info { flex: 1; }
+.lv-name { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.lv-meta { font-size: 12px; color: var(--text-2); margin-top: 4px; }
+.lv-close { background: rgba(255,255,255,0.7); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-2); flex-shrink: 0; }
+.lv-close:hover { background: white; color: var(--text); }
+
+.lv-body { padding: 22px 26px; }
+.lv-row-grid { display: grid; grid-template-columns: 100px 1fr; gap: 10px 14px; font-size: 13px; }
+.lv-row-grid .l { color: var(--text-2); font-weight: 500; }
+.lv-row-grid .v { color: var(--text); font-weight: 600; }
+
+.lv-section { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
+.lv-section-title { font-size: 12px; font-weight: 700; color: var(--text-2); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.lv-ai-card { background: linear-gradient(135deg, #DBEAFE 0%, #EDE9FE 100%); border-radius: 10px; padding: 14px 16px; }
+.lv-ai-card.urgent { background: linear-gradient(135deg, var(--danger-l) 0%, #FED7AA 100%); }
+.lv-ai-list { display: flex; flex-direction: column; gap: 6px; font-size: 13px; line-height: 1.5; }
+.lv-ai-list .item { display: flex; gap: 8px; align-items: flex-start; }
+
+.lv-approval-flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.lv-approval-step { display: flex; align-items: center; gap: 6px; padding: 6px 10px; background: var(--bg); border-radius: 8px; font-size: 12px; }
+.lv-approval-step.current { background: var(--primary-l); color: var(--primary-d); font-weight: 700; }
+.lv-approval-step.done { background: var(--success-l); color: var(--success); }
+.lv-approval-arrow { color: var(--text-3); font-size: 14px; }
+
+.lv-history { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.lv-history-cell { padding: 10px 12px; background: var(--bg); border-radius: 8px; text-align: center; }
+.lv-history-l { font-size: 11px; color: var(--text-3); }
+.lv-history-v { font-size: 16px; font-weight: 700; margin-top: 2px; }
+
+.lv-doc { display: flex; gap: 8px; align-items: center; padding: 10px 12px; background: var(--success-l); border: 1px dashed var(--success); border-radius: 8px; font-size: 12px; cursor: pointer; }
+.lv-doc:hover { background: #BBF7D0; }
+.lv-doc.missing { background: var(--danger-l); border-color: var(--danger); color: var(--danger); }
+
+.lv-foot {
+  padding: 16px 26px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+}
+.lv-foot-info { font-size: 11px; color: var(--text-3); }
+.lv-foot-actions { display: flex; gap: 8px; }
+.lv-btn { padding: 9px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+.lv-btn-primary { background: var(--success); color: white; }
+.lv-btn-primary:hover { background: #15803d; }
+.lv-btn-danger { background: var(--danger); color: white; }
+.lv-btn-danger:hover { background: #b91c1c; }
+.lv-btn-ghost { background: white; border: 1px solid var(--border); color: var(--text-2); }
+.lv-btn-ghost:hover { background: var(--bg); }
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="sb">
+  <div class="brand">
+    <div class="brand-logo">🏖️</div>
+    <div>
+      <div class="brand-name">耐落請假管理</div>
+      <div class="brand-sub">HR + 主管後台</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <div class="nav-label">總覽</div>
+    <div class="nav-item active" onclick="go('dashboard',this)">📊 即時總覽</div>
+    <div class="nav-item" onclick="go('pending',this)">⏳ 待簽核 <span class="badge-n">5</span></div>
+    <div class="nav-item" onclick="go('today',this)">📅 今日出勤</div>
+
+    <div class="nav-label">分析</div>
+    <div class="nav-item" onclick="go('analysis',this)">📈 請假分析</div>
+    <div class="nav-item" onclick="go('anomaly',this)">⚠️ 異常出勤 <span class="badge-n">3</span></div>
+    <div class="nav-item" onclick="go('employee',this)">👥 員工請假履歷</div>
+
+    <div class="nav-label">設定</div>
+    <div class="nav-item" onclick="go('rules',this)">📖 請假規則</div>
+    <div class="nav-item" onclick="go('settings',this)">⚙️ 系統設定</div>
+  </nav>
+  <div class="user-card">
+    <div class="avatar">李</div>
+    <div>
+      <div style="font-size:13px;font-weight:600;">李志明</div>
+      <div style="font-size:11px;color:var(--text-3);">業務部部長</div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="breadcrumb">
+      <span>耐落請假管理</span><span class="sep">›</span>
+      <span class="cur" id="crumb">即時總覽</span>
+    </div>
+    <div class="topbar-r">
+      <div class="region-switch">
+        <button class="region-btn on">🇹🇼 台灣區</button>
+        <button class="region-btn">🇨🇳 大陸區</button>
+      </div>
+      <button class="btn btn-ghost">🔔 通知 <span style="color:var(--danger);font-weight:700;">3</span></button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <section class="page active" id="page-dashboard">
+    <div class="page-head">
+      <div>
+        <h1 class="page-title">即時總覽</h1>
+        <p class="page-sub">業務部 · 32 位員工 · 2026/05/27 · 即時同步</p>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost">📤 匯出報表</button>
+        <button class="btn btn-primary">⚡ 一鍵批准全部</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi b">
+        <div class="kpi-icon">👥</div>
+        <div class="kpi-l">今日出勤</div>
+        <div class="kpi-v">27 / 32 <span class="kpi-trend">84%</span></div>
+        <div class="kpi-m">5 人請假 · 0 人曠職</div>
+      </div>
+      <div class="kpi r danger">
+        <div class="kpi-icon">⏳</div>
+        <div class="kpi-l">待我簽核</div>
+        <div class="kpi-v">5 件</div>
+        <div class="kpi-m">2 件急件 · 最久等 35 分鐘</div>
+      </div>
+      <div class="kpi o">
+        <div class="kpi-icon">📅</div>
+        <div class="kpi-l">本月請假率</div>
+        <div class="kpi-v">8.2% <span class="kpi-trend up">↑ 1.2pt</span></div>
+        <div class="kpi-m">較上月 7.0%</div>
+      </div>
+      <div class="kpi p">
+        <div class="kpi-icon">⚠️</div>
+        <div class="kpi-l">異常出勤偵測</div>
+        <div class="kpi-v">3 人</div>
+        <div class="kpi-m">需個別關注</div>
+      </div>
+    </div>
+
+    <!-- AI insight -->
+    <div class="ai-insight">
+      <div class="ai-insight-title" style="color:#92400e;">🤖 AI 今日洞察</div>
+      <div class="ai-insight-body" style="color:#78350f;">
+        📊 <strong>觀察：</strong>本週業務部請假率較上月 +1.2pt，主因連假效應（端午前夕，特休申請集中）<br>
+        🔮 <strong>預測：</strong>下週一（連假後）預計 4 位員工請假，建議提前協調代理人<br>
+        💡 <strong>建議：</strong>魏小華近 30 天請假 +180% 且連續星期一請病假，建議安排 1-on-1 關懷
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- Left: pending list -->
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">⏳ 待我簽核（5 件）</div>
+            <div class="panel-sub">點下方按鈕快速處理</div>
+          </div>
+          <button class="btn btn-ghost btn-sm">全部展開</button>
+        </div>
+
+        <div class="leave-pending urgent" style="cursor:pointer;" onclick="viewLeave('張文武')">
+          <div class="leave-pending-avatar">張</div>
+          <div class="leave-pending-info">
+            <div class="leave-pending-name">張文武 <span class="badge emp-rank">五職等</span> <span class="badge cat-sick">病假</span> <span class="badge urgent">急件</span></div>
+            <div class="leave-pending-meta">業務一課 · 接觸 12 個客戶 · 業務人員（不扣薪）</div>
+            <div class="leave-pending-detail">📅 <strong>5/28（四）~ 5/29（五）共 2 日</strong> · 16 小時<br>事由：感冒高燒、需就醫休養（已附診斷書 ✓）</div>
+            <div class="leave-pending-ai">🤖 AI 驗證：✓ 額度足（剩 29 日） · ✓ 證明完整 · ✓ 代理人林小美已綁定 · ⚠️ 注意：明天有金盈佳客戶會議需請代理人接</div>
+          </div>
+          <div class="leave-pending-actions" onclick="event.stopPropagation()">
+            <div class="leave-pending-time">35 分鐘前</div>
+            <button class="btn btn-success btn-sm" onclick="approve(this,'張文武')">✓ 批准</button>
+            <button class="btn btn-ghost btn-sm" onclick="viewLeave('張文武')">查看</button>
+          </div>
+        </div>
+
+        <div class="leave-pending" style="cursor:pointer;" onclick="viewLeave('林敏玲')">
+          <div class="leave-pending-avatar" style="background:linear-gradient(135deg,#16a34a,#0891b2);">林</div>
+          <div class="leave-pending-info">
+            <div class="leave-pending-name">林敏玲 <span class="badge emp-rank">四職等</span> <span class="badge cat-special">特休</span></div>
+            <div class="leave-pending-meta">業務二課 · 到職 2023/05</div>
+            <div class="leave-pending-detail">📅 <strong>5/30（六）~ 6/01（一）共 3 日</strong> · 端午連假銜接<br>事由：家庭旅遊</div>
+            <div class="leave-pending-ai">🤖 AI 驗證：✓ 額度足（剩 8 日） · ✓ 連假銜接無上限規定 · ⚠️ 同期已有 2 位業務請假，提醒人力配置</div>
+          </div>
+          <div class="leave-pending-actions" onclick="event.stopPropagation()">
+            <div class="leave-pending-time">2 小時前</div>
+            <button class="btn btn-success btn-sm" onclick="approve(this,'林敏玲')">✓ 批准</button>
+            <button class="btn btn-ghost btn-sm" onclick="viewLeave('林敏玲')">查看</button>
+          </div>
+        </div>
+
+        <div class="leave-pending urgent" style="cursor:pointer;" onclick="viewLeave('魏小華')">
+          <div class="leave-pending-avatar" style="background:linear-gradient(135deg,#dc2626,#ea580c);">魏</div>
+          <div class="leave-pending-info">
+            <div class="leave-pending-name">魏小華 <span class="badge emp-rank">三職等</span> <span class="badge cat-sick">病假</span> <span class="badge warning">AI 注意</span></div>
+            <div class="leave-pending-meta">業務一課 · 30 天內第 4 次請病假</div>
+            <div class="leave-pending-detail">📅 <strong>5/27（一）共 1 日</strong> · 8 小時<br>事由：身體不適（無附證明）</div>
+            <div class="leave-pending-ai" style="background:var(--danger-l);color:var(--danger);">🚨 <strong>AI 異常偵測：</strong>魏小華 30 天內 4 次病假（含 3 次星期一），疑似刻意延長週末。建議：1) 要求補附就診證明 2) 安排個別關懷面談</div>
+          </div>
+          <div class="leave-pending-actions" onclick="event.stopPropagation()">
+            <div class="leave-pending-time">3 小時前</div>
+            <button class="btn btn-danger btn-sm" onclick="viewLeave('魏小華')">⚠️ 待釐清</button>
+            <button class="btn btn-ghost btn-sm" onclick="viewLeave('魏小華')">查看</button>
+          </div>
+        </div>
+
+        <div class="leave-pending" style="cursor:pointer;" onclick="viewLeave('辜子奇')">
+          <div class="leave-pending-avatar" style="background:linear-gradient(135deg,#0891b2,#2563eb);">辜</div>
+          <div class="leave-pending-info">
+            <div class="leave-pending-name">辜子奇 <span class="badge emp-rank">五職等</span> <span class="badge cat-family">家庭照顧假</span></div>
+            <div class="leave-pending-meta">業務二課 · 業務人員（不扣薪）</div>
+            <div class="leave-pending-detail">📅 <strong>5/28（四）半日</strong> · 4 小時<br>事由：女兒幼稚園期末家長會</div>
+            <div class="leave-pending-ai">🤖 AI 驗證：✓ 額度足（剩 7 日） · ✓ 家庭照顧假合理事由 · ✓ 半日不影響業務</div>
+          </div>
+          <div class="leave-pending-actions" onclick="event.stopPropagation()">
+            <div class="leave-pending-time">5 小時前</div>
+            <button class="btn btn-success btn-sm" onclick="approve(this,'辜子奇')">✓ 批准</button>
+            <button class="btn btn-ghost btn-sm" onclick="viewLeave('辜子奇')">查看</button>
+          </div>
+        </div>
+
+        <div class="leave-pending" style="cursor:pointer;" onclick="viewLeave('陳姮雪')">
+          <div class="leave-pending-avatar" style="background:linear-gradient(135deg,#be185d,#dc2626);">陳</div>
+          <div class="leave-pending-info">
+            <div class="leave-pending-name">陳姮雪 <span class="badge emp-rank">五職等</span> <span class="badge cat-marriage">婚假</span></div>
+            <div class="leave-pending-meta">業務一課 · 業務人員</div>
+            <div class="leave-pending-detail">📅 <strong>6/10（三）~ 6/19（五）共 8 日</strong> · 64 小時 · 含週末<br>事由：6/15 結婚（已附婚紗照預約單 → 6 月底補正式結婚證書）</div>
+            <div class="leave-pending-ai">🤖 AI 驗證：✓ 婚假 8 日符合規定 · ✓ 結婚前 10 日內申請合規 · ⚠️ 5 天以上需向上呈核（廠長 王國良）<br>📨 <strong>送出後將自動上呈廠長簽核</strong></div>
+          </div>
+          <div class="leave-pending-actions" onclick="event.stopPropagation()">
+            <div class="leave-pending-time">1 天前</div>
+            <button class="btn btn-success btn-sm" onclick="approve(this,'陳姮雪')">✓ 批准並上呈</button>
+            <button class="btn btn-ghost btn-sm" onclick="viewLeave('陳姮雪')">查看</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: today attendance + AI alerts -->
+      <div>
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">📅 今日出勤狀態</div>
+              <div class="panel-sub">業務部 32 人</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-bottom:12px;font-size:11px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:var(--success);border-radius:3px;"></span> 在崗 27</div>
+            <div style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:var(--warning);border-radius:3px;"></span> 請假 5</div>
+            <div style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:var(--danger);border-radius:3px;"></span> 曠職 0</div>
+          </div>
+          <div class="att-grid">
+            <div class="att-cell on"><div class="att-avatar">李</div><div class="att-content"><div class="att-name">李志明</div><div class="att-status">在崗</div></div></div>
+            <div class="att-cell leave"><div class="att-avatar" style="background:#dc2626;">張</div><div class="att-content"><div class="att-name">張文武</div><div class="att-status">病假 2 日</div></div></div>
+            <div class="att-cell on"><div class="att-avatar" style="background:#16a34a;">林</div><div class="att-content"><div class="att-name">林敏玲</div><div class="att-status">在崗</div></div></div>
+            <div class="att-cell leave"><div class="att-avatar" style="background:#ea580c;">魏</div><div class="att-content"><div class="att-name">魏小華</div><div class="att-status">病假</div></div></div>
+            <div class="att-cell leave"><div class="att-avatar" style="background:#7c3aed;">辜</div><div class="att-content"><div class="att-name">辜子奇</div><div class="att-status">家照假 0.5</div></div></div>
+            <div class="att-cell on"><div class="att-avatar" style="background:#0891b2;">彭</div><div class="att-content"><div class="att-name">彭鵬程</div><div class="att-status">在崗</div></div></div>
+            <div class="att-cell on"><div class="att-avatar" style="background:#be185d;">陳</div><div class="att-content"><div class="att-name">陳姮雪</div><div class="att-status">在崗</div></div></div>
+            <div class="att-cell leave"><div class="att-avatar" style="background:#16a34a;">王</div><div class="att-content"><div class="att-name">王玉姣</div><div class="att-status">特休</div></div></div>
+            <div class="att-cell on"><div class="att-avatar">吳</div><div class="att-content"><div class="att-name">吳偉齊</div><div class="att-status">在崗</div></div></div>
+            <div class="att-cell on"><div class="att-avatar" style="background:#ea580c;">武</div><div class="att-content"><div class="att-name">武丹丹</div><div class="att-status">在崗</div></div></div>
+            <div class="att-cell leave"><div class="att-avatar" style="background:#0891b2;">余</div><div class="att-content"><div class="att-name">余娟</div><div class="att-status">公假（兵役）</div></div></div>
+            <div class="att-cell on"><div class="att-avatar" style="background:#7c3aed;">謝</div><div class="att-content"><div class="att-name">謝依樺</div><div class="att-status">在崗</div></div></div>
+          </div>
+          <div style="text-align:center;margin-top:10px;font-size:12px;color:var(--text-3);">顯示前 12 位 · <a href="#" style="color:var(--primary);text-decoration:none;">查看全部 32 人 →</a></div>
+        </div>
+
+        <div class="ai-insight danger">
+          <div class="ai-insight-title" style="color:#7F1D1D;">🚨 異常出勤警示</div>
+          <div class="ai-insight-body" style="color:#7F1D1D;font-size:12px;">
+            <strong>魏小華</strong>：30 天請病假 4 次（含 3 次星期一），疑似週末延長<br>
+            <strong>余娟</strong>：本月已用事假 12 日（額度 14 日），接近上限<br>
+            <strong>業務二課</strong>：本週請假率 18%，較上週 8% 翻倍
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANALYSIS -->
+  <section class="page" id="page-analysis">
+    <div class="page-head">
+      <div>
+        <h1 class="page-title">請假分析</h1>
+        <p class="page-sub">2026/05 · 業務部 32 人</p>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost">📅 月份切換</button>
+        <button class="btn btn-primary">📤 匯出 PDF</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi b"><div class="kpi-icon">📋</div><div class="kpi-l">本月請假總時數</div><div class="kpi-v">462 hr</div><div class="kpi-m">較上月 +56 hr</div></div>
+      <div class="kpi o"><div class="kpi-icon">🤒</div><div class="kpi-l">最常見假別</div><div class="kpi-v" style="font-size:18px;">特別休假</div><div class="kpi-m">186 hr · 40% 占比</div></div>
+      <div class="kpi p"><div class="kpi-icon">📅</div><div class="kpi-l">請假高峰日</div><div class="kpi-v" style="font-size:18px;">星期一</div><div class="kpi-m">5/27 共 5 人</div></div>
+      <div class="kpi g"><div class="kpi-icon">✅</div><div class="kpi-l">AI 自動核可率</div><div class="kpi-v">82%</div><div class="kpi-m">省下主管 18 小時/月</div></div>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- 假別分布 -->
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">📊 本月假別分布</div>
+            <div class="panel-sub">總計 462 小時</div>
+          </div>
+        </div>
+        <div class="donut-wrap">
+          <svg class="donut" id="donut" viewBox="0 0 100 100"></svg>
+          <div class="legend" id="legend"></div>
+        </div>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--border);">
+          <div style="font-size:13px;font-weight:600;margin-bottom:10px;">各假別請假時數 ranking</div>
+          <div class="bar-chart">
+            <div class="bar-row"><div class="bar-label">特別休假</div><div class="bar-track"><div class="bar-fill" style="width:96%;background:#16a34a">186 hr</div></div><div class="bar-value">40.3%</div></div>
+            <div class="bar-row"><div class="bar-label">病假</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:#ea580c">112 hr</div></div><div class="bar-value">24.2%</div></div>
+            <div class="bar-row"><div class="bar-label">事假</div><div class="bar-track"><div class="bar-fill" style="width:42%;background:#94a3b8">78 hr</div></div><div class="bar-value">16.9%</div></div>
+            <div class="bar-row"><div class="bar-label">家庭照顧假</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:#7c3aed">48 hr</div></div><div class="bar-value">10.4%</div></div>
+            <div class="bar-row"><div class="bar-label">補休</div><div class="bar-track"><div class="bar-fill" style="width:13%;background:#0891b2">24 hr</div></div><div class="bar-value">5.2%</div></div>
+            <div class="bar-row"><div class="bar-label">其他</div><div class="bar-track"><div class="bar-fill" style="width:7%;background:#cbd5e1">14 hr</div></div><div class="bar-value">3.0%</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI 預測 -->
+      <div>
+        <div class="ai-insight">
+          <div class="ai-insight-title" style="color:#92400e;">🤖 AI 請假預測</div>
+          <div class="ai-insight-body" style="color:#78350f;">
+            🔮 <strong>下週預估</strong>：4 人請假（端午連假後）<br>
+            🔮 <strong>下月預估</strong>：請假高峰落於 6/24-26（端午連假銜接）<br>
+            💡 <strong>建議</strong>：提前 2 週協調代理人輪值
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">📅 一週請假分布</div>
+              <div class="panel-sub">本月平均</div>
+            </div>
+          </div>
+          <div class="bar-chart">
+            <div class="bar-row"><div class="bar-label">星期一</div><div class="bar-track"><div class="bar-fill" style="width:92%;background:#dc2626">5.2 人</div></div><div class="bar-value">↑↑</div></div>
+            <div class="bar-row"><div class="bar-label">星期二</div><div class="bar-track"><div class="bar-fill" style="width:38%;background:#16a34a">2.1 人</div></div><div class="bar-value">—</div></div>
+            <div class="bar-row"><div class="bar-label">星期三</div><div class="bar-track"><div class="bar-fill" style="width:32%;background:#16a34a">1.8 人</div></div><div class="bar-value">—</div></div>
+            <div class="bar-row"><div class="bar-label">星期四</div><div class="bar-track"><div class="bar-fill" style="width:36%;background:#16a34a">2.0 人</div></div><div class="bar-value">—</div></div>
+            <div class="bar-row"><div class="bar-label">星期五</div><div class="bar-track"><div class="bar-fill" style="width:74%;background:#ea580c">4.1 人</div></div><div class="bar-value">↑</div></div>
+          </div>
+          <div style="margin-top:12px;padding:10px 12px;background:var(--warning-l);border-radius:8px;font-size:12px;color:#78350f;">
+            ⚠️ <strong>觀察</strong>：星期一、五請假人數明顯偏高（合計 2.4x 平均日），疑似員工延長週末，建議關注
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px;">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">📈 近 6 個月請假趨勢</div>
+          <div class="panel-sub">業務部整體</div>
+        </div>
+      </div>
+      <svg viewBox="0 0 700 240" style="width:100%;height:240px;">
+        <defs>
+          <linearGradient id="trend-grad" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#2563EB" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#2563EB" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- grid -->
+        <line x1="50" y1="40" x2="680" y2="40" stroke="#f1f5f9"/>
+        <line x1="50" y1="100" x2="680" y2="100" stroke="#f1f5f9"/>
+        <line x1="50" y1="160" x2="680" y2="160" stroke="#f1f5f9"/>
+        <line x1="50" y1="220" x2="680" y2="220" stroke="#e2e8f0"/>
+        <text x="44" y="44" font-size="10" fill="#94a3b8" text-anchor="end">600</text>
+        <text x="44" y="104" font-size="10" fill="#94a3b8" text-anchor="end">400</text>
+        <text x="44" y="164" font-size="10" fill="#94a3b8" text-anchor="end">200</text>
+        <text x="44" y="224" font-size="10" fill="#94a3b8" text-anchor="end">0</text>
+
+        <!-- x labels -->
+        <text x="120" y="234" font-size="10" fill="#94a3b8" text-anchor="middle">2025/12</text>
+        <text x="232" y="234" font-size="10" fill="#94a3b8" text-anchor="middle">2026/01</text>
+        <text x="344" y="234" font-size="10" fill="#94a3b8" text-anchor="middle">2026/02</text>
+        <text x="456" y="234" font-size="10" fill="#94a3b8" text-anchor="middle">2026/03</text>
+        <text x="568" y="234" font-size="10" fill="#94a3b8" text-anchor="middle">2026/04</text>
+        <text x="640" y="234" font-size="10" fill="#0f172a" text-anchor="middle" font-weight="700">本月</text>
+
+        <!-- area -->
+        <path d="M 120 142 Q 176 130, 232 138 T 344 116 T 456 124 T 568 88 L 640 76 L 640 220 L 120 220 Z" fill="url(#trend-grad)"/>
+        <!-- line -->
+        <path d="M 120 142 Q 176 130, 232 138 T 344 116 T 456 124 T 568 88 L 640 76" stroke="#2563EB" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- dots -->
+        <circle cx="120" cy="142" r="5" fill="white" stroke="#2563EB" stroke-width="2.5"/>
+        <circle cx="232" cy="138" r="5" fill="white" stroke="#2563EB" stroke-width="2.5"/>
+        <circle cx="344" cy="116" r="5" fill="white" stroke="#2563EB" stroke-width="2.5"/>
+        <circle cx="456" cy="124" r="5" fill="white" stroke="#2563EB" stroke-width="2.5"/>
+        <circle cx="568" cy="88" r="5" fill="white" stroke="#2563EB" stroke-width="2.5"/>
+        <circle cx="640" cy="76" r="7" fill="#2563EB"/>
+
+        <!-- value labels -->
+        <text x="120" y="132" font-size="11" fill="#475569" text-anchor="middle" font-weight="600">258</text>
+        <text x="232" y="128" font-size="11" fill="#475569" text-anchor="middle" font-weight="600">272</text>
+        <text x="344" y="106" font-size="11" fill="#475569" text-anchor="middle" font-weight="600">348</text>
+        <text x="456" y="114" font-size="11" fill="#475569" text-anchor="middle" font-weight="600">328</text>
+        <text x="568" y="78" font-size="11" fill="#475569" text-anchor="middle" font-weight="600">406</text>
+        <text x="640" y="66" font-size="12" fill="#2563EB" text-anchor="middle" font-weight="700">462 hr</text>
+      </svg>
+      <div style="margin-top:12px;padding:10px 12px;background:var(--primary-l);border-radius:8px;font-size:12px;color:var(--primary-d);">
+        💡 <strong>趨勢觀察</strong>：請假時數逐月上升（12 月 258 hr → 本月 462 hr），主因業務擴編 + 端午連假效應
+      </div>
+    </div>
+  </section>
+
+  <!-- ANOMALY -->
+  <section class="page" id="page-anomaly">
+    <div class="page-head">
+      <div>
+        <h1 class="page-title">⚠️ 異常出勤偵測</h1>
+        <p class="page-sub">AI 主動偵測異常模式，提供主管早期關注機會</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi r danger"><div class="kpi-icon">🚨</div><div class="kpi-l">高風險員工</div><div class="kpi-v">3 人</div><div class="kpi-m">建議 1-on-1</div></div>
+      <div class="kpi o"><div class="kpi-icon">⚠️</div><div class="kpi-l">中風險員工</div><div class="kpi-v">5 人</div><div class="kpi-m">持續觀察</div></div>
+      <div class="kpi g"><div class="kpi-icon">✅</div><div class="kpi-l">出勤正常</div><div class="kpi-v">24 人</div><div class="kpi-m">業務部 32 人</div></div>
+      <div class="kpi b"><div class="kpi-icon">🔍</div><div class="kpi-l">監測模型</div><div class="kpi-v">7 種</div><div class="kpi-m">異常模式</div></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">🚨 高風險員工（建議立即關注）</div>
+          <div class="panel-sub">綜合請假頻率、模式、行為訊號</div>
+        </div>
+      </div>
+
+      <div class="anomaly-card high">
+        <div class="anomaly-icon">🤒</div>
+        <div class="anomaly-content">
+          <div class="anomaly-title">魏小華 · 業務一課 · 三職等</div>
+          <div class="anomaly-meta">
+            🔴 <strong>30 天請病假 4 次</strong>，其中 3 次都是星期一<br>
+            🔴 <strong>無附醫療證明</strong>（規定 1 天以上需診斷書）<br>
+            ⚠️ AI 預測：未來 60 天離職機率 <strong>62%</strong>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <button class="btn btn-primary btn-sm" onclick="show1on1('魏小華')">💬 安排 1-on-1</button>
+          <button class="btn btn-ghost btn-sm">查看完整記錄</button>
+        </div>
+      </div>
+
+      <div class="anomaly-card high">
+        <div class="anomaly-icon">📋</div>
+        <div class="anomaly-content">
+          <div class="anomaly-title">余娟 · 業務二課 · 三職等</div>
+          <div class="anomaly-meta">
+            🔴 <strong>事假已用 12 / 14 日</strong>，5 月用了 6 日<br>
+            🔴 績效評核分數較上季 ↓ 18%<br>
+            ⚠️ AI 預測：可能因個人因素（家庭/健康）影響工作
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <button class="btn btn-primary btn-sm">💬 安排 1-on-1</button>
+          <button class="btn btn-ghost btn-sm">查看完整記錄</button>
+        </div>
+      </div>
+
+      <div class="anomaly-card high">
+        <div class="anomaly-icon">📅</div>
+        <div class="anomaly-content">
+          <div class="anomaly-title">林家慶 · 業務二課 · 四職等</div>
+          <div class="anomaly-meta">
+            🔴 <strong>連 3 週皆於星期五下午請假</strong>（特休）<br>
+            🔴 該時段恰逢主力客戶會議時間<br>
+            ⚠️ AI 預測：可能存在副業或求職活動跡象
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <button class="btn btn-primary btn-sm">💬 安排 1-on-1</button>
+          <button class="btn btn-ghost btn-sm">查看完整記錄</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">📊 AI 監測模式（7 種異常檢測）</div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>檢測模式</th><th>說明</th><th>本月觸發次數</th><th>準確率</th><th>狀態</th></tr></thead>
+        <tbody>
+          <tr><td><strong>週一/週五偏好</strong></td><td>頻繁於週一、週五請假（延長週末）</td><td>3 人觸發</td><td>87%</td><td><span class="badge success">啟用</span></td></tr>
+          <tr><td><strong>病假無證明</strong></td><td>1 天以上病假未附診斷書</td><td>2 件</td><td>—</td><td><span class="badge success">啟用</span></td></tr>
+          <tr><td><strong>事假近上限</strong></td><td>事假累計超過 12 日（額度 14 日）</td><td>1 人</td><td>—</td><td><span class="badge success">啟用</span></td></tr>
+          <tr><td><strong>連續請假模式</strong></td><td>同一週內連續 3 天以上請假</td><td>2 件</td><td>92%</td><td><span class="badge success">啟用</span></td></tr>
+          <tr><td><strong>關鍵會議缺席</strong></td><td>客戶會議當日請假</td><td>1 件</td><td>78%</td><td><span class="badge success">啟用</span></td></tr>
+          <tr><td><strong>績效 × 請假關聯</strong></td><td>績效下滑且請假增加</td><td>2 人</td><td>74%</td><td><span class="badge success">啟用</span></td></tr>
+          <tr><td><strong>離職風險預測</strong></td><td>綜合多項訊號預測離職機率</td><td>3 人 ≥60%</td><td>81%</td><td><span class="badge success">啟用</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PENDING -->
+  <section class="page" id="page-pending">
+    <div class="page-head">
+      <div><h1 class="page-title">⏳ 待簽核請假單</h1><p class="page-sub">5 件待處理 · 2 件急件</p></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost">📤 匯出</button>
+        <button class="btn btn-primary">⚡ AI 推薦一鍵處理</button>
+      </div>
+    </div>
+    <div class="panel" style="padding:0;">
+      <table>
+        <thead><tr><th>申請人</th><th>職等</th><th>假別</th><th>期間</th><th>事由</th><th>AI 驗證</th><th>核決</th><th>操作</th></tr></thead>
+        <tbody>
+          <tr style="cursor:pointer;" onclick="viewLeave('張文武')"><td><strong>張文武</strong></td><td><span class="badge emp-rank">五</span></td><td><span class="badge cat-sick">病假</span></td><td>5/28-29 (2日)</td><td>感冒高燒</td><td><span class="badge success">✓ 通過</span></td><td>部門主管</td><td onclick="event.stopPropagation()"><button class="btn btn-success btn-sm" onclick="approve(this,'張文武')">批准</button> <button class="btn btn-ghost btn-sm" onclick="viewLeave('張文武')">查看</button></td></tr>
+          <tr style="cursor:pointer;" onclick="viewLeave('林敏玲')"><td><strong>林敏玲</strong></td><td><span class="badge emp-rank">四</span></td><td><span class="badge cat-special">特休</span></td><td>5/30-6/01 (3日)</td><td>家庭旅遊</td><td><span class="badge success">✓ 通過</span></td><td>部門主管</td><td onclick="event.stopPropagation()"><button class="btn btn-success btn-sm" onclick="approve(this,'林敏玲')">批准</button> <button class="btn btn-ghost btn-sm" onclick="viewLeave('林敏玲')">查看</button></td></tr>
+          <tr style="cursor:pointer;" onclick="viewLeave('魏小華')"><td><strong>魏小華</strong></td><td><span class="badge emp-rank">三</span></td><td><span class="badge cat-sick">病假</span></td><td>5/27 (1日)</td><td>身體不適</td><td><span class="badge urgent">⚠ 異常</span></td><td>部門主管</td><td onclick="event.stopPropagation()"><button class="btn btn-danger btn-sm" onclick="viewLeave('魏小華')">待釐清</button> <button class="btn btn-ghost btn-sm" onclick="viewLeave('魏小華')">查看</button></td></tr>
+          <tr style="cursor:pointer;" onclick="viewLeave('辜子奇')"><td><strong>辜子奇</strong></td><td><span class="badge emp-rank">五</span></td><td><span class="badge cat-family">家照假</span></td><td>5/28 (0.5日)</td><td>女兒家長會</td><td><span class="badge success">✓ 通過</span></td><td>部門主管</td><td onclick="event.stopPropagation()"><button class="btn btn-success btn-sm" onclick="approve(this,'辜子奇')">批准</button> <button class="btn btn-ghost btn-sm" onclick="viewLeave('辜子奇')">查看</button></td></tr>
+          <tr style="cursor:pointer;" onclick="viewLeave('陳姮雪')"><td><strong>陳姮雪</strong></td><td><span class="badge emp-rank">五</span></td><td><span class="badge cat-marriage">婚假</span></td><td>6/10-19 (8日)</td><td>6/15 結婚</td><td><span class="badge success">✓ 通過</span></td><td>需上呈廠長</td><td onclick="event.stopPropagation()"><button class="btn btn-success btn-sm" onclick="approve(this,'陳姮雪')">批准上呈</button> <button class="btn btn-ghost btn-sm" onclick="viewLeave('陳姮雪')">查看</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TODAY -->
+  <section class="page" id="page-today">
+    <div class="page-head">
+      <div><h1 class="page-title">📅 今日出勤</h1><p class="page-sub">業務部 32 人 · 27 在崗 · 5 請假</p></div>
+    </div>
+    <div class="panel" style="padding:0;">
+      <table>
+        <thead><tr><th>員工</th><th>職等</th><th>狀態</th><th>時段</th><th>假別</th><th>事由</th><th>代理人</th></tr></thead>
+        <tbody>
+          <tr><td><strong>李志明</strong></td><td><span class="badge emp-rank">部長</span></td><td><span class="badge success">在崗</span></td><td>08:00-17:00</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td><strong>張文武</strong></td><td><span class="badge emp-rank">五</span></td><td><span class="badge warning">請假中</span></td><td>全日</td><td><span class="badge cat-sick">病假</span></td><td>感冒高燒（含明日）</td><td>林小美</td></tr>
+          <tr><td><strong>魏小華</strong></td><td><span class="badge emp-rank">三</span></td><td><span class="badge warning">請假中</span></td><td>全日</td><td><span class="badge cat-sick">病假</span></td><td>身體不適</td><td>蔡子翔</td></tr>
+          <tr><td><strong>辜子奇</strong></td><td><span class="badge emp-rank">五</span></td><td><span class="badge warning">請假中</span></td><td>13:00-17:00</td><td><span class="badge cat-family">家照假</span></td><td>女兒家長會</td><td>林小美</td></tr>
+          <tr><td><strong>王玉姣</strong></td><td><span class="badge emp-rank">四</span></td><td><span class="badge warning">請假中</span></td><td>全日</td><td><span class="badge cat-special">特休</span></td><td>個人事務</td><td>陳姮雪</td></tr>
+          <tr><td><strong>余娟</strong></td><td><span class="badge emp-rank">三</span></td><td><span class="badge warning">請假中</span></td><td>全日</td><td><span class="badge cat-other">公假</span></td><td>兵役檢查</td><td>魏小華</td></tr>
+          <tr><td><strong>林敏玲</strong></td><td><span class="badge emp-rank">四</span></td><td><span class="badge success">在崗</span></td><td>08:00-17:00</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td><strong>彭鵬程</strong></td><td><span class="badge emp-rank">五</span></td><td><span class="badge success">在崗</span></td><td>外勤拜訪</td><td>—</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- EMPLOYEE -->
+  <!-- ============ RULES ============ -->
+  <section class="page" id="page-rules">
+    <div class="page-head">
+      <div>
+        <h1 class="page-title">📖 請假規則管理</h1>
+        <p class="page-sub">HR-TW-P-001-33 · 適用台灣廠區 · 規則版本 v33</p>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost">📤 匯出 PDF</button>
+        <button class="btn btn-primary">＋ 新增規則</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi b"><div class="kpi-icon">📋</div><div class="kpi-l">啟用規則</div><div class="kpi-v">18 項</div><div class="kpi-m">假別 + 控制程序</div></div>
+      <div class="kpi g"><div class="kpi-icon">✅</div><div class="kpi-l">本月更新</div><div class="kpi-v">2 項</div><div class="kpi-m">特休、家照假</div></div>
+      <div class="kpi o"><div class="kpi-icon">🔄</div><div class="kpi-l">下次審查</div><div class="kpi-v">12/31</div><div class="kpi-m">年度規則檢視</div></div>
+      <div class="kpi p"><div class="kpi-icon">⚙️</div><div class="kpi-l">特例</div><div class="kpi-v">5 條</div><div class="kpi-m">業務人員/派外/職等</div></div>
+    </div>
+
+    <div class="panel" style="padding:0;">
+      <div style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div class="panel-title">📋 假別規則表</div>
+          <div class="panel-sub" style="margin-top:2px;">點任一行可編輯</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-ghost btn-sm">全部</button>
+          <button class="btn btn-ghost btn-sm">照給薪</button>
+          <button class="btn btn-ghost btn-sm">減半</button>
+          <button class="btn btn-ghost btn-sm">不給薪</button>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>假別</th><th>給假</th><th>最小單位</th><th>薪資</th><th>證明</th><th>核決</th><th>特例</th><th>狀態</th><th>操作</th></tr></thead>
+        <tbody>
+          <tr><td><strong>🌴 特別休假</strong></td><td>3-30 日（依年資）</td><td>0.5 hr</td><td><span class="badge success">照給</span></td><td>不需</td><td>依職等</td><td>10職等以上不付未休</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>📝 事假</strong></td><td>全年 14 日</td><td>0.5 hr</td><td><span class="badge gray">不給</span></td><td>不需</td><td>主管</td><td>業務人員不扣</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>🤒 病假（未住院）</strong></td><td>全年 30 日</td><td>0.5 hr</td><td><span class="badge warning">減半</span></td><td>1天以上需診斷書</td><td>主管</td><td>業務不扣（30日內）</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>🤒 病假（住院）</strong></td><td>2 年內 1 年</td><td>0.5 hr</td><td><span class="badge warning">減半</span></td><td>診斷書</td><td>主管</td><td>癌症/安胎併入</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>💍 婚假</strong></td><td>8 日</td><td>1 日</td><td><span class="badge success">照給</span></td><td>結婚證明</td><td>主管</td><td>3 個月內請畢</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>🕊️ 喪假（8 日）</strong></td><td>父母/配偶 8 日</td><td>1 hr</td><td><span class="badge success">照給</span></td><td>除戶證明</td><td>主管</td><td>100 日內請畢</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>🕊️ 喪假（6 日）</strong></td><td>祖父母/子女 6 日</td><td>1 hr</td><td><span class="badge success">照給</span></td><td>除戶證明</td><td>主管</td><td>100 日內請畢</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>🕊️ 喪假（3 日）</strong></td><td>兄弟姊妹/曾祖 3 日</td><td>1 hr</td><td><span class="badge success">照給</span></td><td>除戶證明</td><td>主管</td><td>100 日內請畢</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>🤕 公傷假</strong></td><td>最長 2 年</td><td>0.5 hr</td><td><span class="badge success">照給</span></td><td>指定醫院</td><td>主管</td><td>依公傷控制程序</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>🪖 公假</strong></td><td>依事由</td><td>0.5 hr</td><td><span class="badge success">照給</span></td><td>主管機關文件</td><td>主管</td><td>—</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>👨‍👩‍👧 家庭照顧假</strong></td><td>全年 7 日</td><td>0.5 hr</td><td><span class="badge gray">不給</span></td><td>建議</td><td>主管</td><td>併入事假計算</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>👶 產假</strong></td><td>8 週 / 流產 4 週</td><td>1 日</td><td><span class="badge success">滿 6 月照給</span></td><td>需證明</td><td>主管</td><td>需一次申請</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>🤰 產檢假</strong></td><td>7 日</td><td>0.5 hr</td><td><span class="badge success">照給</span></td><td>需證明</td><td>主管</td><td>逾 5 日可申請補助</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>👨‍👶 陪產（檢）假</strong></td><td>7 日</td><td>0.5 hr</td><td><span class="badge success">照給</span></td><td>需證明</td><td>主管</td><td>分娩前後 15 日內</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>🩸 生理假</strong></td><td>每月 1 日</td><td>0.5 hr</td><td><span class="badge warning">減半</span></td><td>不需</td><td>主管</td><td>全年逾 3 日併入病假</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>🌪️ 天然災害假</strong></td><td>依政府公告</td><td>1 日</td><td><span class="badge gray">不給</span></td><td>不需</td><td>主管</td><td>當地政府公告為準</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>🎎 歲時祭儀假</strong></td><td>全年 3 日</td><td>1 日</td><td><span class="badge success">照給</span></td><td>原住民身分</td><td>主管</td><td>—</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+          <tr><td><strong>🔄 補休</strong></td><td>由加班轉</td><td>0.5 hr</td><td>—</td><td>—</td><td>主管</td><td>依加班控制程序</td><td><span class="badge success">啟用</span></td><td><button class="btn btn-ghost btn-sm">編輯</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel" style="margin-top:14px;">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">⚙️ 不扣薪資格設定</div>
+          <div class="panel-sub">符合下列資格者請假不扣薪（除天然災害、排休、病假超 30 日）</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+        <div style="padding:14px;border:1px solid var(--border);border-radius:10px;text-align:center;"><div style="font-size:26px;margin-bottom:6px;">👔</div><div style="font-weight:700;font-size:13px;">六職等（含）以上</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;">管理職</div></div>
+        <div style="padding:14px;border:1px solid var(--border);border-radius:10px;text-align:center;"><div style="font-size:26px;margin-bottom:6px;">🏢</div><div style="font-weight:700;font-size:13px;">部門主管</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;">部級以上</div></div>
+        <div style="padding:14px;border:1px solid var(--border);border-radius:10px;text-align:center;"><div style="font-size:26px;margin-bottom:6px;">💼</div><div style="font-weight:700;font-size:13px;">業務人員</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;">業務部全員</div></div>
+        <div style="padding:14px;border:1px solid var(--border);border-radius:10px;text-align:center;"><div style="font-size:26px;margin-bottom:6px;">✈️</div><div style="font-weight:700;font-size:13px;">派外人員</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;">含契約人員</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SETTINGS ============ -->
+  <section class="page" id="page-settings">
+    <div class="page-head">
+      <div>
+        <h1 class="page-title">⚙️ 系統設定</h1>
+        <p class="page-sub">通知、AI 偵測、數據連線、整合</p>
+      </div>
+    </div>
+
+    <div class="dashboard-grid" style="grid-template-columns:1fr 1fr;">
+
+      <div>
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">🔔 通知設定</div>
+              <div class="panel-sub">何時、用什麼方式通知主管</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border:1px solid var(--border);border-radius:10px;">
+              <div><div style="font-weight:600;font-size:13px;">新請假申請</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;">員工送出立即通知</div></div>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"><input type="checkbox" checked> <span class="badge success">啟用</span></label>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border:1px solid var(--border);border-radius:10px;">
+              <div><div style="font-weight:600;font-size:13px;">急件提醒（30 分鐘未處理）</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;">LINE + Email</div></div>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"><input type="checkbox" checked> <span class="badge success">啟用</span></label>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border:1px solid var(--border);border-radius:10px;">
+              <div><div style="font-weight:600;font-size:13px;">異常出勤每日通報</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;">每天早上 9:00 推送</div></div>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"><input type="checkbox" checked> <span class="badge success">啟用</span></label>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border:1px solid var(--border);border-radius:10px;">
+              <div><div style="font-weight:600;font-size:13px;">月度請假分析報告</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;">每月 1 號自動產出</div></div>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"><input type="checkbox" checked> <span class="badge success">啟用</span></label>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border:1px solid var(--border);border-radius:10px;">
+              <div><div style="font-weight:600;font-size:13px;">員工生日 / 到職周年提醒</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;">提前 3 天</div></div>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"><input type="checkbox"> <span class="badge gray">關閉</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">🤖 AI 異常偵測模型</div>
+              <div class="panel-sub">7 種模式，可個別啟用或調整敏感度</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--border);border-radius:8px;">
+              <div style="font-size:20px;">📅</div>
+              <div style="flex:1;"><div style="font-weight:600;font-size:13px;">週一/週五偏好</div><div style="font-size:11px;color:var(--text-3);">準確率 87% · 本月觸發 3 人</div></div>
+              <select style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;"><option>高敏感</option><option selected>中敏感</option><option>低敏感</option></select>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--border);border-radius:8px;">
+              <div style="font-size:20px;">📋</div>
+              <div style="flex:1;"><div style="font-weight:600;font-size:13px;">病假無證明</div><div style="font-size:11px;color:var(--text-3);">本月觸發 2 件</div></div>
+              <select style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;"><option>啟用</option></select>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--border);border-radius:8px;">
+              <div style="font-size:20px;">⏰</div>
+              <div style="flex:1;"><div style="font-weight:600;font-size:13px;">事假近上限</div><div style="font-size:11px;color:var(--text-3);">本月觸發 1 人</div></div>
+              <select style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;"><option>啟用</option></select>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--border);border-radius:8px;">
+              <div style="font-size:20px;">📈</div>
+              <div style="flex:1;"><div style="font-weight:600;font-size:13px;">績效 × 請假關聯</div><div style="font-size:11px;color:var(--text-3);">準確率 74% · 觸發 2 人</div></div>
+              <select style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;"><option>高敏感</option><option selected>中敏感</option></select>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--border);border-radius:8px;">
+              <div style="font-size:20px;">🚪</div>
+              <div style="flex:1;"><div style="font-weight:600;font-size:13px;">離職風險預測</div><div style="font-size:11px;color:var(--text-3);">準確率 81% · 3 人 ≥60%</div></div>
+              <select style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;"><option selected>中敏感</option></select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">🔗 數據來源連線</div>
+              <div class="panel-sub">CRM、HR、考勤系統整合</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:12px;">
+              <div style="font-size:28px;">👥</div>
+              <div style="flex:1;"><div style="font-weight:700;font-size:13px;">HR 系統（耐落 HRMIS）</div><div style="font-size:11px;color:var(--success);"><span style="display:inline-block;width:6px;height:6px;background:var(--success);border-radius:50%;margin-right:4px;"></span>連線中 · 每小時同步</div></div>
+              <button class="btn btn-ghost btn-sm">設定</button>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:12px;">
+              <div style="font-size:28px;">⏰</div>
+              <div style="flex:1;"><div style="font-weight:700;font-size:13px;">出勤打卡系統</div><div style="font-size:11px;color:var(--success);"><span style="display:inline-block;width:6px;height:6px;background:var(--success);border-radius:50%;margin-right:4px;"></span>即時同步</div></div>
+              <button class="btn btn-ghost btn-sm">設定</button>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:12px;">
+              <div style="font-size:28px;">📈</div>
+              <div style="flex:1;"><div style="font-weight:700;font-size:13px;">績效管理系統</div><div style="font-size:11px;color:var(--success);"><span style="display:inline-block;width:6px;height:6px;background:var(--success);border-radius:50%;margin-right:4px;"></span>季度同步</div></div>
+              <button class="btn btn-ghost btn-sm">設定</button>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:12px;">
+              <div style="font-size:28px;">💬</div>
+              <div style="flex:1;"><div style="font-weight:700;font-size:13px;">LINE Notify</div><div style="font-size:11px;color:var(--success);"><span style="display:inline-block;width:6px;height:6px;background:var(--success);border-radius:50%;margin-right:4px;"></span>已綁定 32 人</div></div>
+              <button class="btn btn-ghost btn-sm">設定</button>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:12px;">
+              <div style="font-size:28px;">📧</div>
+              <div style="flex:1;"><div style="font-weight:700;font-size:13px;">Email 通知</div><div style="font-size:11px;color:var(--success);"><span style="display:inline-block;width:6px;height:6px;background:var(--success);border-radius:50%;margin-right:4px;"></span>SMTP 已設定</div></div>
+              <button class="btn btn-ghost btn-sm">設定</button>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:12px;opacity:0.7;">
+              <div style="font-size:28px;">📅</div>
+              <div style="flex:1;"><div style="font-weight:700;font-size:13px;">Google 行事曆</div><div style="font-size:11px;color:var(--text-3);"><span style="display:inline-block;width:6px;height:6px;background:var(--text-3);border-radius:50%;margin-right:4px;"></span>未連線</div></div>
+              <button class="btn btn-primary btn-sm">＋ 連接</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">🌐 區域與權限</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                <div style="font-weight:700;font-size:13px;">🇹🇼 台灣區</div>
+                <span class="badge success">已啟用</span>
+              </div>
+              <div style="font-size:11px;color:var(--text-3);">適用 HR-TW-P-001 · 320 位員工</div>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                <div style="font-weight:700;font-size:13px;">🇨🇳 大陸區</div>
+                <span class="badge success">已啟用</span>
+              </div>
+              <div style="font-size:11px;color:var(--text-3);">適用 HR-CN-P-001 · 580 位員工</div>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;opacity:0.7;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                <div style="font-weight:700;font-size:13px;">🇻🇳 越南區</div>
+                <span class="badge gray">未啟用</span>
+              </div>
+              <div style="font-size:11px;color:var(--text-3);">規則尚未建立</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">📊 系統使用統計</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div style="padding:10px;background:var(--bg);border-radius:8px;text-align:center;"><div style="font-size:18px;font-weight:700;">920</div><div style="font-size:11px;color:var(--text-3);">總員工數</div></div>
+            <div style="padding:10px;background:var(--bg);border-radius:8px;text-align:center;"><div style="font-size:18px;font-weight:700;">88%</div><div style="font-size:11px;color:var(--text-3);">AI 使用率</div></div>
+            <div style="padding:10px;background:var(--bg);border-radius:8px;text-align:center;"><div style="font-size:18px;font-weight:700;">412</div><div style="font-size:11px;color:var(--text-3);">本月申請數</div></div>
+            <div style="padding:10px;background:var(--bg);border-radius:8px;text-align:center;"><div style="font-size:18px;font-weight:700;">82%</div><div style="font-size:11px;color:var(--text-3);">AI 自動核可率</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-employee">
+    <div class="page-head">
+      <div><h1 class="page-title">👥 員工請假履歷</h1><p class="page-sub">業務部 32 位員工 · 完整請假紀錄</p></div>
+    </div>
+    <div class="panel" style="padding:0;">
+      <table>
+        <thead><tr><th>員工</th><th>職等</th><th>到職日</th><th>特休餘額</th><th>事假使用</th><th>病假使用</th><th>本年總請假</th><th>異常標記</th></tr></thead>
+        <tbody>
+          <tr><td><strong>魏小華</strong></td><td><span class="badge emp-rank">三</span></td><td>2024/06/10</td><td>5 / 7 日</td><td>4 / 14 日</td><td><strong style="color:var(--danger);">12 / 30 日</strong></td><td>120 hr</td><td><span class="badge urgent">高風險</span></td></tr>
+          <tr><td><strong>余娟</strong></td><td><span class="badge emp-rank">三</span></td><td>2023/02/01</td><td>3 / 10 日</td><td><strong style="color:var(--danger);">12 / 14 日</strong></td><td>2 / 30 日</td><td>104 hr</td><td><span class="badge urgent">高風險</span></td></tr>
+          <tr><td><strong>林家慶</strong></td><td><span class="badge emp-rank">四</span></td><td>2022/08/15</td><td>6 / 14 日</td><td>5 / 14 日</td><td>3 / 30 日</td><td>88 hr</td><td><span class="badge urgent">高風險</span></td></tr>
+          <tr><td><strong>張文武</strong></td><td><span class="badge emp-rank">五</span></td><td>2022/03/15</td><td>11 / 14 日</td><td>3 / 14 日</td><td>1 / 30 日</td><td>32 hr</td><td>—</td></tr>
+          <tr><td><strong>辜子奇</strong></td><td><span class="badge emp-rank">五</span></td><td>2021/09/22</td><td>9 / 14 日</td><td>2 / 14 日</td><td>0 / 30 日</td><td>24 hr</td><td>—</td></tr>
+          <tr><td><strong>陳姮雪</strong></td><td><span class="badge emp-rank">五</span></td><td>2023/11/05</td><td>5 / 10 日</td><td>1 / 14 日</td><td>2 / 30 日</td><td>28 hr</td><td>—</td></tr>
+          <tr><td><strong>林敏玲</strong></td><td><span class="badge emp-rank">四</span></td><td>2023/05/03</td><td>4 / 7 日</td><td>2 / 14 日</td><td>1 / 30 日</td><td>26 hr</td><td>—</td></tr>
+          <tr><td><strong>武丹丹</strong></td><td><span class="badge emp-rank">四</span></td><td>2020/04/12</td><td>10 / 15 日</td><td>1 / 14 日</td><td>0 / 30 日</td><td>16 hr</td><td>—</td></tr>
+          <tr><td><strong>吳偉齊</strong></td><td><span class="badge emp-rank">五</span></td><td>2019/07/01</td><td>13 / 15 日</td><td>0 / 14 日</td><td>2 / 30 日</td><td>14 hr</td><td>—</td></tr>
+          <tr><td><strong>謝依樺</strong></td><td><span class="badge emp-rank">四</span></td><td>2024/01/15</td><td>3 / 7 日</td><td>1 / 14 日</td><td>0 / 30 日</td><td>12 hr</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<!-- 請假單詳細 Modal -->
+<div class="lv-backdrop" id="lv-backdrop" onclick="if(event.target===this) closeLeave()">
+  <div class="lv-modal" id="lv-modal"></div>
+</div>
+
+<div class="proto-tag">PROTOTYPE · 主管端</div>
+<div class="toast" id="toast">✅ 已批准請假單</div>
+
+<script>
+const titles = { dashboard:'即時總覽', pending:'待簽核', today:'今日出勤', analysis:'請假分析', anomaly:'異常出勤', employee:'員工請假履歷', rules:'請假規則', settings:'系統設定' };
+function go(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('crumb').textContent = titles[id] || '';
+  window.scrollTo({top:0});
+}
+
+// ===== 請假單詳細資料 =====
+const LEAVE_DETAILS = {
+  '張文武': {
+    name: '張文武', rank: '五職等', dept: '業務一課', email: 'wenwu.zhang@urfit.com.tw',
+    isSales: true, hire: '2022/03/15', tenure: '4 年 2 月',
+    type: '病假', typeCls: 'cat-sick', urgent: true, badge: '急件',
+    period: '5/28（四）08:00 - 5/29（五）17:00', days: 2, hours: 16, applyTime: '2026/05/28 09:18（35 分鐘前）',
+    reason: '感冒高燒、需就醫休養，已預約家庭醫學科',
+    pay: '不扣薪（業務人員）', payCls: 'success',
+    doc: { name: '林口長庚醫院診斷證明書.pdf', uploaded: true, size: '186 KB' },
+    agent: '林小美（業務二課 · 五職等）',
+    approval: [
+      { name: '張文武 申請', status: 'done', time: '09:18' },
+      { name: '部門主管 李志明', status: 'current', time: '審核中' }
+    ],
+    aiVerify: [
+      { ok: true, text: '額度足：病假剩餘 29 日（已用 1 日）' },
+      { ok: true, text: '證明完整：診斷證明書已上傳' },
+      { ok: true, text: '代理人林小美已綁定且在崗' },
+      { warn: true, text: '注意：5/28 09:30 有金盈佳客戶會議（需請代理人接）' }
+    ],
+    history: { used: '32 hr', sick: '1 日', special: '已用 3 日' }
+  },
+  '林敏玲': {
+    name: '林敏玲', rank: '四職等', dept: '業務二課', email: 'minling.lin@urfit.com.tw',
+    isSales: true, hire: '2023/05/03', tenure: '3 年',
+    type: '特別休假', typeCls: 'cat-special', urgent: false,
+    period: '5/30（六）~ 6/01（一）共 3 日', days: 3, hours: 24, applyTime: '2026/05/27 11:22（2 小時前）',
+    reason: '家庭旅遊 · 連假銜接出遊',
+    pay: '照給薪', payCls: 'success',
+    doc: { name: '不需要', uploaded: false, optional: true },
+    agent: '蔡子翔（業務二課 · 四職等）',
+    approval: [
+      { name: '林敏玲 申請', status: 'done', time: '11:22' },
+      { name: '部門主管 李志明', status: 'current', time: '審核中' }
+    ],
+    aiVerify: [
+      { ok: true, text: '額度足：特休剩餘 8 日' },
+      { ok: true, text: '連假銜接：無上限規定' },
+      { ok: true, text: '代理人蔡子翔已綁定' },
+      { warn: true, text: '同期已有 2 位業務請假（張文武病假、王玉姣特休），請留意人力配置' }
+    ],
+    history: { used: '26 hr', sick: '1 日', special: '已用 2 日' }
+  },
+  '魏小華': {
+    name: '魏小華', rank: '三職等', dept: '業務一課', email: 'xiaohua.wei@urfit.com.tw',
+    isSales: true, hire: '2024/06/10', tenure: '1 年 11 月',
+    type: '病假', typeCls: 'cat-sick', urgent: true, badge: 'AI 偵測異常',
+    period: '5/27（一）08:00 - 17:00', days: 1, hours: 8, applyTime: '2026/05/27 08:42（3 小時前）',
+    reason: '身體不適，無附證明',
+    pay: '不扣薪（業務人員）', payCls: 'success',
+    doc: { name: '未上傳', uploaded: false, missing: false },
+    agent: '蔡子翔（業務二課 · 四職等）',
+    approval: [
+      { name: '魏小華 申請', status: 'done', time: '08:42' },
+      { name: '部門主管 李志明', status: 'current', time: '⚠ 需釐清' }
+    ],
+    aiVerify: [
+      { warn: true, text: '🚨 異常 1：30 天內第 4 次病假（含 3 次星期一）' },
+      { warn: true, text: '🚨 異常 2：1 天以內病假本可不附證明，但連續發生需釐清' },
+      { warn: true, text: '🚨 異常 3：績效評核較上季 ↓ 12%' },
+      { warn: true, text: '⚠️ AI 預測：未來 60 天離職機率 62%' },
+      { ok: false, text: '建議：要求補附就診收據，並安排 1-on-1 關懷面談' }
+    ],
+    history: { used: '120 hr', sick: '12 日（同年）', special: '已用 5 日' }
+  },
+  '辜子奇': {
+    name: '辜子奇', rank: '五職等', dept: '業務二課', email: 'ziqi.gu@urfit.com.tw',
+    isSales: true, hire: '2021/09/22', tenure: '4 年 8 月',
+    type: '家庭照顧假', typeCls: 'cat-family', urgent: false,
+    period: '5/28（四）13:00 - 17:00 半日', days: 0.5, hours: 4, applyTime: '2026/05/27 09:35（5 小時前）',
+    reason: '女兒幼稚園期末家長會、需要陪同出席',
+    pay: '不扣薪（業務人員）', payCls: 'success',
+    doc: { name: '建議附證明', uploaded: false, optional: true },
+    agent: '林小美（業務二課 · 五職等）',
+    approval: [
+      { name: '辜子奇 申請', status: 'done', time: '09:35' },
+      { name: '部門主管 李志明', status: 'current', time: '審核中' }
+    ],
+    aiVerify: [
+      { ok: true, text: '額度足：家照假剩餘 7 日（全年 7 日）' },
+      { ok: true, text: '合理事由（家庭活動）' },
+      { ok: true, text: '半日不影響當日業務' },
+      { ok: true, text: '代理人林小美已綁定' }
+    ],
+    history: { used: '24 hr', sick: '0 日', special: '已用 9 日' }
+  },
+  '陳姮雪': {
+    name: '陳姮雪', rank: '五職等', dept: '業務一課', email: 'hsuanhsueh.chen@urfit.com.tw',
+    isSales: true, hire: '2023/11/05', tenure: '2 年 6 月',
+    type: '婚假', typeCls: 'cat-marriage', urgent: false, badge: '需上呈',
+    period: '6/10（三）~ 6/19（五）共 8 日 · 64 小時', days: 8, hours: 64, applyTime: '2026/05/26 13:48（1 天前）',
+    reason: '6/15 結婚（婚宴於台北君悅）',
+    pay: '照給薪', payCls: 'success',
+    doc: { name: '婚紗預約單.pdf（暫代）· 6 月底補正式結婚證書', uploaded: true, partial: true, size: '92 KB' },
+    agent: '張文武（業務一課 · 五職等）',
+    approval: [
+      { name: '陳姮雪 申請', status: 'done', time: '昨日 13:48' },
+      { name: '部門主管 李志明', status: 'current', time: '審核中' },
+      { name: '廠長 王國良', status: 'pending', time: '待上呈' }
+    ],
+    aiVerify: [
+      { ok: true, text: '婚假 8 日符合規定' },
+      { ok: true, text: '結婚前 10 日內申請合規' },
+      { warn: true, text: '5 天以上需向上呈核（廠長 王國良）' },
+      { warn: true, text: '需補正式結婚證書（最遲 7/15）' }
+    ],
+    history: { used: '28 hr', sick: '2 日', special: '已用 4 日' }
+  }
+};
+
+function viewLeave(name) {
+  const d = LEAVE_DETAILS[name];
+  if (!d) { alert('查無此請假單資料'); return; }
+
+  const docHtml = d.doc.uploaded ?
+    `<div class="lv-doc"><span style="font-size:18px;">📎</span><div style="flex:1;"><div style="font-weight:700;">${d.doc.name}</div><div style="font-size:11px;color:var(--text-3);">${d.doc.size}</div></div><span style="color:var(--success);">✓ 點擊預覽</span></div>` :
+    d.doc.optional ? `<div class="lv-doc" style="background:var(--bg);border-color:var(--border);color:var(--text-3);">📭 ${d.doc.name}</div>` :
+    `<div class="lv-doc missing"><span style="font-size:18px;">⚠️</span><div style="flex:1;"><div style="font-weight:700;">尚未上傳證明文件</div><div style="font-size:11px;">病假可接受就診收據或診斷書</div></div></div>`;
+
+  document.getElementById('lv-modal').innerHTML = `
+    <div class="lv-head ${d.urgent ? 'urgent' : ''}">
+      <div class="lv-avatar">${d.name[0]}</div>
+      <div class="lv-head-info">
+        <div class="lv-name">${d.name}
+          <span class="badge emp-rank">${d.rank}</span>
+          <span class="badge ${d.typeCls}">${d.type}</span>
+          ${d.badge ? `<span class="badge ${d.urgent ? 'urgent' : 'warning'}">${d.badge}</span>` : ''}
+        </div>
+        <div class="lv-meta">${d.dept} · ${d.email} · 到職 ${d.hire}（年資 ${d.tenure}）${d.isSales ? '· <span style="color:var(--success);font-weight:700;">業務人員</span>' : ''}</div>
+      </div>
+      <button class="lv-close" onclick="closeLeave()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="lv-body">
+      <div class="lv-row-grid">
+        <div class="l">期間</div><div class="v">${d.period}</div>
+        <div class="l">總時數</div><div class="v">${d.hours} 小時（${d.days} 日）</div>
+        <div class="l">請假事由</div><div class="v">${d.reason}</div>
+        <div class="l">薪資</div><div class="v"><span class="badge ${d.payCls}">${d.pay}</span></div>
+        <div class="l">職務代理人</div><div class="v">${d.agent}</div>
+        <div class="l">申請時間</div><div class="v">${d.applyTime}</div>
+      </div>
+
+      <div class="lv-section">
+        <div class="lv-section-title">📎 證明文件</div>
+        ${docHtml}
+      </div>
+
+      <div class="lv-section">
+        <div class="lv-section-title">🤖 AI 自動驗證</div>
+        <div class="lv-ai-card ${d.urgent ? 'urgent' : ''}">
+          <div class="lv-ai-list">
+            ${d.aiVerify.map(v => `
+              <div class="item">
+                <span>${v.ok ? '✅' : v.warn ? '⚠️' : '❌'}</span>
+                <span>${v.text}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+
+      <div class="lv-section">
+        <div class="lv-section-title">📋 核決流程</div>
+        <div class="lv-approval-flow">
+          ${d.approval.map((a, i) => `
+            ${i > 0 ? '<span class="lv-approval-arrow">→</span>' : ''}
+            <div class="lv-approval-step ${a.status}">
+              <span>${a.status === 'done' ? '✓' : a.status === 'current' ? '👀' : '⏳'}</span>
+              <span>${a.name}</span>
+              <span style="opacity:0.6;font-size:10px;">${a.time}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="lv-section">
+        <div class="lv-section-title">📊 申請人本年度請假概況</div>
+        <div class="lv-history">
+          <div class="lv-history-cell"><div class="lv-history-l">本年總請假</div><div class="lv-history-v">${d.history.used}</div></div>
+          <div class="lv-history-cell"><div class="lv-history-l">病假</div><div class="lv-history-v">${d.history.sick}</div></div>
+          <div class="lv-history-cell"><div class="lv-history-l">特休使用</div><div class="lv-history-v">${d.history.special}</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lv-foot">
+      <div class="lv-foot-info">申請編號 LR-2026-${String(Math.abs(d.name.charCodeAt(0))).slice(0,3)}284</div>
+      <div class="lv-foot-actions">
+        <button class="lv-btn lv-btn-ghost" onclick="closeLeave()">關閉</button>
+        ${d.urgent && d.aiVerify.some(v => v.warn) ?
+          `<button class="lv-btn lv-btn-danger" onclick="rejectLeave('${d.name}')">⚠ 退回 / 待釐清</button>` :
+          `<button class="lv-btn lv-btn-ghost" onclick="rejectLeave('${d.name}')">退回</button>`
+        }
+        <button class="lv-btn lv-btn-primary" onclick="approveLeave('${d.name}')">${d.approval.length > 2 ? '✓ 批准並上呈' : '✓ 批准'}</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('lv-backdrop').classList.add('show');
+}
+
+function closeLeave() {
+  document.getElementById('lv-backdrop').classList.remove('show');
+}
+
+function approveLeave(name) {
+  closeLeave();
+  const toast = document.getElementById('toast');
+  toast.textContent = `✅ 已批准 ${name} 的請假單，已通知申請人 + 職務代理人`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+  // 把該員工的所有「批准」按鈕變灰
+  document.querySelectorAll('button').forEach(b => {
+    if (b.textContent.includes('批准') && b.getAttribute('onclick') && b.getAttribute('onclick').includes(name)) {
+      b.textContent = '✓ 已批准';
+      b.style.background = '#94a3b8';
+      b.disabled = true;
+    }
+  });
+}
+
+function rejectLeave(name) {
+  if (!confirm(`確定退回 ${name} 的請假單？\n申請人將收到通知說明補件需求。`)) return;
+  closeLeave();
+  const toast = document.getElementById('toast');
+  toast.style.background = '#dc2626';
+  toast.style.boxShadow = '0 8px 20px rgba(220,38,38,0.3)';
+  toast.textContent = `⚠️ 已退回 ${name} 的請假單，已通知申請人補件`;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+    toast.style.background = '';
+    toast.style.boxShadow = '';
+  }, 3000);
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLeave(); });
+
+function approve(btn, name) {
+  btn.textContent = '✓ 已批准';
+  btn.style.background = '#94a3b8';
+  btn.disabled = true;
+  const toast = document.getElementById('toast');
+  toast.textContent = `✅ 已批准 ${name} 的請假單，已自動通知申請人 + 職務代理人`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function show1on1(name) {
+  alert(`已為 ${name} 安排 1-on-1：\n\n📅 時間：5/29（五）14:00-15:00\n📍 地點：會議室 B\n📋 AI 建議談話重點：\n  · 關心健康狀況\n  · 了解週一頻繁請假原因\n  · 工作負荷是否合理\n  · 是否需要支援\n\n✅ 已透過 LINE 通知對方`);
+}
+
+// donut
+function drawDonut() {
+  const svg = document.getElementById('donut');
+  const data = [
+    { name: '特別休假', val: 186, color: '#16a34a' },
+    { name: '病假', val: 112, color: '#ea580c' },
+    { name: '事假', val: 78, color: '#94a3b8' },
+    { name: '家庭照顧假', val: 48, color: '#7c3aed' },
+    { name: '補休', val: 24, color: '#0891b2' },
+    { name: '其他', val: 14, color: '#cbd5e1' }
+  ];
+  const total = data.reduce((s, d) => s + d.val, 0);
+  const cx = 50, cy = 50, r = 40;
+  let cum = 0, out = '';
+  data.forEach(d => {
+    const sa = (cum / total) * Math.PI * 2 - Math.PI / 2;
+    cum += d.val;
+    const ea = (cum / total) * Math.PI * 2 - Math.PI / 2;
+    const x1 = cx + r * Math.cos(sa), y1 = cy + r * Math.sin(sa);
+    const x2 = cx + r * Math.cos(ea), y2 = cy + r * Math.sin(ea);
+    const la = (ea - sa) > Math.PI ? 1 : 0;
+    out += `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${la} 1 ${x2} ${y2} Z" fill="${d.color}"/>`;
+  });
+  out += `<circle cx="${cx}" cy="${cy}" r="22" fill="white"/>`;
+  out += `<text x="${cx}" y="${cy-2}" font-size="13" font-weight="700" text-anchor="middle" fill="#0f172a">${total}</text>`;
+  out += `<text x="${cx}" y="${cy+9}" font-size="6" fill="#94a3b8" text-anchor="middle">總時數</text>`;
+  svg.innerHTML = out;
+
+  document.getElementById('legend').innerHTML = data.map(d => `
+    <div class="legend-item">
+      <div class="legend-dot" style="background:${d.color}"></div>
+      <div class="legend-name">${d.name}</div>
+      <div class="legend-val">${d.val} hr</div>
+    </div>
+  `).join('');
+}
+drawDonut();
+</script>
+</body>
+</html>

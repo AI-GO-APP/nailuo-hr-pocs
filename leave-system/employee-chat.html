@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>耐落 AI 請假助手 ｜ 員工端</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #2563EB; --primary-d: #1D4ED8; --primary-l: #DBEAFE;
+  --danger: #DC2626; --danger-l: #FEE2E2;
+  --warning: #EA580C; --warning-l: #FFEDD5;
+  --yellow: #CA8A04; --yellow-l: #FEF3C7;
+  --success: #16A34A; --success-l: #DCFCE7;
+  --purple: #7C3AED; --purple-l: #EDE9FE;
+  --text: #0F172A; --text-2: #475569; --text-3: #94A3B8;
+  --border: #E2E8F0; --bg: #F8FAFC;
+}
+body { font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif; color: var(--text); background: var(--bg); font-size: 14px; height: 100vh; overflow: hidden; }
+button, input, textarea { font-family: inherit; }
+button { cursor: pointer; border: none; background: none; color: inherit; }
+.app { display: grid; grid-template-columns: 232px 320px minmax(0, 1fr); height: 100vh; }
+
+/* ===== 響應式 ===== */
+@media (max-width: 1280px) {
+  .app { grid-template-columns: 200px 280px minmax(0, 1fr); }
+}
+@media (max-width: 1024px) {
+  .app { grid-template-columns: 64px 260px minmax(0, 1fr); }
+  .sb .brand-name, .sb .brand-sub, .sb .nav-label, .sb .nav-item span:not(.badge-n), .sb .user-card > div:not(.avatar) { display: none; }
+  .sb .nav-item { justify-content: center; padding: 9px 0; font-size: 18px; }
+  .sb .nav-item.active { background: var(--primary-l); }
+  .sb .brand { justify-content: center; padding: 16px 8px; }
+}
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .sb { display: none; }
+  .balance { display: none; }
+}
+
+/* sidebar */
+.sb { background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+.brand { padding: 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.brand-logo { width: 36px; height: 36px; background: linear-gradient(135deg, #2563EB, #7C3AED); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; }
+.brand-name { font-weight: 700; font-size: 15px; }
+.brand-sub { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+.nav { flex: 1; padding: 12px 8px; }
+.nav-label { font-size: 11px; color: var(--text-3); padding: 14px 12px 6px; font-weight: 500; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; color: var(--text-2); cursor: pointer; font-size: 14px; margin: 1px 0; }
+.nav-item:hover { background: #f1f5f9; }
+.nav-item.active { background: var(--primary-l); color: var(--primary); font-weight: 600; }
+.nav-item .badge-n { margin-left: auto; font-size: 10px; padding: 1px 6px; border-radius: 10px; background: var(--danger); color: white; }
+.user-card { margin: 8px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; gap: 10px; }
+.avatar { width: 32px; height: 32px; background: linear-gradient(135deg, #2563EB, #7C3AED); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+.user-name { font-size: 13px; font-weight: 600; }
+.user-role { font-size: 11px; color: var(--text-3); }
+
+/* leave balance panel */
+.balance { background: white; border-right: 1px solid var(--border); padding: 20px; overflow-y: auto; }
+.balance-head { margin-bottom: 16px; }
+.balance-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.balance-sub { font-size: 11px; color: var(--text-3); }
+.balance-emp-card {
+  background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+  border-radius: 12px;
+  padding: 16px;
+  color: white;
+  margin-bottom: 16px;
+}
+.balance-emp-name { font-size: 16px; font-weight: 700; }
+.balance-emp-info { font-size: 11px; opacity: 0.9; margin-top: 2px; }
+.balance-emp-tags { display: flex; gap: 4px; margin-top: 10px; flex-wrap: wrap; }
+.balance-emp-tag { font-size: 10px; padding: 2px 6px; background: rgba(255,255,255,0.25); border-radius: 4px; font-weight: 600; }
+
+.bal-section-title { font-size: 11px; color: var(--text-3); font-weight: 600; margin: 14px 0 8px; letter-spacing: 0.5px; }
+.bal-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+.bal-icon { font-size: 16px; }
+.bal-content { flex: 1; }
+.bal-name { font-weight: 600; }
+.bal-progress { height: 4px; background: #f1f5f9; border-radius: 2px; margin-top: 4px; overflow: hidden; }
+.bal-fill { height: 100%; border-radius: 2px; }
+.bal-value { font-size: 12px; font-weight: 700; text-align: right; line-height: 1.2; }
+.bal-value strong { font-size: 14px; }
+
+.notice {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: #fef3c7;
+  border-left: 3px solid #fbbf24;
+  border-radius: 6px;
+  font-size: 11px;
+  color: #78350f;
+  line-height: 1.6;
+}
+
+/* chat */
+.chat { display: flex; flex-direction: column; background: var(--bg); min-height: 0; height: 100vh; overflow: hidden; }
+.chat-head { padding: 16px 24px; background: white; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.ai-avatar {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, #f97316, #dc2626);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.ai-info-name { font-weight: 700; font-size: 15px; }
+.ai-info-status { font-size: 11px; color: var(--success); display: flex; align-items: center; gap: 4px; }
+.ai-dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; }
+
+.msgs {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 14px;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.msg { display: flex; gap: 10px; max-width: 100%; animation: slideIn .3s ease; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.msg.ai { align-self: flex-start; }
+.msg.me { align-self: flex-end; flex-direction: row-reverse; }
+.msg-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
+.msg.ai .msg-avatar { background: linear-gradient(135deg, #f97316, #dc2626); }
+.msg.me .msg-avatar { background: linear-gradient(135deg, #2563EB, #7C3AED); color: white; font-weight: 700; }
+.msg-bubble {
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.7;
+  word-break: break-word;
+  min-width: 0;
+  max-width: 100%;
+}
+.msg-bubble p { margin: 0; }
+.msg-bubble p + p { margin-top: 6px; }
+.msg-bubble ul { margin: 6px 0; padding-left: 18px; }
+.msg-bubble li { margin: 2px 0; }
+.msg.ai .msg-bubble { flex: 1; min-width: 0; max-width: min(560px, calc(100% - 50px)); }
+.msg.me .msg-bubble { max-width: min(460px, calc(100% - 50px)); }
+.msg .leave-card { width: 100%; max-width: 100%; }
+.msg.ai .msg-bubble { background: white; border-top-left-radius: 4px; box-shadow: 0 1px 2px rgba(15,23,42,0.06); }
+.msg.me .msg-bubble { background: var(--primary); color: white; border-top-right-radius: 4px; }
+
+.msg-bubble strong { font-weight: 700; }
+.msg-bubble .ok { color: var(--success); font-weight: 700; }
+.msg-bubble .warn { color: var(--warning); font-weight: 700; }
+.msg-bubble .danger { color: var(--danger); font-weight: 700; }
+
+/* leave card preview inside chat — compact */
+.leave-card {
+  background: linear-gradient(135deg, #DBEAFE 0%, #EDE9FE 100%);
+  border: 1px solid #93C5FD;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 8px;
+}
+.leave-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.leave-card-title { font-weight: 700; font-size: 13px; }
+.leave-card-status { font-size: 10px; padding: 2px 8px; border-radius: 999px; background: var(--success); color: white; font-weight: 600; }
+.leave-card-summary { font-size: 13px; font-weight: 700; color: var(--primary-d); margin: 6px 0 10px; padding: 8px 10px; background: rgba(255,255,255,0.6); border-radius: 6px; }
+.leave-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; font-size: 11.5px; }
+.leave-card-cell { display: flex; gap: 4px; align-items: baseline; }
+.leave-card-cell .l { color: var(--text-3); flex-shrink: 0; font-size: 10.5px; }
+.leave-card-cell .v { font-weight: 600; color: var(--text); }
+.leave-card-actions { display: flex; gap: 6px; margin-top: 10px; }
+.leave-btn { padding: 7px 12px; border-radius: 7px; font-size: 12px; font-weight: 600; flex: 1; }
+.leave-btn.primary { background: var(--primary); color: white; }
+.leave-btn.primary:hover { background: var(--primary-d); }
+.leave-btn.ghost { background: white; border: 1px solid var(--border); color: var(--text-2); }
+.leave-btn.ghost:hover { background: var(--bg); }
+
+/* warning card */
+.warn-card {
+  background: linear-gradient(135deg, #FEF3C7 0%, #FED7AA 100%);
+  border: 1px solid #fbbf24;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #78350f;
+  line-height: 1.7;
+}
+.warn-card strong { color: #92400e; }
+
+/* quick reply chips */
+.chips { display: flex; gap: 8px; padding: 12px 24px 0; flex-wrap: wrap; width: 100%; max-width: 880px; margin: 0 auto; flex-shrink: 0; }
+.chip {
+  padding: 7px 14px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.chip:hover { background: var(--primary-l); border-color: var(--primary); color: var(--primary); }
+
+/* input */
+.input-area { padding: 16px 24px 20px; background: var(--bg); width: 100%; max-width: 880px; margin: 0 auto; flex-shrink: 0; }
+.input-area > .input-box { margin: 0; }
+.input-box {
+  display: flex; gap: 8px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 8px 8px 8px 16px;
+  box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+}
+.input-box:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-l); }
+.input-field { flex: 1; border: none; outline: none; font-size: 14px; padding: 8px 0; background: transparent; }
+.send-btn {
+  background: var(--primary);
+  color: white;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.send-btn:hover { background: var(--primary-d); }
+.send-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+.typing {
+  display: inline-flex; gap: 3px; padding: 4px 0;
+}
+.typing span {
+  width: 6px; height: 6px;
+  background: var(--text-3);
+  border-radius: 50%;
+  animation: typing 1.2s infinite ease-in-out;
+}
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+.proto-tag { position: fixed; bottom: 14px; right: 16px; background: rgba(15,23,42,0.8); color: white; padding: 5px 10px; border-radius: 6px; font-size: 11px; pointer-events: none; z-index: 100; }
+
+/* ============ 多頁系統 ============ */
+.main { display: flex; flex-direction: column; background: var(--bg); height: 100vh; overflow: hidden; min-height: 0; }
+.view { display: none; flex-direction: column; height: 100%; min-height: 0; overflow: hidden; }
+.view.active { display: flex; }
+.view-head {
+  padding: 18px 28px; background: white; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-shrink: 0;
+}
+.view-title { font-size: 20px; font-weight: 700; }
+.view-sub { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+.view-body { flex: 1; overflow-y: auto; padding: 24px 28px; min-height: 0; }
+.view-body .container { max-width: 1000px; margin: 0 auto; }
+
+/* page kpi */
+.page-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.page-kpi { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.page-kpi-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 8px; }
+.page-kpi-icon.b { background: #DBEAFE; } .page-kpi-icon.g { background: #DCFCE7; }
+.page-kpi-icon.o { background: #FFEDD5; } .page-kpi-icon.r { background: #FEE2E2; }
+.page-kpi-icon.p { background: #EDE9FE; }
+.page-kpi-l { font-size: 11px; color: var(--text-2); margin-bottom: 2px; }
+.page-kpi-v { font-size: 20px; font-weight: 700; line-height: 1.1; }
+.page-kpi-m { font-size: 11px; color: var(--text-3); margin-top: 3px; }
+
+/* panel */
+.p-panel { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 14px; }
+.p-panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.p-panel-title { font-size: 15px; font-weight: 700; }
+.p-panel-sub { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+/* table */
+.p-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.p-table thead th { text-align: left; padding: 10px 12px; font-weight: 500; color: var(--text-2); font-size: 11.5px; border-bottom: 1px solid var(--border); background: var(--bg); white-space: nowrap; }
+.p-table tbody td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
+.p-table tbody tr:hover { background: #fafbfc; }
+.p-table tbody tr:last-child td { border: 0; }
+
+/* badge */
+.b-tag { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 500; }
+.b-tag.success { background: #DCFCE7; color: #15803d; }
+.b-tag.warning { background: #FEF3C7; color: #b45309; }
+.b-tag.danger { background: #FEE2E2; color: #b91c1c; }
+.b-tag.info { background: #DBEAFE; color: #1d4ed8; }
+.b-tag.gray { background: #f1f5f9; color: var(--text-2); }
+.b-tag.purple { background: #EDE9FE; color: #6d28d9; }
+.b-tag.pink { background: #FCE7F3; color: #be185d; }
+
+/* filter row */
+.filter-row { display: flex; gap: 10px; margin-bottom: 14px; align-items: center; flex-wrap: wrap; }
+.filter-row select, .filter-row input[type="search"], .filter-row input[type="text"] {
+  padding: 7px 12px; border: 1px solid var(--border); border-radius: 7px;
+  font-size: 13px; background: white; color: var(--text);
+}
+.filter-row select:focus, .filter-row input:focus { outline: none; border-color: var(--primary); }
+.f-btn { padding: 7px 13px; border: 1px solid var(--border); background: white; border-radius: 7px; font-size: 13px; color: var(--text-2); }
+.f-btn:hover { background: var(--bg); }
+.f-btn.on { background: var(--primary-l); border-color: var(--primary); color: var(--primary-d); }
+
+/* attendance hero */
+.att-hero { background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%); border-radius: 16px; padding: 24px 28px; color: white; margin-bottom: 18px; }
+.att-hero-row { display: flex; align-items: center; gap: 24px; }
+.att-hero-time { font-size: 38px; font-weight: 700; letter-spacing: 1px; line-height: 1; }
+.att-hero-status { font-size: 13px; opacity: 0.9; margin-top: 6px; }
+.att-hero-info { flex: 1; }
+.att-hero-stat { display: flex; gap: 28px; margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.2); }
+.att-stat-l { font-size: 11px; opacity: 0.8; }
+.att-stat-v { font-size: 22px; font-weight: 700; }
+.punch-btn {
+  padding: 14px 32px; background: white; color: var(--primary-d);
+  border-radius: 12px; font-size: 16px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 8px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  transition: transform 0.15s;
+}
+.punch-btn:hover { transform: translateY(-2px); }
+.punch-btn.danger { background: #fee2e2; color: #991b1b; }
+
+/* balance detail grid */
+.bal-detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.bal-detail-card {
+  background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+}
+.bal-detail-card.danger { border-color: #fecaca; background: linear-gradient(135deg, #fff 60%, #fee2e2); }
+.bal-detail-card.success { border-color: #bbf7d0; background: linear-gradient(135deg, #fff 60%, #dcfce7); }
+.bal-detail-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.bal-detail-icon { font-size: 24px; }
+.bal-detail-name { font-weight: 700; font-size: 14px; }
+.bal-detail-meta { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.bal-detail-bar { height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden; margin: 10px 0; }
+.bal-detail-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+.bal-detail-stats { display: flex; justify-content: space-between; font-size: 12px; }
+.bal-detail-stats .l { color: var(--text-3); }
+.bal-detail-stats .v { font-weight: 700; }
+
+/* policy cards */
+.policy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 14px; }
+.policy-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.policy-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.policy-icon { font-size: 22px; }
+.policy-name { font-weight: 700; font-size: 14px; }
+.policy-tag { font-size: 10px; padding: 2px 7px; border-radius: 999px; background: var(--bg); color: var(--text-2); margin-left: auto; }
+.policy-body { font-size: 12px; line-height: 1.7; color: var(--text-2); }
+.policy-rules { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: 12px; margin-top: 8px; }
+.policy-rules .l { color: var(--text-3); font-size: 11px; }
+.policy-rules .v { color: var(--text); font-weight: 600; font-size: 12px; }
+
+/* agent card */
+.agent-card {
+  background: white; border: 1px solid var(--border); border-radius: 12px; padding: 18px;
+  display: grid; grid-template-columns: 56px 1fr auto; gap: 14px; align-items: center;
+  margin-bottom: 10px;
+}
+.agent-avatar { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 22px; color: white; }
+.agent-name { font-weight: 700; font-size: 15px; }
+.agent-role { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+.agent-tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; margin-right: 4px; }
+
+/* toast */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--success); color: white;
+  padding: 12px 20px; border-radius: 10px;
+  font-size: 13px; font-weight: 600;
+  box-shadow: 0 8px 20px rgba(22,163,74,0.3);
+  z-index: 99;
+  display: none;
+  animation: slideInBot .3s;
+}
+@keyframes slideInBot { from { transform: translate(-50%, 20px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+.toast.show { display: block; }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- Left sidebar -->
+<aside class="sb">
+  <div class="brand">
+    <div class="brand-logo">🏖️</div>
+    <div>
+      <div class="brand-name">耐落請假系統</div>
+      <div class="brand-sub">員工自助平台</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <div class="nav-label">日常工作</div>
+    <div class="nav-item active" onclick="navTo('chat', this)">💬 AI 對話請假</div>
+    <div class="nav-item" onclick="navTo('records', this)">📋 我的請假紀錄 <span class="badge-n">2</span></div>
+    <div class="nav-item" onclick="navTo('attendance', this)">🗓️ 出勤打卡</div>
+    <div class="nav-item" onclick="navTo('balance', this)">📊 我的假期額度</div>
+    <div class="nav-label">資源</div>
+    <div class="nav-item" onclick="navTo('policy', this)">📖 請假規範說明</div>
+    <div class="nav-item" onclick="navTo('agent', this)">👥 我的代理人</div>
+  </nav>
+  <div class="user-card">
+    <div class="avatar">張</div>
+    <div>
+      <div class="user-name">張文武</div>
+      <div class="user-role">業務部 · 五職等</div>
+    </div>
+  </div>
+</aside>
+
+<!-- Middle: leave balance -->
+<div class="balance">
+  <div class="balance-head">
+    <div class="balance-title">我的假期額度</div>
+    <div class="balance-sub">2026 年 · 即時同步</div>
+  </div>
+
+  <div class="balance-emp-card">
+    <div class="balance-emp-name">張文武</div>
+    <div class="balance-emp-info">業務部 · 五職等 · 到職 2022/03/15</div>
+    <div class="balance-emp-tags">
+      <div class="balance-emp-tag">年資 4 年 2 月</div>
+      <div class="balance-emp-tag">業務人員</div>
+      <div class="balance-emp-tag">不扣薪資格</div>
+    </div>
+  </div>
+
+  <div class="bal-section-title">📅 今年度可用假期</div>
+
+  <div class="bal-item">
+    <div class="bal-icon">🌴</div>
+    <div class="bal-content">
+      <div class="bal-name">特別休假</div>
+      <div class="bal-progress"><div class="bal-fill" style="width:78%;background:#16a34a"></div></div>
+    </div>
+    <div class="bal-value"><strong style="color:#16a34a">11</strong> / 14 日</div>
+  </div>
+
+  <div class="bal-item">
+    <div class="bal-icon">📝</div>
+    <div class="bal-content">
+      <div class="bal-name">事假</div>
+      <div class="bal-progress"><div class="bal-fill" style="width:21%;background:#94a3b8"></div></div>
+    </div>
+    <div class="bal-value"><strong>11</strong> / 14 日</div>
+  </div>
+
+  <div class="bal-item">
+    <div class="bal-icon">🤒</div>
+    <div class="bal-content">
+      <div class="bal-name">病假</div>
+      <div class="bal-progress"><div class="bal-fill" style="width:3%;background:#94a3b8"></div></div>
+    </div>
+    <div class="bal-value"><strong>29</strong> / 30 日</div>
+  </div>
+
+  <div class="bal-item">
+    <div class="bal-icon">👨‍👩‍👧</div>
+    <div class="bal-content">
+      <div class="bal-name">家庭照顧假</div>
+      <div class="bal-progress"><div class="bal-fill" style="width:0%;background:#94a3b8"></div></div>
+    </div>
+    <div class="bal-value"><strong>7</strong> / 7 日</div>
+  </div>
+
+  <div class="bal-item">
+    <div class="bal-icon">🔄</div>
+    <div class="bal-content">
+      <div class="bal-name">補休</div>
+      <div class="bal-progress"><div class="bal-fill" style="width:60%;background:#0891b2"></div></div>
+    </div>
+    <div class="bal-value"><strong style="color:#0891b2">12</strong> / 20 小時</div>
+  </div>
+
+  <div class="bal-section-title">💝 特殊假別（依事由申請）</div>
+
+  <div class="bal-item">
+    <div class="bal-icon">💍</div>
+    <div class="bal-content"><div class="bal-name">婚假</div></div>
+    <div class="bal-value">8 日</div>
+  </div>
+
+  <div class="bal-item">
+    <div class="bal-icon">🕊️</div>
+    <div class="bal-content"><div class="bal-name">喪假</div></div>
+    <div class="bal-value">3-8 日</div>
+  </div>
+
+  <div class="bal-item">
+    <div class="bal-icon">👶</div>
+    <div class="bal-content"><div class="bal-name">陪產（檢）假</div></div>
+    <div class="bal-value">7 日</div>
+  </div>
+
+  <div class="notice">
+    💡 <strong>提醒：</strong>你身為「業務人員」，事假/病假 30 日內不扣薪資（病假超過 30 日除外）。
+  </div>
+</div>
+
+<!-- Right: main area with multiple views -->
+<div class="main">
+
+  <!-- ============ VIEW: AI Chat ============ -->
+  <div class="view active chat" id="v-chat">
+    <div class="chat-head">
+      <div class="ai-avatar">🤖</div>
+      <div>
+        <div class="ai-info-name">耐落 AI 請假助理</div>
+        <div class="ai-info-status"><span class="ai-dot"></span>已連線 · 24/7 服務</div>
+      </div>
+    </div>
+
+    <div class="msgs" id="msgs">
+      <div class="msg ai">
+        <div class="msg-avatar">🤖</div>
+        <div class="msg-bubble">
+          <p>嗨 <strong>張文武</strong>，我是耐落 AI 請假助理 👋</p>
+          <p>跟我直接說你想請什麼假、什麼時候，我會幫你：</p>
+          <ul>
+            <li>✓ 自動檢查你的假期額度</li>
+            <li>✓ 提醒需要的證明文件</li>
+            <li>✓ 計算薪資扣減</li>
+            <li>✓ 找到正確的核決主管</li>
+            <li>✓ 一鍵產出請假單</li>
+          </ul>
+          <p style="color:var(--text-3);font-size:12px;">點下方快速範例試試 👇</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="chips" id="chips">
+      <div class="chip" onclick="quickAsk('明天我想請一天特休')">🌴 明天請特休</div>
+      <div class="chip" onclick="quickAsk('我頭很痛，想請病假兩天')">🤒 想請病假 2 天</div>
+      <div class="chip" onclick="quickAsk('下個月我要結婚，要怎麼請婚假？')">💍 結婚要請婚假</div>
+      <div class="chip" onclick="quickAsk('我女兒明天打疫苗，我想請假照顧她')">👨‍👩‍👧 小孩打疫苗</div>
+      <div class="chip" onclick="quickAsk('明天颱風來，可以不上班嗎？')">🌪️ 颱風天</div>
+      <div class="chip" onclick="quickAsk('我想請特休 20 天環遊世界')">✈️ 請 20 天特休</div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-box">
+        <input class="input-field" id="input" placeholder="告訴 AI 你想請什麼假…" onkeydown="if(event.key==='Enter') send()" />
+        <button class="send-btn" onclick="send()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VIEW: 我的請假紀錄 ============ -->
+  <div class="view" id="v-records">
+    <div class="view-head">
+      <div>
+        <div class="view-title">📋 我的請假紀錄</div>
+        <div class="view-sub">2026 年度 · 共 16 筆申請</div>
+      </div>
+      <button class="btn btn-primary" onclick="navTo('chat', document.querySelector('[onclick*=chat]'))" style="padding:9px 14px;background:#2563EB;color:white;border-radius:8px;font-size:13px;font-weight:600;">＋ 新增請假</button>
+    </div>
+    <div class="view-body">
+      <div class="container">
+
+        <div class="page-kpi-grid">
+          <div class="page-kpi"><div class="page-kpi-icon b">📋</div><div class="page-kpi-l">本年度申請</div><div class="page-kpi-v">16 件</div><div class="page-kpi-m">總時數 128 hr</div></div>
+          <div class="page-kpi"><div class="page-kpi-icon o">⏳</div><div class="page-kpi-l">待主管核</div><div class="page-kpi-v" style="color:#EA580C;">2 件</div><div class="page-kpi-m">最久等 35 分</div></div>
+          <div class="page-kpi"><div class="page-kpi-icon g">✅</div><div class="page-kpi-l">已核准</div><div class="page-kpi-v" style="color:#16A34A;">13 件</div><div class="page-kpi-m">通過率 92%</div></div>
+          <div class="page-kpi"><div class="page-kpi-icon r">❌</div><div class="page-kpi-l">已退回</div><div class="page-kpi-v">1 件</div><div class="page-kpi-m">證明文件不齊</div></div>
+        </div>
+
+        <div class="p-panel">
+          <div class="filter-row">
+            <input type="search" placeholder="🔍 搜尋假別、事由..." style="flex:1;min-width:200px;" />
+            <select><option>所有假別</option><option>特休</option><option>事假</option><option>病假</option><option>家庭照顧假</option><option>婚假</option><option>喪假</option></select>
+            <select><option>所有狀態</option><option>待簽核</option><option>已核准</option><option>已退回</option></select>
+            <select><option>2026 全年</option><option>本月</option><option>上月</option></select>
+            <button class="f-btn">📤 匯出</button>
+          </div>
+          <table class="p-table">
+            <thead><tr><th>申請日</th><th>假別</th><th>期間</th><th>時數</th><th>事由</th><th>核決主管</th><th>狀態</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>05/28 14:22</td><td><span class="b-tag warning">病假</span></td><td>5/28-29</td><td>16 hr</td><td>感冒高燒</td><td>李志明</td><td><span class="b-tag info">待主管核</span></td><td><button class="f-btn">查看</button></td></tr>
+              <tr><td>05/27 09:18</td><td><span class="b-tag purple">家照假</span></td><td>5/28 半日</td><td>4 hr</td><td>女兒家長會</td><td>李志明</td><td><span class="b-tag info">待主管核</span></td><td><button class="f-btn">查看</button></td></tr>
+              <tr><td>05/22 11:05</td><td><span class="b-tag success">特休</span></td><td>5/30-6/01</td><td>24 hr</td><td>家庭旅遊</td><td>李志明</td><td><span class="b-tag success">已核准</span></td><td><button class="f-btn">查看</button></td></tr>
+              <tr><td>05/15 16:42</td><td><span class="b-tag warning">病假</span></td><td>5/16</td><td>8 hr</td><td>感冒</td><td>李志明</td><td><span class="b-tag success">已核准</span></td><td><button class="f-btn">查看</button></td></tr>
+              <tr><td>05/06 10:28</td><td><span class="b-tag success">特休</span></td><td>5/06</td><td>8 hr</td><td>個人事務</td><td>李志明</td><td><span class="b-tag success">已核准</span></td><td><button class="f-btn">查看</button></td></tr>
+              <tr><td>04/29 13:55</td><td><span class="b-tag gray">事假</span></td><td>4/30 半日</td><td>4 hr</td><td>個人事務</td><td>李志明</td><td><span class="b-tag success">已核准</span></td><td><button class="f-btn">查看</button></td></tr>
+              <tr><td>04/22 09:02</td><td><span class="b-tag warning">病假</span></td><td>4/22-23</td><td>16 hr</td><td>身體不適</td><td>李志明</td><td><span class="b-tag danger">已退回</span></td><td><button class="f-btn">查看原因</button></td></tr>
+              <tr><td>04/12 14:30</td><td><span class="b-tag success">特休</span></td><td>4/15</td><td>8 hr</td><td>清明後補休</td><td>李志明</td><td><span class="b-tag success">已核准</span></td><td><button class="f-btn">查看</button></td></tr>
+              <tr><td>03/28 11:18</td><td><span class="b-tag purple">家照假</span></td><td>3/29</td><td>8 hr</td><td>媽媽就醫陪同</td><td>李志明</td><td><span class="b-tag success">已核准</span></td><td><button class="f-btn">查看</button></td></tr>
+              <tr><td>03/15 09:35</td><td><span class="b-tag success">特休</span></td><td>3/15</td><td>8 hr</td><td>到職滿年休</td><td>李志明</td><td><span class="b-tag success">已核准</span></td><td><button class="f-btn">查看</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VIEW: 出勤打卡 ============ -->
+  <div class="view" id="v-attendance">
+    <div class="view-head">
+      <div>
+        <div class="view-title">🗓️ 出勤打卡</div>
+        <div class="view-sub" id="att-today">2026/05/29（五）· 即時打卡</div>
+      </div>
+    </div>
+    <div class="view-body">
+      <div class="container">
+
+        <div class="att-hero">
+          <div class="att-hero-row">
+            <div class="att-hero-info">
+              <div style="font-size:11px;opacity:0.85;">今日狀態</div>
+              <div class="att-hero-time" id="att-clock">--:--</div>
+              <div class="att-hero-status">已上班 · 上午 09:02 打卡 · 工時 <strong id="att-worked">5 hr 28 min</strong></div>
+            </div>
+            <button class="punch-btn danger" onclick="punchOut()">🔴 打下班卡</button>
+          </div>
+          <div class="att-hero-stat">
+            <div><div class="att-stat-l">上班打卡</div><div class="att-stat-v">09:02</div></div>
+            <div><div class="att-stat-l">午休</div><div class="att-stat-v">12:30 - 13:30</div></div>
+            <div><div class="att-stat-l">預計下班</div><div class="att-stat-v">18:00</div></div>
+            <div><div class="att-stat-l">本月遲到</div><div class="att-stat-v">0 次</div></div>
+          </div>
+        </div>
+
+        <div class="page-kpi-grid">
+          <div class="page-kpi"><div class="page-kpi-icon b">📆</div><div class="page-kpi-l">本月應出勤</div><div class="page-kpi-v">21 / 22 天</div><div class="page-kpi-m">出勤率 95.5%</div></div>
+          <div class="page-kpi"><div class="page-kpi-icon g">⏰</div><div class="page-kpi-l">本月總工時</div><div class="page-kpi-v">176.5 hr</div><div class="page-kpi-m">加班 8.5 hr</div></div>
+          <div class="page-kpi"><div class="page-kpi-icon o">⚠️</div><div class="page-kpi-l">異常打卡</div><div class="page-kpi-v">1 次</div><div class="page-kpi-m">5/15 忘打卡（已補）</div></div>
+          <div class="page-kpi"><div class="page-kpi-icon p">🔄</div><div class="page-kpi-l">可用補休</div><div class="page-kpi-v">12 hr</div><div class="page-kpi-m">由加班 8.5 hr 換</div></div>
+        </div>
+
+        <div class="p-panel">
+          <div class="p-panel-head">
+            <div>
+              <div class="p-panel-title">📅 最近 7 天打卡紀錄</div>
+              <div class="p-panel-sub">5/23 - 5/29</div>
+            </div>
+            <button class="f-btn">📤 匯出</button>
+          </div>
+          <table class="p-table">
+            <thead><tr><th>日期</th><th>星期</th><th>上班</th><th>下班</th><th>工時</th><th>異常</th><th>備註</th></tr></thead>
+            <tbody>
+              <tr style="background:#eff6ff;"><td><strong>05/29</strong></td><td>五</td><td>09:02</td><td>—</td><td>進行中</td><td>—</td><td><span class="b-tag info">今日</span></td></tr>
+              <tr><td>05/28</td><td>四</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="b-tag warning">病假</span></td></tr>
+              <tr><td>05/27</td><td>三</td><td>08:55</td><td>18:32</td><td>8.6 hr</td><td>—</td><td>加班 0.5 hr</td></tr>
+              <tr><td>05/26</td><td>二</td><td>09:08</td><td>18:05</td><td>7.9 hr</td><td>—</td><td>—</td></tr>
+              <tr><td>05/23</td><td>五</td><td>08:50</td><td>17:55</td><td>8.1 hr</td><td>—</td><td>—</td></tr>
+              <tr><td>05/22</td><td>四</td><td>09:00</td><td>18:00</td><td>8.0 hr</td><td>—</td><td>—</td></tr>
+              <tr><td>05/21</td><td>三</td><td>09:02</td><td>17:58</td><td>7.9 hr</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VIEW: 我的假期額度 ============ -->
+  <div class="view" id="v-balance">
+    <div class="view-head">
+      <div>
+        <div class="view-title">📊 我的假期額度</div>
+        <div class="view-sub">2026 年度 · 即時同步</div>
+      </div>
+      <span class="b-tag success">業務人員 · 不扣薪資格</span>
+    </div>
+    <div class="view-body">
+      <div class="container">
+
+        <div class="p-panel" style="background:linear-gradient(135deg,#DBEAFE,#EDE9FE);border-color:#93C5FD;">
+          <div style="display:flex;align-items:center;gap:18px;">
+            <div style="width:60px;height:60px;background:linear-gradient(135deg,#2563EB,#7C3AED);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:30px;color:white;">👤</div>
+            <div style="flex:1;">
+              <div style="font-size:17px;font-weight:700;">張文武</div>
+              <div style="font-size:12px;color:var(--text-2);margin-top:2px;">業務部 · 五職等 · 到職 2022/03/15 · 年資 <strong>4 年 2 月</strong></div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:11px;color:var(--text-3);">下個年資跳級</div>
+              <div style="font-size:13px;font-weight:700;">2027/03/15 → 特休升至 15 日</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size:13px;font-weight:700;margin:18px 0 10px;color:var(--text-2);">📅 一般假期額度</div>
+        <div class="bal-detail-grid">
+          <div class="bal-detail-card success">
+            <div class="bal-detail-head"><div class="bal-detail-icon">🌴</div><div><div class="bal-detail-name">特別休假</div><div class="bal-detail-meta">薪資照給 · 不需證明</div></div></div>
+            <div class="bal-detail-bar"><div class="bal-detail-bar-fill" style="width:78%;background:#16a34a;"></div></div>
+            <div class="bal-detail-stats"><span class="l">已用 3 日</span><span class="v" style="color:#16a34a;">剩餘 11 日</span></div>
+            <div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,0.7);border-radius:6px;font-size:11px;color:var(--text-2);">⚠️ 提醒：5 日將於 12/31 過期，記得安排</div>
+          </div>
+
+          <div class="bal-detail-card">
+            <div class="bal-detail-head"><div class="bal-detail-icon">📝</div><div><div class="bal-detail-name">事假</div><div class="bal-detail-meta">不給薪 · 業務人員不扣</div></div></div>
+            <div class="bal-detail-bar"><div class="bal-detail-bar-fill" style="width:21%;background:#94a3b8;"></div></div>
+            <div class="bal-detail-stats"><span class="l">已用 3 日</span><span class="v">剩餘 11 日</span></div>
+          </div>
+
+          <div class="bal-detail-card">
+            <div class="bal-detail-head"><div class="bal-detail-icon">🤒</div><div><div class="bal-detail-name">病假（未住院）</div><div class="bal-detail-meta">30 日內薪資減半 · 業務不扣</div></div></div>
+            <div class="bal-detail-bar"><div class="bal-detail-bar-fill" style="width:3%;background:#94a3b8;"></div></div>
+            <div class="bal-detail-stats"><span class="l">已用 1 日</span><span class="v">剩餘 29 日</span></div>
+          </div>
+
+          <div class="bal-detail-card">
+            <div class="bal-detail-head"><div class="bal-detail-icon">👨‍👩‍👧</div><div><div class="bal-detail-name">家庭照顧假</div><div class="bal-detail-meta">併入事假 · 不給薪</div></div></div>
+            <div class="bal-detail-bar"><div class="bal-detail-bar-fill" style="width:0%;background:#94a3b8;"></div></div>
+            <div class="bal-detail-stats"><span class="l">已用 0 日</span><span class="v">剩餘 7 日</span></div>
+          </div>
+
+          <div class="bal-detail-card">
+            <div class="bal-detail-head"><div class="bal-detail-icon">🔄</div><div><div class="bal-detail-name">補休</div><div class="bal-detail-meta">由加班時數轉換</div></div></div>
+            <div class="bal-detail-bar"><div class="bal-detail-bar-fill" style="width:60%;background:#0891b2;"></div></div>
+            <div class="bal-detail-stats"><span class="l">已用 8 小時</span><span class="v" style="color:#0891b2;">剩餘 12 小時</span></div>
+          </div>
+
+          <div class="bal-detail-card">
+            <div class="bal-detail-head"><div class="bal-detail-icon">🩸</div><div><div class="bal-detail-name">生理假（女性）</div><div class="bal-detail-meta">薪資減半 · 3 日內不併病假</div></div></div>
+            <div class="bal-detail-bar"><div class="bal-detail-bar-fill" style="width:0%;background:#94a3b8;"></div></div>
+            <div class="bal-detail-stats"><span class="l">適用條件不符</span><span class="v">—</span></div>
+          </div>
+        </div>
+
+        <div style="font-size:13px;font-weight:700;margin:20px 0 10px;color:var(--text-2);">💝 特殊假別（依事由申請）</div>
+        <div class="bal-detail-grid">
+          <div class="bal-detail-card"><div class="bal-detail-head"><div class="bal-detail-icon">💍</div><div><div class="bal-detail-name">婚假</div><div class="bal-detail-meta">薪資照給 · 結婚前 10 日起 3 個月內請畢</div></div></div><div class="bal-detail-stats"><span class="l">給假天數</span><span class="v">8 日</span></div></div>
+          <div class="bal-detail-card"><div class="bal-detail-head"><div class="bal-detail-icon">🕊️</div><div><div class="bal-detail-name">喪假</div><div class="bal-detail-meta">薪資照給 · 100 日內請畢</div></div></div><div class="bal-detail-stats"><span class="l">給假天數</span><span class="v">3-8 日（依親等）</span></div></div>
+          <div class="bal-detail-card"><div class="bal-detail-head"><div class="bal-detail-icon">👶</div><div><div class="bal-detail-name">陪產（檢）假</div><div class="bal-detail-meta">薪資照給</div></div></div><div class="bal-detail-stats"><span class="l">給假天數</span><span class="v">7 日</span></div></div>
+          <div class="bal-detail-card"><div class="bal-detail-head"><div class="bal-detail-icon">🪖</div><div><div class="bal-detail-name">公假</div><div class="bal-detail-meta">薪資照給 · 兵役/選舉/政府調訓</div></div></div><div class="bal-detail-stats"><span class="l">依事由</span><span class="v">當次給予</span></div></div>
+          <div class="bal-detail-card"><div class="bal-detail-head"><div class="bal-detail-icon">🤕</div><div><div class="bal-detail-name">公傷假</div><div class="bal-detail-meta">薪資照給 · 執行公務致傷</div></div></div><div class="bal-detail-stats"><span class="l">依傷情</span><span class="v">最長 2 年</span></div></div>
+          <div class="bal-detail-card"><div class="bal-detail-head"><div class="bal-detail-icon">🌪️</div><div><div class="bal-detail-name">天然災害假</div><div class="bal-detail-meta">不給薪 · 依政府公告</div></div></div><div class="bal-detail-stats"><span class="l">當期</span><span class="v">公告為準</span></div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VIEW: 請假規範說明 ============ -->
+  <div class="view" id="v-policy">
+    <div class="view-head">
+      <div>
+        <div class="view-title">📖 請假規範說明</div>
+        <div class="view-sub">HR-TW-P-001-33 · 適用台灣廠區全體員工</div>
+      </div>
+      <button class="f-btn">📄 下載完整 PDF</button>
+    </div>
+    <div class="view-body">
+      <div class="container">
+
+        <div class="filter-row">
+          <input type="search" placeholder="🔍 搜尋假別、規定..." style="flex:1;min-width:240px;" />
+          <button class="f-btn on">全部</button>
+          <button class="f-btn">薪資照給</button>
+          <button class="f-btn">需證明文件</button>
+        </div>
+
+        <div class="policy-grid">
+
+          <div class="policy-card">
+            <div class="policy-head"><div class="policy-icon">🌴</div><div class="policy-name">特別休假</div><span class="policy-tag" style="background:#DCFCE7;color:#15803d;">照給薪</span></div>
+            <div class="policy-rules">
+              <span class="l">給假</span><span class="v">依年資 3-30 日</span>
+              <span class="l">最小</span><span class="v">0.5 小時</span>
+              <span class="l">證明</span><span class="v">不需要</span>
+              <span class="l">期限</span><span class="v">年度內</span>
+            </div>
+            <div class="policy-body" style="margin-top:8px;">
+              依年資：6個月-1年 <strong>3日</strong>／1-2年 <strong>7日</strong>／2-3年 <strong>10日</strong>／3-5年 <strong>14日</strong>／5-10年 <strong>15日</strong>／10年以上每年+1日（上限 30日）。
+            </div>
+          </div>
+
+          <div class="policy-card">
+            <div class="policy-head"><div class="policy-icon">📝</div><div class="policy-name">事假</div><span class="policy-tag" style="background:#f1f5f9;">不給薪</span></div>
+            <div class="policy-rules">
+              <span class="l">給假</span><span class="v">全年 14 日</span>
+              <span class="l">最小</span><span class="v">0.5 小時</span>
+              <span class="l">證明</span><span class="v">不需要</span>
+              <span class="l">薪資</span><span class="v">不給薪（業務不扣）</span>
+            </div>
+            <div class="policy-body" style="margin-top:8px;">超過 14 日須經部門主管核准。如遇休息日、例假日及國定假日不予計入。</div>
+          </div>
+
+          <div class="policy-card">
+            <div class="policy-head"><div class="policy-icon">🤒</div><div class="policy-name">病假</div><span class="policy-tag" style="background:#FEF3C7;color:#b45309;">減半薪</span></div>
+            <div class="policy-rules">
+              <span class="l">給假</span><span class="v">未住院 30 日 / 含住院 1 年</span>
+              <span class="l">最小</span><span class="v">0.5 小時</span>
+              <span class="l">證明</span><span class="v">1 天以上需診斷書</span>
+              <span class="l">薪資</span><span class="v">30 日內減半 / 業務不扣</span>
+            </div>
+            <div class="policy-body" style="margin-top:8px;">罹患癌症（含原位癌）門診治療或懷孕安胎，併入住院傷病假計算。</div>
+          </div>
+
+          <div class="policy-card">
+            <div class="policy-head"><div class="policy-icon">💍</div><div class="policy-name">婚假</div><span class="policy-tag" style="background:#DCFCE7;color:#15803d;">照給薪</span></div>
+            <div class="policy-rules">
+              <span class="l">給假</span><span class="v">8 日</span>
+              <span class="l">最小</span><span class="v">1 日</span>
+              <span class="l">證明</span><span class="v">需結婚證明</span>
+              <span class="l">期限</span><span class="v">結婚前 10 日起 3 個月內</span>
+            </div>
+            <div class="policy-body" style="margin-top:8px;">可自結婚前 10 日開始請假。公司同意者可延長至 1 年內請畢。</div>
+          </div>
+
+          <div class="policy-card">
+            <div class="policy-head"><div class="policy-icon">🕊️</div><div class="policy-name">喪假</div><span class="policy-tag" style="background:#DCFCE7;color:#15803d;">照給薪</span></div>
+            <div class="policy-rules">
+              <span class="l">8 日</span><span class="v">父母/配偶/養父母/繼父母</span>
+              <span class="l">6 日</span><span class="v">祖父母/外祖父母/子女/配偶父母</span>
+              <span class="l">3 日</span><span class="v">曾祖父母/兄弟姊妹/配偶祖父母</span>
+              <span class="l">期限</span><span class="v">事實發生 100 日內</span>
+            </div>
+            <div class="policy-body" style="margin-top:8px;">可分次申請，需檢附除戶證明或訃文。</div>
+          </div>
+
+          <div class="policy-card">
+            <div class="policy-head"><div class="policy-icon">👨‍👩‍👧</div><div class="policy-name">家庭照顧假</div><span class="policy-tag" style="background:#f1f5f9;">不給薪</span></div>
+            <div class="policy-rules">
+              <span class="l">給假</span><span class="v">全年 7 日（併入事假）</span>
+              <span class="l">最小</span><span class="v">0.5 小時</span>
+              <span class="l">適用</span><span class="v">家人重病/預防接種</span>
+              <span class="l">薪資</span><span class="v">依事假規定</span>
+            </div>
+          </div>
+
+          <div class="policy-card">
+            <div class="policy-head"><div class="policy-icon">👶</div><div class="policy-name">產假</div><span class="policy-tag" style="background:#FCE7F3;color:#be185d;">滿 6 月照給</span></div>
+            <div class="policy-rules">
+              <span class="l">分娩前後</span><span class="v">8 星期</span>
+              <span class="l">妊娠 3 月以上流產</span><span class="v">4 星期</span>
+              <span class="l">最小</span><span class="v">1 日（須一次申請）</span>
+              <span class="l">薪資</span><span class="v">年資滿 6 月照給 / 未滿減半</span>
+            </div>
+          </div>
+
+          <div class="policy-card">
+            <div class="policy-head"><div class="policy-icon">👨‍👶</div><div class="policy-name">陪產檢及陪產假</div><span class="policy-tag" style="background:#DCFCE7;color:#15803d;">照給薪</span></div>
+            <div class="policy-rules">
+              <span class="l">給假</span><span class="v">7 日</span>
+              <span class="l">最小</span><span class="v">0.5 小時</span>
+              <span class="l">期限</span><span class="v">配偶分娩前後 15 日內</span>
+              <span class="l">補助</span><span class="v">逾 5 日可向勞保局申請</span>
+            </div>
+          </div>
+
+          <div class="policy-card">
+            <div class="policy-head"><div class="policy-icon">🩸</div><div class="policy-name">生理假</div><span class="policy-tag" style="background:#FEF3C7;color:#b45309;">減半薪</span></div>
+            <div class="policy-rules">
+              <span class="l">給假</span><span class="v">每月 1 日</span>
+              <span class="l">最小</span><span class="v">0.5 小時</span>
+              <span class="l">病假計入</span><span class="v">全年逾 3 日併入病假</span>
+              <span class="l">適用</span><span class="v">女性員工</span>
+            </div>
+          </div>
+
+          <div class="policy-card">
+            <div class="policy-head"><div class="policy-icon">🤕</div><div class="policy-name">公傷假</div><span class="policy-tag" style="background:#DCFCE7;color:#15803d;">照給薪</span></div>
+            <div class="policy-rules">
+              <span class="l">適用</span><span class="v">執行公務致傷/上下班發生意外</span>
+              <span class="l">最小</span><span class="v">0.5 小時</span>
+              <span class="l">最長</span><span class="v">2 年（依公傷控制程序）</span>
+              <span class="l">證明</span><span class="v">指定醫院診斷</span>
+            </div>
+          </div>
+
+          <div class="policy-card">
+            <div class="policy-head"><div class="policy-icon">🪖</div><div class="policy-name">公假</div><span class="policy-tag" style="background:#DCFCE7;color:#15803d;">照給薪</span></div>
+            <div class="policy-rules">
+              <span class="l">適用</span><span class="v">兵役/選舉/政府調訓</span>
+              <span class="l">最小</span><span class="v">0.5 小時</span>
+              <span class="l">證明</span><span class="v">主管機關文件</span>
+            </div>
+          </div>
+
+          <div class="policy-card">
+            <div class="policy-head"><div class="policy-icon">🌪️</div><div class="policy-name">天然災害假</div><span class="policy-tag" style="background:#f1f5f9;">不給薪</span></div>
+            <div class="policy-rules">
+              <span class="l">適用</span><span class="v">颱風/洪水/地震</span>
+              <span class="l">判定</span><span class="v">當地縣市政府公告</span>
+              <span class="l">最小</span><span class="v">1 日</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VIEW: 我的代理人 ============ -->
+  <div class="view" id="v-agent">
+    <div class="view-head">
+      <div>
+        <div class="view-title">👥 我的代理人</div>
+        <div class="view-sub">主代理人 + 副代理人 · 業務部 32 人</div>
+      </div>
+      <button class="f-btn">＋ 新增代理關係</button>
+    </div>
+    <div class="view-body">
+      <div class="container">
+
+        <div style="font-size:13px;font-weight:700;margin:0 0 10px;color:var(--text-2);">⭐ 當我請假時，由以下同事代理</div>
+
+        <div class="agent-card" style="border:2px solid var(--primary);background:linear-gradient(135deg,#fff 60%,#DBEAFE);">
+          <div class="agent-avatar" style="background:linear-gradient(135deg,#2563EB,#7C3AED);">林</div>
+          <div>
+            <div class="agent-name">林小美 <span class="agent-tag" style="background:#DBEAFE;color:#1d4ed8;">主代理人</span></div>
+            <div class="agent-role">業務部 · 五職等 · 負責華中區客戶</div>
+            <div style="font-size:11px;color:var(--text-3);margin-top:4px;">已代理 12 次 · 平均回應 25 分鐘</div>
+          </div>
+          <div style="text-align:right;">
+            <button class="f-btn">修改</button>
+          </div>
+        </div>
+
+        <div class="agent-card">
+          <div class="agent-avatar" style="background:linear-gradient(135deg,#16a34a,#0891b2);">蔡</div>
+          <div>
+            <div class="agent-name">蔡子翔 <span class="agent-tag" style="background:#F1F5F9;color:#475569;">副代理人</span></div>
+            <div class="agent-role">業務部 · 四職等 · 負責華南區客戶</div>
+            <div style="font-size:11px;color:var(--text-3);margin-top:4px;">已代理 4 次 · 主代理人不在時啟用</div>
+          </div>
+          <div><button class="f-btn">修改</button></div>
+        </div>
+
+        <div style="font-size:13px;font-weight:700;margin:24px 0 10px;color:var(--text-2);">🤝 我代理過的同事</div>
+
+        <div class="agent-card">
+          <div class="agent-avatar" style="background:linear-gradient(135deg,#ea580c,#dc2626);">辜</div>
+          <div>
+            <div class="agent-name">辜子奇</div>
+            <div class="agent-role">業務部 · 五職等</div>
+            <div style="font-size:11px;color:var(--text-3);margin-top:4px;">代理過 3 次 · 最近：2026/04/15</div>
+          </div>
+          <div><span class="b-tag success">關係生效中</span></div>
+        </div>
+
+        <div class="agent-card">
+          <div class="agent-avatar" style="background:linear-gradient(135deg,#7c3aed,#be185d);">陳</div>
+          <div>
+            <div class="agent-name">陳姮雪</div>
+            <div class="agent-role">業務部 · 五職等</div>
+            <div style="font-size:11px;color:var(--text-3);margin-top:4px;">代理過 2 次 · 最近：2026/03/20</div>
+          </div>
+          <div><span class="b-tag success">關係生效中</span></div>
+        </div>
+
+        <div style="font-size:13px;font-weight:700;margin:24px 0 10px;color:var(--text-2);">📌 代理人設定說明</div>
+        <div class="p-panel" style="font-size:13px;color:var(--text-2);line-height:1.7;">
+          ・<strong>主代理人</strong>：請假時優先指派，會自動收到請假通知與業務交接 LINE 訊息<br>
+          ・<strong>副代理人</strong>：主代理人也在請假時自動啟用<br>
+          ・代理人需在<strong>同部門</strong>，且職等不可低於本人 2 個職等以上<br>
+          ・代理期間若有業務問題，AI 助理會自動幫忙轉介<br>
+          ・每年可修改 4 次（你今年已修改 1 次）
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<div class="proto-tag">PROTOTYPE · 員工端</div>
+<div class="toast" id="toast">✅ 請假單已送出，等待主管核准</div>
+
+<script>
+// ============== 分頁切換 ==============
+function navTo(viewId, navEl) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById('v-' + viewId);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.sb .nav-item').forEach(n => n.classList.remove('active'));
+  if (navEl) navEl.classList.add('active');
+}
+
+// 打卡時鐘
+function updateClock() {
+  const d = new Date();
+  const t = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+  const clockEl = document.getElementById('att-clock');
+  if (clockEl) clockEl.textContent = t;
+  // 算工時
+  const start = new Date(); start.setHours(9, 2, 0, 0);
+  if (d < start) return;
+  const diff = (d - start) / 60000;
+  const h = Math.floor(diff / 60);
+  const m = Math.floor(diff % 60);
+  const wEl = document.getElementById('att-worked');
+  if (wEl) wEl.textContent = `${h} hr ${m} min`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+function punchOut() {
+  alert('✅ 已記錄下班時間\n下班：' + new Date().toLocaleTimeString('zh-TW') + '\n總工時：8 hr 02 min\n本日加班：0 hr 02 min（已換補休）');
+}
+
+// ============== 員工資料 ==============
+const ME = {
+  name: '張文武',
+  dept: '業務部',
+  rank: 5,
+  hireDate: '2022/03/15',
+  isSales: true,
+  isManager: false,
+  noPayDeduct: true,
+  balance: {
+    specialLeave: { used: 3, total: 14, name: '特別休假' },
+    personalLeave: { used: 3, total: 14, name: '事假' },
+    sickLeave: { used: 1, total: 30, name: '病假' },
+    familyCareLeave: { used: 0, total: 7, name: '家庭照顧假' },
+    compLeave: { used: 8, total: 20, name: '補休（小時）' }
+  },
+  manager: '李志明（業務部部長）'
+};
+
+// ============== 對話狀態 ==============
+let conversationState = { context: null, pendingData: null, leaveCounter: 0 };
+const chipSets = {
+  initial: [
+    { label: '🌴 明天請特休', q: '明天我想請一天特休' },
+    { label: '🤒 想請病假 2 天', q: '我頭很痛，想請病假兩天' },
+    { label: '💍 結婚要請婚假', q: '下個月我要結婚，要怎麼請婚假？' },
+    { label: '👨‍👩‍👧 小孩打疫苗', q: '我女兒明天打疫苗，我想請假照顧她' },
+    { label: '🌪️ 颱風天', q: '明天颱風來，可以不上班嗎？' },
+    { label: '✈️ 請 20 天特休', q: '我想請特休 20 天環遊世界' }
+  ],
+  afterSubmit: [
+    { label: '✨ 我要再請另一個假', q: '我還想再請一次假' },
+    { label: '📋 查我的請假紀錄', q: '我這個月請了哪些假？' },
+    { label: '📞 聯絡 HR', q: '我想找 HR 確認' }
+  ],
+  marriage: [
+    { label: '6/15 結婚', q: '我 6/15 結婚' },
+    { label: '6/20 結婚', q: '我 6/20 結婚' },
+    { label: '7/01 結婚', q: '我 7/1 結婚' }
+  ],
+  funeral: [
+    { label: '父親過世', q: '我父親過世' },
+    { label: '祖父過世', q: '我祖父過世' },
+    { label: '配偶父母過世', q: '我太太的爸爸過世' }
+  ]
+};
+
+// ============== 對話 ==============
+function el(html) { const d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstChild; }
+
+function addMsg(html, who = 'ai') {
+  return new Promise(resolve => {
+    const msg = el(`<div class="msg ${who}"><div class="msg-avatar">${who === 'ai' ? '🤖' : '張'}</div><div class="msg-bubble">${html}</div></div>`);
+    document.getElementById('msgs').appendChild(msg);
+    scrollBottom();
+    resolve(msg);
+  });
+}
+
+function showTyping() {
+  const msg = el(`<div class="msg ai" id="typing"><div class="msg-avatar">🤖</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`);
+  document.getElementById('msgs').appendChild(msg);
+  scrollBottom();
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+function scrollBottom() {
+  const m = document.getElementById('msgs');
+  setTimeout(() => { m.scrollTop = m.scrollHeight; }, 50);
+}
+
+function quickAsk(q) {
+  document.getElementById('input').value = q;
+  send();
+}
+
+function setChips(setName) {
+  const chips = chipSets[setName];
+  if (!chips || chips.length === 0) {
+    document.getElementById('chips').style.display = 'none';
+    return;
+  }
+  const html = chips.map(c => `<div class="chip" onclick="quickAsk('${c.q}')">${c.label}</div>`).join('');
+  const cont = document.getElementById('chips');
+  cont.innerHTML = html;
+  cont.style.display = 'flex';
+}
+
+async function send() {
+  const i = document.getElementById('input');
+  const q = i.value.trim();
+  if (!q) return;
+  i.value = '';
+  document.getElementById('chips').style.display = 'none';
+  await addMsg(escapeHtml(q), 'me');
+  showTyping();
+  await new Promise(r => setTimeout(r, 900));
+  removeTyping();
+  const result = analyzeRequest(q);
+  await addMsg(result.html, 'ai');
+  if (result.chips) setChips(result.chips);
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+}
+
+function approver(days, rank) {
+  if (rank <= 5) {
+    if (days <= 2) return '部門主管 李志明';
+    if (days <= 5) return '部門主管 李志明 → 廠長 王國良';
+    if (days <= 7) return '廠長 王國良 → 廠最高主管';
+    return '副執行長／執行長';
+  }
+  return '廠最高主管／副執行長／執行長';
+}
+
+function analyzeRequest(q) {
+  const text = q.replace(/\s/g, '');
+
+  // ===== 多步：等待婚假日期 =====
+  if (conversationState.context === 'awaitMarriageDate') {
+    const m = q.match(/(\d{1,2})[\/月\-](\d{1,2})/);
+    if (m) {
+      const month = m[1], day = m[2];
+      conversationState.context = null;
+      return {
+        html: html`
+          <p>太棒了！我幫你算好婚假期間了 ✓</p>
+          <ul>
+            <li>結婚日：<strong>${month}/${day}</strong></li>
+            <li>建議請假期間：<strong>${month}/${parseInt(day) - 2} 至 ${month}/${parseInt(day) + 5}</strong>（含結婚日前後）</li>
+            <li>共 8 日 · 婚假期間薪資<span class="ok">照給</span></li>
+          </ul>
+          ${leaveCard({
+            type: '婚假',
+            date: `${month}/${parseInt(day) - 2} ~ ${month}/${parseInt(day) + 5}`,
+            hours: 64,
+            pay: '照給',
+            doc: '需附結婚證明 ⚠',
+            approver: approver(8, ME.rank),
+            agent: '林小美（已綁定）',
+            status: '待補結婚證明'
+          })}`
+      };
+    }
+    // 沒抓到日期就再問
+    return { html: '請告訴我月/日，例如「6/15」或「6 月 15 日」', chips: 'marriage' };
+  }
+
+  // ===== 多步：等待喪假親人關係 =====
+  if (conversationState.context === 'awaitFuneralRelation') {
+    let days = 0, relation = '';
+    if (/(父親|母親|爸|媽|配偶|妻|夫|養父母|繼父母)/.test(text)) { days = 8; relation = '父母／配偶層級'; }
+    else if (/(祖父|祖母|外公|外婆|兒|女|岳父|岳母|配偶之父母)/.test(text)) { days = 6; relation = '祖父母／子女／配偶父母層級'; }
+    else if (/(兄|弟|姊|妹|曾祖|曾外|配偶之祖父母)/.test(text)) { days = 3; relation = '兄弟姊妹／曾祖層級'; }
+
+    if (days > 0) {
+      conversationState.context = null;
+      return {
+        html: html`
+          <p>了解，請節哀 🕊️</p>
+          <p>依規定，<strong>${relation}</strong>可請喪假 <strong>${days} 日</strong>，薪資<span class="ok">照給</span>。</p>
+          <ul>
+            <li>可分次申請，但須於事實發生之日起 <strong>100 日內</strong>請畢</li>
+            <li>需檢附除戶證明或訃文</li>
+          </ul>
+          ${leaveCard({
+            type: '喪假',
+            date: `自今日起 ${days} 日（可分次）`,
+            hours: days * 8,
+            pay: '照給',
+            doc: '需附除戶證明 ⚠',
+            approver: approver(days, ME.rank),
+            agent: '林小美（已綁定）',
+            status: '待補喪葬證明'
+          })}`
+      };
+    }
+    return { html: '請告訴我是哪位親人過世，例如「父親」、「祖母」、「妹妹」', chips: 'funeral' };
+  }
+
+  // ===== 額度不足案例：請 20 天特休（先判斷） =====
+  if (/(20|二十)/.test(text) && /特休/.test(text)) {
+    return { html: html`
+      <p>⚠️ <span class="danger">特休額度不足</span></p>
+      <p><strong>你的特休：</strong></p>
+      <ul>
+        <li>年資 4 年 2 個月（服務 3-5 年）→ 全年 <strong>14 日</strong></li>
+        <li>已使用：3 日</li>
+        <li>剩餘：<strong>11 日</strong></li>
+      </ul>
+      <p>你想請 <strong>20 天</strong>，但只剩 <strong>11 天</strong>，缺 9 天。</p>
+      <div class="warn-card">
+        <strong>💡 AI 建議 3 套方案：</strong><br>
+        1. <strong>11 日特休 + 9 日事假</strong>（事假不給薪，且接近上限 14 日）<br>
+        2. <strong>跨年度休</strong>：今年 11 日 + 明年新增 14 日<br>
+        3. 特殊事由（深造／進修）：申請<strong>留職停薪</strong>
+      </div>
+      <p style="color:var(--text-3);font-size:12px;">這類額度不足的情境，建議先跟主管討論再申請。</p>` };
+  }
+
+  // ===== 特休 =====
+  if (/特休|特別休假/.test(text)) {
+    const m = text.match(/(\d+|一|二|三|四|五|六|七|八|九|十)天/);
+    const days = m ? toNum(m[1]) : 1;
+    const b = ME.balance.specialLeave;
+    const available = b.total - b.used;
+
+    if (days > available) {
+      return { html: html`
+        <p>⚠️ <span class="danger">特休額度不足</span></p>
+        <ul>
+          <li>剩餘：<strong>${available} 日</strong>（共 ${b.total} 日，已用 ${b.used} 日）</li>
+          <li>你想請：${days} 日</li>
+        </ul>
+        <p>建議改成 <strong>${available} 日特休 + ${days - available} 日事假</strong>？</p>` };
+    }
+
+    return { html: html`
+      <p>沒問題！特休<span class="ok">剩餘 ${available} 日</span>（共 ${b.total} 日），薪資<span class="ok">照給</span>，不需證明 👇</p>
+      ${leaveCard({
+        type: '特別休假',
+        date: getTomorrow(days),
+        hours: days * 8,
+        pay: '照給',
+        doc: '不需要',
+        approver: approver(days, ME.rank),
+        agent: '林小美（已綁定）',
+        status: 'AI 已驗證通過'
+      })}` };
+  }
+
+  // ===== 病假 =====
+  if (/病假|生病|頭痛|不舒服|感冒|身體|發燒/.test(text)) {
+    const m = text.match(/(\d+|一|二|三|四|五|六|七|八|九|十)天/);
+    const days = m ? toNum(m[1]) : 1;
+    const docHint = days > 1 ?
+      `<div class="warn-card">⚠️ <strong>2 天以上需附診斷書</strong></div>` :
+      `<div class="warn-card">💡 1 天以內附就診收據／領藥單即可</div>`;
+
+    return { html: html`
+      <p>了解，注意身體！病假<span class="ok">剩餘 ${ME.balance.sickLeave.total - ME.balance.sickLeave.used} 日</span>，${ME.noPayDeduct ? '你是業務人員 <span class="ok">不扣薪</span>' : '<span class="warn">薪資減半</span>'} 👇</p>
+      ${docHint}
+      ${leaveCard({
+        type: '病假',
+        date: `${getToday()} 起 ${days} 日`,
+        hours: days * 8,
+        pay: ME.noPayDeduct ? '不扣薪' : '減半',
+        doc: days > 1 ? '需診斷書 ⚠' : '需就診收據',
+        approver: approver(days, ME.rank),
+        agent: '林小美（已綁定）',
+        status: '待上傳證明文件'
+      })}` };
+  }
+
+  // ===== 婚假（觸發多步） =====
+  if (/結婚|婚假|要結婚|新郎|新娘/.test(text)) {
+    conversationState.context = 'awaitMarriageDate';
+    return {
+      html: html`
+        <p>恭喜你 🎉🎉🎉</p>
+        <p><strong>婚假規定：</strong></p>
+        <ul>
+          <li>共 <strong>8 日</strong>，薪資<span class="ok">照給</span></li>
+          <li>可自結婚前 10 日開始請</li>
+          <li>須於結婚之日前 10 日起 <strong>3 個月內</strong>請畢</li>
+          <li>需附結婚證明文件</li>
+        </ul>
+        <p>請告訴我你的結婚日期，我就幫你產出請假單。</p>`,
+      chips: 'marriage'
+    };
+  }
+
+  // ===== 喪假（觸發多步） =====
+  if (/喪假|過世|往生|喪事|去世/.test(text)) {
+    conversationState.context = 'awaitFuneralRelation';
+    return {
+      html: html`
+        <p>先表達哀悼之意 🕊️</p>
+        <p><strong>喪假天數依親等而定：</strong></p>
+        <ul>
+          <li><strong>8 日</strong>：父母／配偶／養父母／繼父母</li>
+          <li><strong>6 日</strong>：祖父母／外祖父母／子女／配偶父母</li>
+          <li><strong>3 日</strong>：曾祖父母／兄弟姊妹／配偶祖父母</li>
+        </ul>
+        <p>請告訴我是哪位親人過世？</p>`,
+      chips: 'funeral'
+    };
+  }
+
+  // ===== 家庭照顧假 =====
+  if (/小孩|女兒|兒子|照顧|疫苗|打針|家人|父母生病|媽媽生病|爸爸生病/.test(text)) {
+    const b = ME.balance.familyCareLeave;
+    const available = b.total - b.used;
+    return { html: html`
+      <p>家人最重要 👨‍👩‍👧 這屬於<strong>家庭照顧假</strong>（剩 <span class="ok">${available} 日</span>／全年 7 日，併入事假），業務人員<span class="ok">不扣薪</span> 👇</p>
+      ${leaveCard({
+        type: '家庭照顧假',
+        date: getTomorrow(1),
+        hours: 8,
+        pay: ME.noPayDeduct ? '不扣薪' : '依事假規定',
+        doc: '建議附證明',
+        approver: approver(1, ME.rank),
+        agent: '林小美（已綁定）',
+        status: 'AI 已驗證通過'
+      })}` };
+  }
+
+  // ===== 颱風 =====
+  if (/颱風|地震|天災|大雨|淹水|不上班|停班|天然災害/.test(text)) {
+    return { html: html`
+      <p><strong>關於天然災害假：</strong></p>
+      <ul>
+        <li>判斷依當地縣市政府公告（不是公司決定）</li>
+        <li>適用：颱風、洪水、地震</li>
+        <li>天然災害期間 <strong>不給薪資</strong>（但仍須請假）</li>
+      </ul>
+      <div class="warn-card">
+        🌪️ <strong>目前狀態（即時查詢）</strong><br>
+        桃園市政府：<span class="ok">尚未發布</span> 5/28 停班公告<br>
+        中央氣象署：颱風路徑預估，但風雨可能不到停班標準
+      </div>
+      <p><strong>💡 建議：</strong></p>
+      <ul>
+        <li>持續關注政府公告（明早 7 點前會發布）</li>
+        <li>擔心交通可預先申請 <strong>特休</strong>（不扣薪）</li>
+        <li>若公告停班，當日自動套用「天然災害假」</li>
+      </ul>` };
+  }
+
+  // ===== 默認 =====
+  return { html: html`
+    <p>我需要更多資訊才能幫你。可以這樣告訴我：</p>
+    <ul>
+      <li>「<strong>明天請特休一天</strong>」</li>
+      <li>「<strong>下週一二請病假</strong>」</li>
+      <li>「<strong>我 6/15 結婚</strong>」</li>
+      <li>「<strong>父親過世</strong>」</li>
+    </ul>
+    <p style="color:var(--text-3);font-size:12px;">或點下方快速範例 👇</p>`, chips: 'initial' };
+}
+
+// 模板字串 helper — 把多餘 whitespace 壓掉
+function html(strings, ...values) {
+  let result = '';
+  strings.forEach((s, i) => {
+    result += s + (values[i] !== undefined ? values[i] : '');
+  });
+  // 去除標籤間的縮排空白（不影響文字內容）
+  return result.replace(/>\s+</g, '><').trim();
+}
+
+function leaveCard(d) {
+  conversationState.leaveCounter++;
+  const id = 'leave-' + conversationState.leaveCounter;
+  return `<div class="leave-card" id="${id}">
+    <div class="leave-card-head">
+      <div class="leave-card-title">📋 請假單預覽</div>
+      <div class="leave-card-status">${d.status}</div>
+    </div>
+    <div class="leave-card-summary">${d.type} · ${d.date} · ${d.hours} 小時</div>
+    <div class="leave-card-grid">
+      <div class="leave-card-cell"><span class="l">薪資</span><span class="v">${d.pay}</span></div>
+      <div class="leave-card-cell"><span class="l">證明</span><span class="v">${d.doc}</span></div>
+      <div class="leave-card-cell"><span class="l">代理人</span><span class="v">${d.agent}</span></div>
+      <div class="leave-card-cell"><span class="l">核決</span><span class="v">${d.approver}</span></div>
+    </div>
+    <div class="leave-card-actions">
+      <button class="leave-btn ghost" onclick="cancelLeave('${id}')">取消</button>
+      <button class="leave-btn primary" onclick="submitLeave('${id}')">✓ 確認送出</button>
+    </div>
+  </div>`;
+}
+
+async function submitLeave(cardId) {
+  // 鎖定該卡片
+  const card = document.getElementById(cardId);
+  if (card) {
+    const status = card.querySelector('.leave-card-status');
+    if (status) {
+      status.textContent = '✓ 已送出';
+      status.style.background = 'var(--success)';
+    }
+    const actions = card.querySelector('.leave-card-actions');
+    if (actions) actions.remove();
+  }
+
+  // toast
+  document.getElementById('toast').classList.add('show');
+  setTimeout(() => document.getElementById('toast').classList.remove('show'), 3000);
+
+  showTyping();
+  await new Promise(r => setTimeout(r, 700));
+  removeTyping();
+
+  await addMsg(html`
+    <p><strong>太好了！請假單已送出 ✅</strong></p>
+    <ul>
+      <li>📨 已通知核決主管，預計 <strong>30 分鐘內</strong>審核</li>
+      <li>📱 已通知職務代理人 <strong>林小美</strong></li>
+      <li>🔔 結果會 LINE 通知你</li>
+    </ul>
+    <p>還有其他需要幫忙的嗎？</p>`);
+
+  setChips('afterSubmit');
+  conversationState.context = null;
+}
+
+async function cancelLeave(cardId) {
+  const card = document.getElementById(cardId);
+  if (card) {
+    const status = card.querySelector('.leave-card-status');
+    if (status) {
+      status.textContent = '已取消';
+      status.style.background = 'var(--text-3)';
+    }
+    const actions = card.querySelector('.leave-card-actions');
+    if (actions) actions.remove();
+  }
+  await addMsg('沒問題，已取消這次申請。需要重新討論再跟我說 👋');
+  setChips('initial');
+  conversationState.context = null;
+}
+
+function toNum(s) {
+  const map = { '一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10 };
+  return map[s] || parseInt(s);
+}
+
+function getTomorrow(days = 1) {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  const start = `${d.getMonth() + 1}/${d.getDate()}`;
+  if (days === 1) {
+    return `${start}（${'日一二三四五六'[d.getDay()]}）08:00 - 17:00`;
+  }
+  const end = new Date(d);
+  end.setDate(end.getDate() + days - 1);
+  return `${start} ~ ${end.getMonth() + 1}/${end.getDate()}（共 ${days} 日）`;
+}
+
+function getToday() {
+  const d = new Date();
+  return `${d.getMonth() + 1}/${d.getDate()}`;
+}
+</script>
+</body>
+</html>

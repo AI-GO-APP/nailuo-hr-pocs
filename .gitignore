@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+**/.DS_Store
+._*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pkl
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Temporary
+/tmp/
+*.log
