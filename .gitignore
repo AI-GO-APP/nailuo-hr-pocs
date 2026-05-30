@@ -17,3 +17,15 @@ __pycache__/
 # Temporary
 /tmp/
 *.log
+
+# 開發過程臨時腳本
+fix_*.py
+test_*.py
+check_*.py
+compare_*.py
+find_*.py
+setup_*.py
+diagnose.py
+debug_*.py
+publish_test.py
+read_history.py
