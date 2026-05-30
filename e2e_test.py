@@ -253,9 +253,17 @@ def run_tests():
     actions_manifest = vfs.get("actions/manifest.json", "")
     if actions_manifest:
         manifest = json.loads(actions_manifest)
-        actions = manifest.get("actions", [])
-        test("Action manifest valid", len(actions) > 0)
-        test("ai_leave_chat action registered", any(a.get("id") == "ai_leave_chat" for a in actions))
+        # 平台格式：flat object { "action_name": {...} } 或 array 格式
+        if isinstance(manifest, dict) and "actions" in manifest:
+            actions = manifest["actions"]
+            test("Action manifest valid", len(actions) > 0)
+            test("ai_leave_chat action registered", any(a.get("id") == "ai_leave_chat" for a in actions))
+        elif isinstance(manifest, dict):
+            test("Action manifest valid", len(manifest) > 0)
+            test("ai_leave_chat action registered", "ai_leave_chat" in manifest)
+        else:
+            test("Action manifest valid", False)
+            test("ai_leave_chat action registered", False)
     else:
         test("Action manifest exists", False)
 
