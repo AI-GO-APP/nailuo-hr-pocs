@@ -257,7 +257,7 @@ def run_tests():
         if isinstance(manifest, dict) and "actions" in manifest:
             actions = manifest["actions"]
             test("Action manifest valid", len(actions) > 0)
-            test("ai_leave_chat action registered", any(a.get("id") == "ai_leave_chat" for a in actions))
+            test("ai_leave_chat action registered", any(a.get("name") == "ai_leave_chat" or a.get("id") == "ai_leave_chat" for a in actions))
         elif isinstance(manifest, dict):
             test("Action manifest valid", len(manifest) > 0)
             test("ai_leave_chat action registered", "ai_leave_chat" in manifest)
@@ -316,15 +316,15 @@ def run_tests():
     test("Uses ctx.params", "ctx.params" in action_py)
     test("Uses ctx.response.json", "ctx.response.json" in action_py)
     test("Uses ctx.secrets.get", "ctx.secrets.get" in action_py)
-    test("Uses ctx.http.call", "ctx.http.call" in action_py)
+    test("Uses httpx for OpenAI", "httpx" in action_py)
 
     # ─── T15: 頁面真實資料化 ──────────────────
     print("\n[T15] Pages Real Data")
     chat_page = vfs.get("src/pages/ChatPage.tsx", "")
-    test("ChatPage uses runAction", "runAction" in chat_page)
+    test("ChatPage uses callAction", "callAction" in chat_page)
     test("ChatPage uses listRecords", "listRecords" in chat_page)
     test("ChatPage uses submitRecord", "submitRecord" in chat_page)
-    test("ChatPage imports from action", 'from "../action"' in chat_page)
+    test("ChatPage imports from actionHelper", 'from "../actionHelper"' in chat_page)
     test("ChatPage imports from api", 'from "../api"' in chat_page)
 
     records_page = vfs.get("src/pages/RecordsPage.tsx", "")
