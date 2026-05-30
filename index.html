@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>耐落 HR POC 集</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 900px;
+            width: 90%;
+        }
+        h1 {
+            color: #fff;
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-4px); }
+        .card h2 { font-size: 1.35rem; margin-bottom: 0.75rem; }
+        .card p { color: #555; line-height: 1.6; margin-bottom: 1.25rem; font-size: 0.95rem; }
+        .links { display: flex; flex-direction: column; gap: 0.6rem; }
+        .links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: background 0.15s;
+        }
+        .links a.blue  { background: #eef2ff; color: #4f46e5; }
+        .links a.blue:hover  { background: #dde5ff; }
+        .links a.green { background: #ecfdf5; color: #059669; }
+        .links a.green:hover { background: #d1fae5; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏢 耐落（NYLOK）HR POC 集</h1>
+        <p class="subtitle">AI 賦能人力資源概念驗證系統</p>
+        <div class="cards">
+            <div class="card">
+                <h2>🏖️ 請假系統</h2>
+                <p>用對話請假 + AI 自動驗證規則 + 主管自動審核，依據 HR-TW-P-001-33 請假控制程序建構。</p>
+                <div class="links">
+                    <a href="/leave-system/employee-chat.html" class="blue">💬 員工端 — AI 對話請假</a>
+                    <a href="/leave-system/manager-dashboard.html" class="green">📊 主管端 — 請假管理儀表板</a>
+                </div>
+            </div>
+            <div class="card">
+                <h2>⚠️ 客戶流失風險分析</h2>
+                <p>AI 讀業務日誌、找出可能流失的客戶。依據真實 CRM 資料（4050 筆日誌 / 747 個客戶）製作。</p>
+                <div class="links">
+                    <a href="/churn-analysis/sales-input.html" class="blue">📝 業務端 — 日誌填寫 + AI 判讀</a>
+                    <a href="/churn-analysis/manager-dashboard.html" class="green">📊 主管端 — 風險總覽儀表板</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
