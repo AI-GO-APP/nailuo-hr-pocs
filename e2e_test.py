@@ -277,6 +277,83 @@ def run_tests():
     test("App has published_at", bool(app_data.get("published_at")))
     test("Published VFS exists", bool(app_data.get("published_vfs")))
 
+    # ─── T13: Custom Tables ────────────────────
+    print("\n[T13] Custom Tables")
+    ct_resp = api("GET", f"/data/objects?app_id={APP_ID}", None, token)
+    if ct_resp["ok"]:
+        tables = ct_resp["data"] if isinstance(ct_resp["data"], list) else []
+        slugs = [t.get("api_slug", "") for t in tables]
+        test("Custom Table: chat_messages", "chat_messages" in slugs)
+        test("Custom Table: attendance_records", "attendance_records" in slugs)
+        test("Custom Table: agent_delegates", "agent_delegates" in slugs)
+
+        # 驗證 chat_messages 欄位
+        chat_tbl = next((t for t in tables if t.get("api_slug") == "chat_messages"), None)
+        if chat_tbl:
+            field_keys = [f.get("field_key") for f in chat_tbl.get("fields", [])]
+            test("chat_messages has employee_id", "employee_id" in field_keys)
+            test("chat_messages has role", "role" in field_keys)
+            test("chat_messages has content", "content" in field_keys)
+            test("chat_messages has timestamp", "timestamp" in field_keys)
+        else:
+            test("chat_messages fields", False, "Table not found")
+    else:
+        test("Custom Tables API", False, str(ct_resp["data"])[:100])
+
+    # ─── T14: Server Action 格式 ───────────────
+    print("\n[T14] Server Action Format")
+    action_py = vfs.get("actions/ai_leave_chat.py", "")
+    test("Uses def execute(ctx)", "def execute(ctx)" in action_py)
+    test("No async def handler", "async def handler" not in action_py)
+    test("Uses ctx.params", "ctx.params" in action_py)
+    test("Uses ctx.response.json", "ctx.response.json" in action_py)
+    test("Uses ctx.secrets.get", "ctx.secrets.get" in action_py)
+    test("Uses ctx.http.call", "ctx.http.call" in action_py)
+
+    # ─── T15: 頁面真實資料化 ──────────────────
+    print("\n[T15] Pages Real Data")
+    chat_page = vfs.get("src/pages/ChatPage.tsx", "")
+    test("ChatPage uses runAction", "runAction" in chat_page)
+    test("ChatPage uses listRecords", "listRecords" in chat_page)
+    test("ChatPage uses submitRecord", "submitRecord" in chat_page)
+    test("ChatPage imports from action", 'from "../action"' in chat_page)
+    test("ChatPage imports from api", 'from "../api"' in chat_page)
+
+    records_page = vfs.get("src/pages/RecordsPage.tsx", "")
+    test("RecordsPage fetches hr_leaves", "hr_leaves" in records_page)
+    test("RecordsPage has loading state", "loading" in records_page.lower())
+
+    balance_page = vfs.get("src/pages/BalancePage.tsx", "")
+    test("BalancePage fetches hr_leave_allocations", "hr_leave_allocations" in balance_page)
+
+    policy_page = vfs.get("src/pages/PolicyPage.tsx", "")
+    test("PolicyPage fetches hr_leave_types", "hr_leave_types" in policy_page)
+
+    attendance_page = vfs.get("src/pages/AttendancePage.tsx", "")
+    test("AttendancePage uses listRecords", "listRecords" in attendance_page)
+    test("AttendancePage uses submitRecord", "submitRecord" in attendance_page)
+    test("AttendancePage uses attendance_records", "attendance_records" in attendance_page)
+
+    agents_page = vfs.get("src/pages/AgentsPage.tsx", "")
+    test("AgentsPage uses listRecords", "listRecords" in agents_page)
+    test("AgentsPage uses agent_delegates", "agent_delegates" in agents_page)
+
+    # ─── T16: Server Action 結構驗證 ───────────
+    print("\n[T16] Server Action Structure")
+    # Action API 需要 App Token（Runtime 環境），admin JWT 無法直接呼叫
+    # 改為驗證 action 結構完整性
+    test("Action has SYSTEM_PROMPT", "SYSTEM_PROMPT" in action_py)
+    test("Action has generate_rule_based_reply", "generate_rule_based_reply" in action_py)
+    test("Action handles missing API key", "api_key" in action_py)
+    test("Action has error fallback", "except" in action_py)
+    test("Action formats employee info", "emp_info" in action_py)
+    test("Action uses gpt-4o-mini", "gpt-4o-mini" in action_py)
+
+    # Verify action SDK endpoint pattern
+    action_sdk = vfs.get("src/action.ts", "")
+    test("SDK has /actions/run/ endpoint", "/actions/run/" in action_sdk)
+    test("SDK wraps params in body", "params" in action_sdk)
+
     # ─── Summary ──────────────────────────────
     print("\n" + "=" * 60)
     passed = sum(1 for r in results if r["passed"])
