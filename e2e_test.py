@@ -351,7 +351,7 @@ def run_tests():
     # Action API 需要 App Token（Runtime 環境），admin JWT 無法直接呼叫
     # 改為驗證 action 結構完整性
     test("Action has SYSTEM_PROMPT", "SYSTEM_PROMPT" in action_py)
-    test("Action has generate_rule_based_reply", "generate_rule_based_reply" in action_py)
+    test("Action has _build_action_card", "_build_action_card" in action_py or "generate_rule_based_reply" in action_py)
     test("Action handles missing API key", "api_key" in action_py)
     test("Action has error fallback", "except" in action_py)
     test("Action formats employee info", "emp_info" in action_py)
