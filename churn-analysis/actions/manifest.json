@@ -1,0 +1,14 @@
+{
+  "actions": [
+    {
+      "name": "analyze_churn",
+      "file": "actions/analyze_churn.py",
+      "description": "客戶流失風險分析"
+    },
+    {
+      "name": "fetch_crm_data",
+      "file": "actions/fetch_crm_data.py",
+      "description": "CRM 資料來源查詢"
+    }
+  ]
+}
