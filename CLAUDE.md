@@ -37,6 +37,26 @@ db.ts   →  insert / query / update     →  Proxy Table（SaaS 既有表）   
 - `chat_messages`, `attendance_records` 等自建表 → **一律用 `api.ts`**
 - **永遠不要混用。**
 
+### `runAction()` 回傳格式（前端必讀）
+
+`action.ts` 的 `runAction()` 回傳 `{ data, file }`，**不是直接回傳 Action 結果**。
+所有前端接收 runAction 結果時，**必須先解包 `r.data`**：
+
+```typescript
+// ✅ 正確
+runAction("sales_log", { action: "list_logs" })
+  .then((r: any) => {
+    const d = r?.data || r;
+    if (d?.logs) setLogs(d.logs);
+  });
+
+// ❌ 錯誤 — r.logs 永遠是 undefined
+runAction("sales_log", { action: "list_logs" })
+  .then((r: any) => {
+    if (r?.logs) setLogs(r.logs);
+  });
+```
+
 ### db.ts insert() 的已知 Bug
 
 `db.ts` 的 `insert()` 可能沒有用 `{"data": {...}}` 包裝 payload，導致 proxy 端回傳 400。
@@ -72,6 +92,22 @@ async function proxyInsert(table: string, data: Record<string, any>) {
 - Layout 根容器：`height: 100vh; overflow-y: auto;`
 - 路由：`HashRouter`（多頁面）或直接渲染（單頁面）
 - 詳見文件第 11 章
+
+### 滾動佈局正確寫法
+
+要讓 `.app-content` 的 `overflow-y: auto` 生效，**所有祖先容器都必須用固定 `height`，不能用 `min-height`**：
+
+```css
+/* ✅ 正確 — 固定高度，子元素才會溢出觸發滾軸 */
+html, body, #root { height: 100%; overflow: hidden; }
+.app-layout { display: flex; height: 100vh; overflow: hidden; }
+.app-main { flex: 1; height: 100vh; overflow: hidden; }
+.app-content { flex: 1; overflow-y: auto; }
+
+/* ❌ 錯誤 — min-height 讓容器無限延伸，overflow 永遠不觸發 */
+.app-layout { min-height: 100vh; }
+.app-main { min-height: 100vh; }
+```
 
 ---
 
@@ -122,6 +158,8 @@ async function proxyInsert(table: string, data: Record<string, any>) {
 - async callback 中讀取最新 state → **使用 `useRef` 同步追蹤**
 - 不依賴 `confirm()` → 使用 React state 二階段確認
 - Runtime 提供的模組（不需安裝）：`react`, `react-dom`, `lucide-react`, `react-router-dom`, `react-hot-toast`
+- **所有 Hooks（useState / useEffect / useRef / useCallback）必須在 early return 之前**，否則元件會靜默白屏崩潰
+- 有「點擊外部關閉」邏輯的 dropdown/popover，選項互動一律用 **`onMouseDown` + `e.preventDefault()`**，不能用 `onClick`（會被 blur 搶先移除 DOM）
 
 ---
 
@@ -137,3 +175,17 @@ async function proxyInsert(table: string, data: Record<string, any>) {
 ```
 
 **絕對不要跳過步驟 4 直接請用戶測試。**
+
+### VFS 字串替換安全規則
+
+透過 API 替換 VFS 程式碼時，**替換完成後必須驗證**：
+1. 目標函數/元件只出現 **1 次**（避免殘留舊版本片段）
+2. 沒有孤立的 `}) {`、`};` 等語法碎片
+3. 上傳前先呼叫 **compile API** 確認無錯誤
+
+```python
+# 替換後驗證範例
+assert content.count("function MyComponent") == 1
+r = api("POST", f"/builder/apps/{app_id}/compile")
+assert not r.get("errors")
+```

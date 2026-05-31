@@ -8,7 +8,7 @@
 
 ## 總覽
 
-本次開發共踩 **14 個坑**，依時間序排列。
+歷次開發共踩 **19 個坑**，依時間序排列。
 
 - ⚠️ = **查文件即可避免**（開發者自身怠惰）
 - 🔍 = **需實測平台行為才能發現**（文件未涵蓋或有歧義）
@@ -29,8 +29,13 @@
 | 12 | Proxy POST 欄位被 Reference 過濾 | 🔍 | 高 |
 | 13 | 盲猜 Reference API 路徑 | ⚠️ | 高 |
 | 14 | `toISOString()` 日期帶時區被 DB 拒絕 | 🔍 | 低 |
+| 15 | `runAction()` 回傳 `{ data, file }` 未解包 | 🔍 | 高 |
+| 16 | React Hooks 放在 early return 之後導致白屏 | ⚠️ | 高 |
+| 17 | Dropdown `onClick` 被 `mousedown` 外部偵測搶先 | 🔍 | 中 |
+| 18 | CSS `min-height` 導致 `overflow` 永遠不觸發 | ⚠️ | 中 |
+| 19 | VFS 字串替換殘留舊函數片段致編譯錯誤 | ⚠️ | 中 |
 
-> **統計**：14 個坑中 **10 個 (71%) 是查文件就能避免的**。
+> **統計**：19 個坑中 **13 個 (68%) 是查文件或遵守基本規則就能避免的**。
 
 ---
 
@@ -314,3 +319,155 @@ date_from: new Date(pl.date_from + "T09:00:00").toISOString()
 api.ts (submitRecord)  → Custom Table  → /data/objects/
 db.ts  (insert)        → Proxy Table   → /proxy/{appId}/
 ```
+
+### 6. `runAction` 回傳必須解包
+前端所有 `runAction` 結果都用 `const d = r?.data || r;` 再存取。
+
+### 7. VFS 替換後必驗證
+替換完立即檢查：函數只出現 1 次、無殘留語法碎片、compile 無錯誤。
+
+---
+
+## 坑 15 — `runAction()` 回傳 `{ data, file }` 而非直接結果 🔍
+
+### 現象
+前端呼叫 `runAction("sales_log", { action: "list_logs" })` 後，
+`r.logs` 永遠是 `undefined`，HistoryPage / CustomersPage / LogInputPage 全部資料為空。
+
+### 根因
+`action.ts` 的 `runAction()` 回傳：
+```javascript
+return {
+  data: result.result || result.data || result,
+  file: result.file || undefined,
+};
+```
+`r` = `{ data: { logs: [...] }, file: undefined }`，正確取法是 `r.data.logs`。
+
+### 正確做法
+```javascript
+// ✅
+const d = r?.data || r;
+if (d?.logs) setLogs(d.logs);
+
+// ❌ r.logs 不存在
+if (r?.logs) setLogs(r.logs);
+```
+
+### 教訓
+> 每個 App 的 `action.ts` runAction 回傳格式可能不同，**務必先確認回傳結構再寫接收邏輯**。
+
+---
+
+## 坑 16 — React Hooks 放在 early return 之後導致白屏 ⚠️
+
+### 現象
+Churn Analysis DashboardPage 打開後全白，無任何錯誤訊息（靜默崩潰）。
+
+### 根因
+```javascript
+// ❌ useEffect 在 early return 之後 → 違反 Hooks 規則
+if (loading) return <Loading />;
+if (!data) return <NoData />;
+
+useEffect(() => { /* 這行永遠不該出現在這裡 */ }, []);
+```
+React Hooks 規則要求：**所有 Hooks 在每次 render 都必須以相同順序被呼叫**。
+放在 early return 之後會導致某些 render 時 Hook 不被呼叫。
+
+### 正確做法
+```javascript
+// ✅ 所有 Hooks 集中在函數頂部
+const [data, setData] = useState(null);
+useEffect(() => { load(); }, []);
+useEffect(() => { /* click outside handler */ }, []);
+
+// early return 放在所有 Hooks 之後
+if (loading) return <Loading />;
+if (!data) return <NoData />;
+```
+
+---
+
+## 坑 17 — Dropdown `onClick` 在 `mousedown` 外部偵測下無效 🔍
+
+### 現象
+Autocomplete 下拉選單看得到客戶列表，但點選後不會帶入輸入框。
+
+### 根因
+瀏覽器事件執行順序：**`mousedown → blur → mouseup → click`**
+
+`document.addEventListener("mousedown")` 的 click-outside handler
+在 `click` 之前執行。input 因 mousedown 失去焦點 → React 重渲染移除 dropdown DOM →
+`click` 事件的 target 已不存在。
+
+### 正確做法
+```jsx
+// ✅ onMouseDown + preventDefault 阻止 blur
+<div className="ac-item"
+  onMouseDown={e => { e.preventDefault(); selectItem(c); }}
+>
+
+// ❌ onClick 在 blur 之後觸發，DOM 可能已移除
+<div className="ac-item"
+  onClick={() => selectItem(c)}
+>
+```
+
+### 通則
+> 凡是有「點擊外部關閉」邏輯的 dropdown / popover / modal，
+> 選項互動一律使用 **`onMouseDown` + `e.preventDefault()`**。
+
+---
+
+## 坑 18 — CSS `min-height: 100vh` 導致 overflow 永遠不觸發 ⚠️
+
+### 現象
+Sales Input App 完全無法捲動，側邊也看不到滾軸。
+
+### 根因
+```css
+/* ❌ min-height 讓容器高度無限延伸，子元素永遠不溢出 */
+.app-layout { min-height: 100vh; }
+.app-main { min-height: 100vh; }
+.app-content { overflow-y: auto; }  /* 不會觸發！ */
+```
+
+### 正確做法
+```css
+/* ✅ 固定高度 + overflow hidden，讓 app-content 成為唯一捲動區 */
+html, body, #root { height: 100%; overflow: hidden; }
+.app-layout { display: flex; height: 100vh; overflow: hidden; }
+.app-main { flex: 1; height: 100vh; overflow: hidden; }
+.app-content { flex: 1; overflow-y: auto; }
+```
+
+### 關鍵原理
+> `overflow-y: auto` 只在內容超過容器「固定高度」時生效。
+> `min-height` 允許容器隨內容延伸 → 永遠不溢出 → 滾軸不出現。
+
+---
+
+## 坑 19 — VFS 字串替換殘留舊函數片段致編譯錯誤 ⚠️
+
+### 現象
+替換 CompanyAutocomplete 元件後，編譯錯誤 `Unexpected "}"` at line 128。
+
+### 根因
+用 brace counting `{` `}` 偵測函數結尾時，JSX 中的 `{expression}` 也被計入，
+導致提前認定函數結束，舊函數後半段殘留在程式碼中。
+
+### 正確做法
+1. 替換完成後，**驗證目標函數只出現 1 次**
+2. 檢查沒有孤立的 `}) {`、`};` 等殘留語法
+3. 上傳前先呼叫 **compile API** 確認無錯誤
+
+```python
+assert content.count("function CompanyAutocomplete") == 1
+r = api("POST", f"/builder/apps/{app_id}/compile")
+assert not r.get("errors")
+```
+
+### 教訓
+> 不要信任 brace counting 來定位 JSX 函數邊界。
+> 替換後的驗證步驟不可省略。
