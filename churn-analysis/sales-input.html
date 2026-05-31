@@ -349,10 +349,10 @@ tbody tr:hover { background: #FAFBFC; }
               <textarea class="form-textarea large" id="f-desc" placeholder="詳細描述本次與客戶的互動內容、客戶反饋、議題進展…"></textarea>
               <div class="form-help">提示：可從以下情境快速套用範例（測試 AI 風險判讀效果）</div>
               <div class="examples-row">
-                <div class="example-chip" onclick="loadExample('competition')">💥 客戶提到轉單</div>
-                <div class="example-chip" onclick="loadExample('quality')">🔧 品質客訴</div>
-                <div class="example-chip" onclick="loadExample('payment')">💰 帳款延遲</div>
-                <div class="example-chip" onclick="loadExample('normal')">✅ 正常拜訪</div>
+                <div class="example-chip" onclick="loadExample('competition')">客戶提到轉單</div>
+                <div class="example-chip" onclick="loadExample('quality')">品質客訴</div>
+                <div class="example-chip" onclick="loadExample('payment')">帳款延遲</div>
+                <div class="example-chip" onclick="loadExample('normal')">正常拜訪</div>
               </div>
             </div>
           </div>
@@ -360,7 +360,7 @@ tbody tr:hover { background: #FAFBFC; }
           <!-- Live AI preview -->
           <div id="ai-preview-box" style="display:none;">
             <div class="ai-preview">
-              <div class="ai-preview-icon">🧠</div>
+              <div class="ai-preview-icon">AI</div>
               <div class="ai-preview-content">
                 <div class="ai-preview-label">AI 即時判讀（初步）</div>
                 <div class="ai-preview-text" id="ai-preview-text"></div>
@@ -466,7 +466,7 @@ tbody tr:hover { background: #FAFBFC; }
 
       <!-- High risk alert -->
       <div class="alert-card">
-        <div class="alert-icon">🚨</div>
+        <div class="alert-icon" style="font-size:20px;font-weight:700;color:#dc2626;">!</div>
         <div class="alert-content">
           <div class="alert-title">AI 為你標記了 5 個需立即關注的客戶</div>
           <div class="alert-desc">這些客戶的近期日誌出現了流失或品質風險訊號，建議優先安排拜訪或主動聯繫。</div>
@@ -633,7 +633,7 @@ function submitLog() {
 
 function showSuccess(result, company) {
   const r = result;
-  const riskLabel = r.risk >= 4 ? '極高風險 ⚠️' : r.risk >= 3 ? '高風險 ⚠️' : r.risk >= 2 ? '中度風險' : r.risk >= 1 ? '輕微注意' : '無風險 ✓';
+  const riskLabel = r.risk >= 4 ? '極高風險' : r.risk >= 3 ? '高風險' : r.risk >= 2 ? '中度風險' : r.risk >= 1 ? '輕微注意' : '無風險';
   const cardHtml = `
     <div class="success-ai-label">AI 判讀結果</div>
     <div style="display:flex;gap:8px;margin:6px 0;">
@@ -641,7 +641,7 @@ function showSuccess(result, company) {
       <span class="badge cat-${categoryClass(r.category)}">${r.category}</span>
     </div>
     <div class="success-ai-text">${r.reason}</div>
-    ${r.risk >= 3 ? `<div style="margin-top:10px;padding:8px 10px;background:rgba(220,38,38,0.1);border-radius:6px;font-size:12px;color:var(--danger);">📢 主管已收到此風險提醒，並更新「<strong>${company}</strong>」的客戶風險評分。</div>` : ''}
+    ${r.risk >= 3 ? `<div style="margin-top:10px;padding:8px 10px;background:rgba(220,38,38,0.1);border-radius:6px;font-size:12px;color:var(--danger);">主管已收到此風險提醒，並更新「<strong>${company}</strong>」的客戶風險評分。</div>` : ''}
   `;
   document.getElementById('success-ai-card').innerHTML = cardHtml;
   document.getElementById('success-backdrop').classList.add('show');

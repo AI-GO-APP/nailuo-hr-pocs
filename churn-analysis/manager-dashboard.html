@@ -7,35 +7,35 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --primary: #2563EB;
-  --primary-dark: #1D4ED8;
-  --primary-light: #DBEAFE;
-  --danger: #DC2626;
-  --danger-light: #FEE2E2;
-  --warning: #EA580C;
-  --warning-light: #FFEDD5;
-  --yellow: #CA8A04;
-  --yellow-light: #FEF3C7;
-  --success: #16A34A;
-  --success-light: #DCFCE7;
-  --purple: #7C3AED;
-  --purple-light: #EDE9FE;
-  --teal: #0891B2;
-  --teal-light: #CFFAFE;
-  --text: #0F172A;
-  --text-2: #475569;
-  --text-3: #94A3B8;
-  --border: #E2E8F0;
-  --bg: #F8FAFC;
-  --bg-card: #FFFFFF;
+ --primary: #2563EB;
+ --primary-dark: #1D4ED8;
+ --primary-light: #DBEAFE;
+ --danger: #DC2626;
+ --danger-light: #FEE2E2;
+ --warning: #EA580C;
+ --warning-light: #FFEDD5;
+ --yellow: #CA8A04;
+ --yellow-light: #FEF3C7;
+ --success: #16A34A;
+ --success-light: #DCFCE7;
+ --purple: #7C3AED;
+ --purple-light: #EDE9FE;
+ --teal: #0891B2;
+ --teal-light: #CFFAFE;
+ --text: #0F172A;
+ --text-2: #475569;
+ --text-3: #94A3B8;
+ --border: #E2E8F0;
+ --bg: #F8FAFC;
+ --bg-card: #FFFFFF;
 }
 html, body {
-  height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
-  color: var(--text);
-  background: var(--bg);
-  font-size: 14px;
-  line-height: 1.5;
+ height: 100%;
+ font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+ color: var(--text);
+ background: var(--bg);
+ font-size: 14px;
+ line-height: 1.5;
 }
 button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 a { color: inherit; text-decoration: none; }
@@ -43,73 +43,73 @@ a { color: inherit; text-decoration: none; }
 
 /* ===== Sidebar ===== */
 .sidebar {
-  background: #FFFFFF;
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  position: sticky;
-  top: 0;
-  height: 100vh;
+ background: #FFFFFF;
+ border-right: 1px solid var(--border);
+ display: flex;
+ flex-direction: column;
+ position: sticky;
+ top: 0;
+ height: 100vh;
 }
 .brand {
-  display: flex; align-items: center; gap: 10px;
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--border);
+ display: flex; align-items: center; gap: 10px;
+ padding: 16px 18px;
+ border-bottom: 1px solid var(--border);
 }
 .brand-logo {
-  width: 32px; height: 32px;
-  background: linear-gradient(135deg, #2563EB, #7C3AED);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  color: white;
+ width: 32px; height: 32px;
+ background: linear-gradient(135deg, #2563EB, #7C3AED);
+ border-radius: 8px;
+ display: flex; align-items: center; justify-content: center;
+ color: white;
 }
 .brand-name { font-weight: 600; font-size: 15px; }
 .nav { flex: 1; overflow-y: auto; padding: 12px 8px; }
 .nav-group-label {
-  font-size: 11px; color: var(--text-3);
-  padding: 14px 12px 6px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
+ font-size: 11px; color: var(--text-3);
+ padding: 14px 12px 6px;
+ font-weight: 500;
+ letter-spacing: 0.5px;
 }
 .nav-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  color: var(--text-2);
-  cursor: pointer;
-  font-size: 14px;
-  margin: 1px 0;
+ display: flex; align-items: center; gap: 10px;
+ padding: 8px 12px;
+ border-radius: 8px;
+ color: var(--text-2);
+ cursor: pointer;
+ font-size: 14px;
+ margin: 1px 0;
 }
 .nav-item:hover { background: #F1F5F9; color: var(--text); }
 .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
 .nav-item .new-tag {
-  margin-left: auto;
-  font-size: 10px; padding: 2px 6px; border-radius: 4px;
-  background: var(--danger); color: white; font-weight: 500;
+ margin-left: auto;
+ font-size: 10px; padding: 2px 6px; border-radius: 4px;
+ background: var(--danger); color: white; font-weight: 500;
 }
 .nav-item .ext-icon {
-  margin-left: auto;
-  color: var(--text-3);
+ margin-left: auto;
+ color: var(--text-3);
 }
 .nav-sub {
-  margin-left: 14px;
-  border-left: 1px solid var(--border);
-  padding-left: 8px;
-  margin-bottom: 6px;
+ margin-left: 14px;
+ border-left: 1px solid var(--border);
+ padding-left: 8px;
+ margin-bottom: 6px;
 }
 .nav-sub .nav-item { padding: 6px 12px; font-size: 13px; }
 
 .user-card {
-  padding: 12px; margin: 8px;
-  border: 1px solid var(--border); border-radius: 10px;
-  display: flex; align-items: center; gap: 10px;
+ padding: 12px; margin: 8px;
+ border: 1px solid var(--border); border-radius: 10px;
+ display: flex; align-items: center; gap: 10px;
 }
 .avatar {
-  width: 32px; height: 32px;
-  background: #F1F5F9; color: var(--text-2);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 600; font-size: 14px;
+ width: 32px; height: 32px;
+ background: #F1F5F9; color: var(--text-2);
+ border-radius: 50%;
+ display: flex; align-items: center; justify-content: center;
+ font-weight: 600; font-size: 14px;
 }
 .avatar.boss { background: linear-gradient(135deg, #2563EB, #7C3AED); color: white; }
 .user-info { flex: 1; min-width: 0; }
@@ -119,11 +119,11 @@ a { color: inherit; text-decoration: none; }
 /* ===== Main ===== */
 .main { padding: 0; }
 .topbar {
-  display: flex; align-items: center; gap: 10px;
-  padding: 14px 32px;
-  border-bottom: 1px solid var(--border);
-  background: white;
-  position: sticky; top: 0; z-index: 5;
+ display: flex; align-items: center; gap: 10px;
+ padding: 14px 32px;
+ border-bottom: 1px solid var(--border);
+ background: white;
+ position: sticky; top: 0; z-index: 5;
 }
 .collapse-btn { padding: 6px; border-radius: 6px; color: var(--text-2); }
 .collapse-btn:hover { background: #F1F5F9; }
@@ -132,13 +132,13 @@ a { color: inherit; text-decoration: none; }
 .breadcrumb .current { color: var(--text); font-weight: 500; }
 .topbar-spacer { flex: 1; }
 .sync-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 10px;
-  background: var(--success-light);
-  border-radius: 999px;
-  font-size: 12px;
-  color: var(--success);
-  font-weight: 500;
+ display: inline-flex; align-items: center; gap: 6px;
+ padding: 5px 10px;
+ background: var(--success-light);
+ border-radius: 999px;
+ font-size: 12px;
+ color: var(--success);
+ font-weight: 500;
 }
 .sync-dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
@@ -149,11 +149,11 @@ a { color: inherit; text-decoration: none; }
 .page-subtitle { color: var(--text-2); font-size: 14px; }
 
 .btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 9px 14px;
-  border-radius: 8px;
-  font-size: 13px; font-weight: 500;
-  transition: all .15s;
+ display: inline-flex; align-items: center; gap: 6px;
+ padding: 9px 14px;
+ border-radius: 8px;
+ font-size: 13px; font-weight: 500;
+ transition: all .15s;
 }
 .btn-primary { background: var(--primary); color: white; }
 .btn-primary:hover:not(:disabled) { background: var(--primary-dark); }
@@ -170,29 +170,29 @@ a { color: inherit; text-decoration: none; }
 
 /* ===== Analyzing overlay ===== */
 .analyzing-overlay {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(255, 255, 255, 0.96);
-  z-index: 80;
-  align-items: center; justify-content: center;
-  backdrop-filter: blur(4px);
+ display: none;
+ position: fixed; inset: 0;
+ background: rgba(255, 255, 255, 0.96);
+ z-index: 80;
+ align-items: center; justify-content: center;
+ backdrop-filter: blur(4px);
 }
 .analyzing-overlay.show { display: flex; }
 .analyzing-box {
-  width: 560px;
-  padding: 40px;
-  text-align: center;
+ width: 560px;
+ padding: 40px;
+ text-align: center;
 }
 .ai-orb {
-  width: 80px; height: 80px;
-  margin: 0 auto 20px;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, #2563EB, #7C3AED, #2563EB);
-  position: relative;
-  animation: spin 3s linear infinite;
+ width: 80px; height: 80px;
+ margin: 0 auto 20px;
+ border-radius: 50%;
+ background: conic-gradient(from 0deg, #2563EB, #7C3AED, #2563EB);
+ position: relative;
+ animation: spin 3s linear infinite;
 }
-.ai-orb::before { content: ''; position: absolute; inset: 7px; border-radius: 50%; background: white; }
-.ai-orb::after { content: '✨'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 28px; animation: counter-spin 3s linear infinite; }
+.ai-orb::before { content: 'AI'; position: absolute; inset: 7px; border-radius: 50%; background: white; }
+.ai-orb::after { content: 'AI'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 28px; animation: counter-spin 3s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes counter-spin { to { transform: rotate(-360deg); } }
 .analyzing-title { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
@@ -210,10 +210,10 @@ a { color: inherit; text-decoration: none; }
 /* ===== KPI cards ===== */
 .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
 .kpi-card {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
+ background: white;
+ border: 1px solid var(--border);
+ border-radius: 12px;
+ padding: 20px;
 }
 .kpi-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
 .kpi-icon.blue { background: var(--primary-light); color: var(--primary); }
@@ -229,10 +229,10 @@ a { color: inherit; text-decoration: none; }
 /* ===== Dashboard grid ===== */
 .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
 .panel {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
+ background: white;
+ border: 1px solid var(--border);
+ border-radius: 12px;
+ padding: 20px;
 }
 .panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; }
 .panel-title { font-size: 16px; font-weight: 600; }
@@ -241,12 +241,12 @@ a { color: inherit; text-decoration: none; }
 /* Table */
 .search-row { margin-bottom: 14px; display: flex; gap: 10px; align-items: center; }
 .search-input {
-  flex: 1;
-  padding: 9px 14px 9px 38px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 14px;
-  background: var(--bg) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>") no-repeat 12px center;
+ flex: 1;
+ padding: 9px 14px 9px 38px;
+ border: 1px solid var(--border);
+ border-radius: 8px;
+ font-size: 14px;
+ background: var(--bg) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>") no-repeat 12px center;
 }
 .search-input:focus { outline: none; border-color: var(--primary); background-color: white; }
 .filter-btn { padding: 9px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; color: var(--text-2); display: flex; align-items: center; gap: 6px; background: white; }
@@ -254,14 +254,14 @@ a { color: inherit; text-decoration: none; }
 
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 thead th {
-  text-align: left;
-  padding: 12px 14px;
-  font-weight: 500;
-  color: var(--text-2);
-  font-size: 12px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
-  white-space: nowrap;
+ text-align: left;
+ padding: 12px 14px;
+ font-weight: 500;
+ color: var(--text-2);
+ font-size: 12px;
+ border-bottom: 1px solid var(--border);
+ background: var(--bg);
+ white-space: nowrap;
 }
 thead th .sort { color: var(--text-3); margin-left: 4px; font-size: 10px; }
 tbody td { padding: 14px; border-bottom: 1px solid #F1F5F9; }
@@ -271,12 +271,12 @@ tbody tr:last-child td { border-bottom: none; }
 .company-icon { color: var(--text-3); flex-shrink: 0; }
 
 .badge {
-  display: inline-flex; align-items: center;
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 500;
-  white-space: nowrap;
+ display: inline-flex; align-items: center;
+ padding: 3px 10px;
+ border-radius: 999px;
+ font-size: 11px;
+ font-weight: 500;
+ white-space: nowrap;
 }
 .badge.risk-4 { background: var(--danger); color: white; }
 .badge.risk-3 { background: var(--warning); color: white; }
@@ -324,15 +324,15 @@ tbody tr:last-child td { border-bottom: none; }
 
 /* ===== Modal ===== */
 .modal-backdrop {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(15, 23, 42, .5);
-  z-index: 50;
-  align-items: flex-start;
-  justify-content: center;
-  overflow-y: auto;
-  padding: 40px 16px;
-  animation: fadeIn .2s ease;
+ display: none;
+ position: fixed; inset: 0;
+ background: rgba(15, 23, 42, .5);
+ z-index: 50;
+ align-items: flex-start;
+ justify-content: center;
+ overflow-y: auto;
+ padding: 40px 16px;
+ animation: fadeIn .2s ease;
 }
 .modal-backdrop.show { display: flex; }
 .modal { background: white; border-radius: 16px; width: 100%; max-width: 880px; overflow: hidden; box-shadow: 0 20px 60px rgba(15, 23, 42, .2); }
@@ -352,7 +352,7 @@ tbody tr:last-child td { border-bottom: none; }
 
 .modal-body { padding: 0 28px 28px; }
 .section-title { font-size: 14px; font-weight: 600; margin: 20px 0 12px; display: flex; align-items: center; gap: 8px; }
-.section-title::before { content: ''; width: 3px; height: 14px; background: var(--primary); border-radius: 2px; }
+.section-title::before { content: 'AI'; width: 3px; height: 14px; background: var(--primary); border-radius: 2px; }
 
 .log-entry { border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
 .log-entry-head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--bg); border-bottom: 1px solid var(--border); font-size: 13px; flex-wrap: wrap; }
@@ -441,15 +441,15 @@ tbody tr:last-child td { border-bottom: none; }
 /* === Category analysis === */
 .cat-tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
 .cat-tab {
-  display: flex; align-items: center; gap: 10px;
-  padding: 14px 18px;
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  background: white;
-  cursor: pointer;
-  transition: all 0.15s;
-  flex: 1;
-  min-width: 180px;
+ display: flex; align-items: center; gap: 10px;
+ padding: 14px 18px;
+ border: 2px solid var(--border);
+ border-radius: 12px;
+ background: white;
+ cursor: pointer;
+ transition: all 0.15s;
+ flex: 1;
+ min-width: 180px;
 }
 .cat-tab:hover { border-color: var(--text-3); }
 .cat-tab.active { border-color: currentColor; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08); }
@@ -461,18 +461,18 @@ tbody tr:last-child td { border-bottom: none; }
 
 .cat-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
 .cat-summary-card {
-  background: white;
-  border-radius: 12px;
-  padding: 22px 24px;
-  position: relative;
-  overflow: hidden;
-  color: white;
+ background: white;
+ border-radius: 12px;
+ padding: 22px 24px;
+ position: relative;
+ overflow: hidden;
+ color: white;
 }
 .cat-summary-card::before {
-  content: '';
-  position: absolute; top: 0; right: 0;
-  width: 200px; height: 200px;
-  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+ content: 'AI';
+ position: absolute; top: 0; right: 0;
+ width: 200px; height: 200px;
+ background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
 }
 .cat-summary-icon { font-size: 32px; margin-bottom: 12px; }
 .cat-summary-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
@@ -483,12 +483,12 @@ tbody tr:last-child td { border-bottom: none; }
 
 .competitor-list { }
 .competitor-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  margin-bottom: 8px;
-  transition: all 0.15s;
+ display: flex; align-items: center; gap: 12px;
+ padding: 12px 14px;
+ border: 1px solid var(--border);
+ border-radius: 10px;
+ margin-bottom: 8px;
+ transition: all 0.15s;
 }
 .competitor-row:hover { border-color: var(--danger); background: var(--danger-light); }
 .competitor-icon { width: 36px; height: 36px; background: var(--danger-light); color: var(--danger); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
@@ -499,11 +499,11 @@ tbody tr:last-child td { border-bottom: none; }
 
 .issue-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .issue-tag {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 12px;
-  background: var(--warning-light);
-  border-radius: 8px;
-  font-size: 13px;
+ display: flex; align-items: center; gap: 8px;
+ padding: 10px 12px;
+ background: var(--warning-light);
+ border-radius: 8px;
+ font-size: 13px;
 }
 .issue-tag-icon { font-size: 16px; }
 .issue-tag-name { flex: 1; font-weight: 500; color: var(--warning); }
@@ -511,11 +511,11 @@ tbody tr:last-child td { border-bottom: none; }
 
 .brand-impact-list { }
 .brand-impact-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  margin-bottom: 8px;
+ display: flex; align-items: center; gap: 12px;
+ padding: 12px 14px;
+ border: 1px solid var(--border);
+ border-radius: 10px;
+ margin-bottom: 8px;
 }
 .brand-impact-logo { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: white; flex-shrink: 0; }
 .brand-impact-info { flex: 1; min-width: 0; }
@@ -526,28 +526,28 @@ tbody tr:last-child td { border-bottom: none; }
 .brand-impact-label { font-size: 10px; color: var(--text-3); }
 
 .timeline-item {
-  position: relative;
-  padding: 12px 14px 12px 36px;
-  border-left: 2px solid var(--border);
-  margin-bottom: 4px;
+ position: relative;
+ padding: 12px 14px 12px 36px;
+ border-left: 2px solid var(--border);
+ margin-bottom: 4px;
 }
 .timeline-item::before {
-  content: ''; position: absolute; left: -7px; top: 18px;
-  width: 12px; height: 12px;
-  background: var(--danger); border: 2px solid white; border-radius: 50%;
+ content: 'AI'; position: absolute; left: -7px; top: 18px;
+ width: 12px; height: 12px;
+ background: var(--danger); border: 2px solid white; border-radius: 50%;
 }
 .timeline-date { font-size: 11px; color: var(--text-3); }
 .timeline-event { font-size: 13px; font-weight: 500; margin: 2px 0; }
 .timeline-meta { font-size: 11px; color: var(--text-2); }
 
 .cat-customer-card {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: all 0.15s;
+ display: flex; align-items: center; gap: 12px;
+ padding: 12px 14px;
+ border: 1px solid var(--border);
+ border-radius: 10px;
+ margin-bottom: 8px;
+ cursor: pointer;
+ transition: all 0.15s;
 }
 .cat-customer-card:hover { border-color: var(--primary); background: var(--primary-light); }
 .cat-customer-rank { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: white; flex-shrink: 0; }
@@ -573,558 +573,558 @@ tbody tr:last-child td { border-bottom: none; }
 
 <!-- Sidebar (simplified) -->
 <aside class="sidebar">
-  <div class="brand">
-    <div class="brand-logo">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L19 10.7l-4.1 3 1.6 5.3-4.5-3.3-4.5 3.3 1.6-5.3-4.1-3 5.1-1.9z"/></svg>
-    </div>
-    <div class="brand-name">Lia demo</div>
-  </div>
+ <div class="brand">
+ <div class="brand-logo">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L19 10.7l-4.1 3 1.6 5.3-4.5-3.3-4.5 3.3 1.6-5.3-4.1-3 5.1-1.9z"/></svg>
+ </div>
+ <div class="brand-name">Lia demo</div>
+ </div>
 
-  <nav class="nav">
-    <div class="nav-group-label">總覽</div>
-    <div class="nav-item">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
-      首頁總覽
-    </div>
+ <nav class="nav">
+ <div class="nav-group-label">總覽</div>
+ <div class="nav-item">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+ 首頁總覽
+ </div>
 
-    <div class="nav-group-label">客戶流失風險分析</div>
-    <div class="nav-item active" onclick="goTo('dashboard')" id="nav-dashboard">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      風險總覽
-      <span class="new-tag">NEW</span>
-    </div>
-    <div class="nav-item" onclick="goTo('sales')" id="nav-sales">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      業務分析
-    </div>
-    <div class="nav-item" onclick="goTo('categories')" id="nav-categories">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-      風險類別分析
-    </div>
-    <div class="nav-item" onclick="goTo('datasource')" id="nav-datasource">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
-      資料來源
-    </div>
+ <div class="nav-group-label">客戶流失風險分析</div>
+ <div class="nav-item active" onclick="goTo('dashboard')" id="nav-dashboard">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+ 風險總覽
+ <span class="new-tag">NEW</span>
+ </div>
+ <div class="nav-item" onclick="goTo('sales')" id="nav-sales">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+ 業務分析
+ </div>
+ <div class="nav-item" onclick="goTo('categories')" id="nav-categories">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+ 風險類別分析
+ </div>
+ <div class="nav-item" onclick="goTo('datasource')" id="nav-datasource">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+ 資料來源
+ </div>
 
-    <div class="nav-group-label">業務工具</div>
-    <a class="nav-item" href="prototype-耐落-業務日誌填寫.html" target="_blank">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-      業務日誌填寫
-      <svg class="ext-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-    </a>
+ <div class="nav-group-label">業務工具</div>
+ <a class="nav-item" href="prototype-耐落-業務日誌填寫.html" target="_blank">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+ 業務日誌填寫
+ <svg class="ext-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+ </a>
 
-    <div class="nav-group-label">組織</div>
-    <div class="nav-item">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      成員管理
-    </div>
-    <div class="nav-item">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      系統設定
-    </div>
-  </nav>
+ <div class="nav-group-label">組織</div>
+ <div class="nav-item">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+ 成員管理
+ </div>
+ <div class="nav-item">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+ 系統設定
+ </div>
+ </nav>
 
-  <div class="user-card">
-    <div class="avatar boss">主</div>
-    <div class="user-info">
-      <div class="user-name">業務主管 王經理</div>
-      <div class="user-email">manager@urfit.com.tw</div>
-    </div>
-  </div>
+ <div class="user-card">
+ <div class="avatar boss">主</div>
+ <div class="user-info">
+ <div class="user-name">業務主管 王經理</div>
+ <div class="user-email">manager@urfit.com.tw</div>
+ </div>
+ </div>
 </aside>
 
 <!-- Main -->
 <main class="main">
-  <div class="topbar">
-    <button class="collapse-btn">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
-    </button>
-    <div class="breadcrumb">
-      <span>首頁總覽</span>
-      <span class="sep">›</span>
-      <span>客戶流失風險分析</span>
-      <span class="sep">›</span>
-      <span class="current" id="breadcrumb-current">風險總覽</span>
-    </div>
-    <div class="topbar-spacer"></div>
-    <div class="sync-badge">
-      <div class="sync-dot"></div>
-      已同步 · <span id="last-sync-time">3 分鐘前</span>
-    </div>
-  </div>
+ <div class="topbar">
+ <button class="collapse-btn">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+ </button>
+ <div class="breadcrumb">
+ <span>首頁總覽</span>
+ <span class="sep">›</span>
+ <span>客戶流失風險分析</span>
+ <span class="sep">›</span>
+ <span class="current" id="breadcrumb-current">風險總覽</span>
+ </div>
+ <div class="topbar-spacer"></div>
+ <div class="sync-badge">
+ <div class="sync-dot"></div>
+ 已同步 · <span id="last-sync-time">3 分鐘前</span>
+ </div>
+ </div>
 
-  <!-- =========== SCREEN: Dashboard =========== -->
-  <section class="screen active" id="screen-dashboard">
-    <div class="page">
-      <div class="page-head">
-        <div>
-          <h1 class="page-title">風險總覽</h1>
-          <p class="page-subtitle">2026/01/02 - 2026/01/15 · 共 15 個客戶被判定為高風險，需優先關注</p>
-        </div>
-        <div style="display:flex; gap:8px;">
-          <button class="btn btn-ghost" onclick="refreshData()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><polyline points="3 3 3 9 9 9"/></svg>
-            更新資料
-          </button>
-          <button class="btn btn-primary">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            匯出 Excel
-          </button>
-        </div>
-      </div>
+ <!-- =========== SCREEN: Dashboard =========== -->
+ <section class="screen active" id="screen-dashboard">
+ <div class="page">
+ <div class="page-head">
+ <div>
+ <h1 class="page-title">風險總覽</h1>
+ <p class="page-subtitle">2026/01/02 - 2026/01/15 · 共 15 個客戶被判定為高風險，需優先關注</p>
+ </div>
+ <div style="display:flex; gap:8px;">
+ <button class="btn btn-ghost" onclick="refreshData()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><polyline points="3 3 3 9 9 9"/></svg>
+ 更新資料
+ </button>
+ <button class="btn btn-primary">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+ 匯出 Excel
+ </button>
+ </div>
+ </div>
 
-      <!-- KPI cards -->
-      <div class="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-icon blue">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
-          </div>
-          <div class="kpi-label">分析日誌總數</div>
-          <div class="kpi-value">1,515</div>
-          <div class="kpi-meta">涵蓋 747 個外部客戶</div>
-        </div>
-        <div class="kpi-card danger">
-          <div class="kpi-icon red">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
-          </div>
-          <div class="kpi-label">高風險客戶</div>
-          <div class="kpi-value">15</div>
-          <div class="kpi-meta">綜合風險分 ≥ 10</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-icon orange">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div class="kpi-label">高風險日誌</div>
-          <div class="kpi-value">72</div>
-          <div class="kpi-meta">22 筆 Risk 4 ／ 50 筆 Risk 3</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-icon purple">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          </div>
-          <div class="kpi-label">主要風險類型</div>
-          <div class="kpi-value" style="font-size:22px;">競爭搶單</div>
-          <div class="kpi-meta">品質客訴次之 ・ 帳款問題第三</div>
-        </div>
-      </div>
+ <!-- KPI cards -->
+ <div class="kpi-grid">
+ <div class="kpi-card">
+ <div class="kpi-icon blue">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+ </div>
+ <div class="kpi-label">分析日誌總數</div>
+ <div class="kpi-value">1,515</div>
+ <div class="kpi-meta">涵蓋 747 個外部客戶</div>
+ </div>
+ <div class="kpi-card danger">
+ <div class="kpi-icon red">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
+ </div>
+ <div class="kpi-label">高風險客戶</div>
+ <div class="kpi-value">15</div>
+ <div class="kpi-meta">綜合風險分 ≥ 10</div>
+ </div>
+ <div class="kpi-card">
+ <div class="kpi-icon orange">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ </div>
+ <div class="kpi-label">高風險日誌</div>
+ <div class="kpi-value">72</div>
+ <div class="kpi-meta">22 筆 Risk 4 ／ 50 筆 Risk 3</div>
+ </div>
+ <div class="kpi-card">
+ <div class="kpi-icon purple">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+ </div>
+ <div class="kpi-label">主要風險類型</div>
+ <div class="kpi-value" style="font-size:22px;">競爭搶單</div>
+ <div class="kpi-meta">品質客訴次之 ・ 帳款問題第三</div>
+ </div>
+ </div>
 
-      <div class="dashboard-grid">
-        <div class="panel">
-          <div class="panel-head">
-            <div>
-              <div class="panel-title">客戶風險排名</div>
-              <div class="panel-sub">點擊任一列查看 AI 判讀詳情</div>
-            </div>
-          </div>
-          <div class="search-row">
-            <input class="search-input" placeholder="搜尋公司簡稱、業務人員…" />
-            <button class="filter-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-              篩選
-            </button>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>公司簡稱</th>
-                <th>業務人員</th>
-                <th>等級</th>
-                <th>接觸次數</th>
-                <th>最高風險</th>
-                <th>高風險日誌</th>
-                <th>主要風險類別</th>
-                <th>綜合風險分 <span class="sort">↓</span></th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody id="customer-tbody"></tbody>
-          </table>
-          <div class="pagination">
-            <div>第 1 - 15 筆，共 15 筆</div>
-            <div class="pagination-controls">
-              <button class="pagination-btn">‹</button>
-              <span class="pagination-page">第 1 / 1 頁</span>
-              <button class="pagination-btn">›</button>
-            </div>
-          </div>
-        </div>
+ <div class="dashboard-grid">
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">客戶風險排名</div>
+ <div class="panel-sub">點擊任一列查看 AI 判讀詳情</div>
+ </div>
+ </div>
+ <div class="search-row">
+ <input class="search-input" placeholder="搜尋公司簡稱、業務人員…" />
+ <button class="filter-btn">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+ 篩選
+ </button>
+ </div>
+ <table>
+ <thead>
+ <tr>
+ <th>公司簡稱</th>
+ <th>業務人員</th>
+ <th>等級</th>
+ <th>接觸次數</th>
+ <th>最高風險</th>
+ <th>高風險日誌</th>
+ <th>主要風險類別</th>
+ <th>綜合風險分 <span class="sort">↓</span></th>
+ <th>操作</th>
+ </tr>
+ </thead>
+ <tbody id="customer-tbody"></tbody>
+ </table>
+ <div class="pagination">
+ <div>第 1 - 15 筆，共 15 筆</div>
+ <div class="pagination-controls">
+ <button class="pagination-btn">‹</button>
+ <span class="pagination-page">第 1 / 1 頁</span>
+ <button class="pagination-btn">›</button>
+ </div>
+ </div>
+ </div>
 
-        <div style="display:flex; flex-direction:column; gap:16px;">
-          <div class="panel">
-            <div class="panel-head">
-              <div>
-                <div class="panel-title">風險類別分布</div>
-                <div class="panel-sub">72 筆高風險日誌</div>
-              </div>
-            </div>
-            <div class="chart-container">
-              <svg class="pie" viewBox="0 0 100 100"></svg>
-              <div class="legend" id="legend"></div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-head">
-              <div>
-                <div class="panel-title">最該關注的 5 個客戶</div>
-                <div class="panel-sub">點擊查看 AI 判讀詳情</div>
-              </div>
-            </div>
-            <div class="top-list" id="top-list"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+ <div style="display:flex; flex-direction:column; gap:16px;">
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">風險類別分布</div>
+ <div class="panel-sub">72 筆高風險日誌</div>
+ </div>
+ </div>
+ <div class="chart-container">
+ <svg class="pie" viewBox="0 0 100 100"></svg>
+ <div class="legend" id="legend"></div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">最該關注的 5 個客戶</div>
+ <div class="panel-sub">點擊查看 AI 判讀詳情</div>
+ </div>
+ </div>
+ <div class="top-list" id="top-list"></div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
 
-  <!-- =========== SCREEN: Sales (業務分析) =========== -->
-  <section class="screen" id="screen-sales">
-    <div class="page">
-      <div class="page-head">
-        <div>
-          <h1 class="page-title">業務分析</h1>
-          <p class="page-subtitle">從業務角度看：誰的客戶最該關注、誰可能不擅於維繫客戶關係</p>
-        </div>
-      </div>
+ <!-- =========== SCREEN: Sales (業務分析) =========== -->
+ <section class="screen" id="screen-sales">
+ <div class="page">
+ <div class="page-head">
+ <div>
+ <h1 class="page-title">業務分析</h1>
+ <p class="page-subtitle">從業務角度看：誰的客戶最該關注、誰可能不擅於維繫客戶關係</p>
+ </div>
+ </div>
 
-      <!-- KPI for sales -->
-      <div class="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-icon teal">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-          </div>
-          <div class="kpi-label">分析業務人員</div>
-          <div class="kpi-value">81</div>
-          <div class="kpi-meta">本期至少 1 筆日誌</div>
-        </div>
-        <div class="kpi-card danger">
-          <div class="kpi-icon red">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          </div>
-          <div class="kpi-label">高風險客戶集中業務</div>
-          <div class="kpi-value">7 人</div>
-          <div class="kpi-meta">管轄 ≥ 2 個高風險客戶</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-icon orange">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
-          </div>
-          <div class="kpi-label">救火型業務</div>
-          <div class="kpi-value">3 人</div>
-          <div class="kpi-meta">高頻拜訪但客戶仍高風險</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-icon purple">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          </div>
-          <div class="kpi-label">客戶被多人拜訪</div>
-          <div class="kpi-value">2 個</div>
-          <div class="kpi-meta">交接混亂風險</div>
-        </div>
-      </div>
+ <!-- KPI for sales -->
+ <div class="kpi-grid">
+ <div class="kpi-card">
+ <div class="kpi-icon teal">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+ </div>
+ <div class="kpi-label">分析業務人員</div>
+ <div class="kpi-value">81</div>
+ <div class="kpi-meta">本期至少 1 筆日誌</div>
+ </div>
+ <div class="kpi-card danger">
+ <div class="kpi-icon red">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+ </div>
+ <div class="kpi-label">高風險客戶集中業務</div>
+ <div class="kpi-value">7 人</div>
+ <div class="kpi-meta">管轄 ≥ 2 個高風險客戶</div>
+ </div>
+ <div class="kpi-card">
+ <div class="kpi-icon orange">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+ </div>
+ <div class="kpi-label">救火型業務</div>
+ <div class="kpi-value">3 人</div>
+ <div class="kpi-meta">高頻拜訪但客戶仍高風險</div>
+ </div>
+ <div class="kpi-card">
+ <div class="kpi-icon purple">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+ </div>
+ <div class="kpi-label">客戶被多人拜訪</div>
+ <div class="kpi-value">2 個</div>
+ <div class="kpi-meta">交接混亂風險</div>
+ </div>
+ </div>
 
-      <!-- Scatter: 業務拜訪頻率 vs 客戶風險 -->
-      <div class="panel" style="margin-bottom:16px;">
-        <div class="panel-head">
-          <div>
-            <div class="panel-title">業務人員風險地圖</div>
-            <div class="panel-sub">X 軸：業務拜訪頻率 · Y 軸：所管客戶平均風險分 · 圓圈大小：高風險客戶數</div>
-          </div>
-        </div>
-        <svg class="scatter-chart" id="scatter" viewBox="0 0 700 360"></svg>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; font-size: 11px; color: var(--text-2); margin-top: 8px;">
-          <div>🔴 右上：<strong>救火型</strong>（高頻拜訪但客戶仍高風險）</div>
-          <div>🟠 右下：<strong>穩定型</strong>（高頻拜訪、客戶穩定）</div>
-          <div>🟡 左上：<strong>失聯型</strong>（低頻拜訪、客戶高風險，需主管介入）</div>
-          <div>⚪ 左下：<strong>一般</strong>（低風險客戶為主）</div>
-        </div>
-      </div>
+ <!-- Scatter: 業務拜訪頻率 vs 客戶風險 -->
+ <div class="panel" style="margin-bottom:16px;">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">業務人員風險地圖</div>
+ <div class="panel-sub">X 軸：業務拜訪頻率 · Y 軸：所管客戶平均風險分 · 圓圈大小：高風險客戶數</div>
+ </div>
+ </div>
+ <svg class="scatter-chart" id="scatter" viewBox="0 0 700 360"></svg>
+ <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; font-size: 11px; color: var(--text-2); margin-top: 8px;">
+ <div> 右上：<strong>救火型</strong>（高頻拜訪但客戶仍高風險）</div>
+ <div> 右下：<strong>穩定型</strong>（高頻拜訪、客戶穩定）</div>
+ <div> 左上：<strong>失聯型</strong>（低頻拜訪、客戶高風險，需主管介入）</div>
+ <div> 左下：<strong>一般</strong>（低風險客戶為主）</div>
+ </div>
+ </div>
 
-      <div class="sales-grid">
-        <!-- 業務排行表 -->
-        <div class="panel">
-          <div class="panel-head">
-            <div>
-              <div class="panel-title">業務人員風險排名</div>
-              <div class="panel-sub">依管轄高風險客戶數排序</div>
-            </div>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>業務人員</th>
-                <th>管轄客戶數</th>
-                <th>高風險客戶</th>
-                <th>拜訪總次數</th>
-                <th>平均風險分</th>
-                <th>建議</th>
-              </tr>
-            </thead>
-            <tbody id="staff-tbody"></tbody>
-          </table>
-        </div>
+ <div class="sales-grid">
+ <!-- 業務排行表 -->
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">業務人員風險排名</div>
+ <div class="panel-sub">依管轄高風險客戶數排序</div>
+ </div>
+ </div>
+ <table>
+ <thead>
+ <tr>
+ <th>業務人員</th>
+ <th>管轄客戶數</th>
+ <th>高風險客戶</th>
+ <th>拜訪總次數</th>
+ <th>平均風險分</th>
+ <th>建議</th>
+ </tr>
+ </thead>
+ <tbody id="staff-tbody"></tbody>
+ </table>
+ </div>
 
-        <!-- 右側：警示卡片 -->
-        <div>
-          <div class="warn-card">
-            <div class="warn-card-title">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
-              不擅維繫客戶 Top 3
-            </div>
-            <div class="warn-card-desc">高風險客戶比例最高的業務，建議主管 1-on-1 了解狀況或調整人力配置</div>
-            <div class="warn-card-list">
-              <div class="warn-staff-item">
-                <div class="warn-staff-avatar">張</div>
-                <div class="warn-staff-info">
-                  <div class="warn-staff-name">張文武</div>
-                  <div class="warn-staff-meta">管轄 12 個客戶 · 5 個高風險</div>
-                </div>
-                <div class="warn-staff-stat">41.7%</div>
-              </div>
-              <div class="warn-staff-item">
-                <div class="warn-staff-avatar">唐</div>
-                <div class="warn-staff-info">
-                  <div class="warn-staff-name">唐熏蓮</div>
-                  <div class="warn-staff-meta">管轄 8 個客戶 · 3 個高風險</div>
-                </div>
-                <div class="warn-staff-stat">37.5%</div>
-              </div>
-              <div class="warn-staff-item">
-                <div class="warn-staff-avatar">王</div>
-                <div class="warn-staff-info">
-                  <div class="warn-staff-name">王俊濤</div>
-                  <div class="warn-staff-meta">管轄 9 個客戶 · 3 個高風險</div>
-                </div>
-                <div class="warn-staff-stat">33.3%</div>
-              </div>
-            </div>
-          </div>
+ <!-- 右側：警示卡片 -->
+ <div>
+ <div class="warn-card">
+ <div class="warn-card-title">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
+ 不擅維繫客戶 Top 3
+ </div>
+ <div class="warn-card-desc">高風險客戶比例最高的業務，建議主管 1-on-1 了解狀況或調整人力配置</div>
+ <div class="warn-card-list">
+ <div class="warn-staff-item">
+ <div class="warn-staff-avatar">張</div>
+ <div class="warn-staff-info">
+ <div class="warn-staff-name">張文武</div>
+ <div class="warn-staff-meta">管轄 12 個客戶 · 5 個高風險</div>
+ </div>
+ <div class="warn-staff-stat">41.7%</div>
+ </div>
+ <div class="warn-staff-item">
+ <div class="warn-staff-avatar">唐</div>
+ <div class="warn-staff-info">
+ <div class="warn-staff-name">唐熏蓮</div>
+ <div class="warn-staff-meta">管轄 8 個客戶 · 3 個高風險</div>
+ </div>
+ <div class="warn-staff-stat">37.5%</div>
+ </div>
+ <div class="warn-staff-item">
+ <div class="warn-staff-avatar">王</div>
+ <div class="warn-staff-info">
+ <div class="warn-staff-name">王俊濤</div>
+ <div class="warn-staff-meta">管轄 9 個客戶 · 3 個高風險</div>
+ </div>
+ <div class="warn-staff-stat">33.3%</div>
+ </div>
+ </div>
+ </div>
 
-          <div class="panel" style="background: linear-gradient(135deg, #DBEAFE 0%, #DCFCE7 100%); border-color: #93C5FD;">
-            <div class="warn-card-title" style="color: #065F46;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              客戶維護優等生 Top 3
-            </div>
-            <div class="warn-card-desc" style="color: #047857;">高頻拜訪且客戶穩定的業務，值得肯定與經驗分享</div>
-            <div class="warn-card-list">
-              <div class="warn-staff-item">
-                <div class="warn-staff-avatar" style="background: var(--success);">陳</div>
-                <div class="warn-staff-info">
-                  <div class="warn-staff-name">陳志揚</div>
-                  <div class="warn-staff-meta">管轄 6 個客戶 · 0 個高風險</div>
-                </div>
-                <div class="warn-staff-stat" style="color: var(--success);">0%</div>
-              </div>
-              <div class="warn-staff-item">
-                <div class="warn-staff-avatar" style="background: var(--success);">劉</div>
-                <div class="warn-staff-info">
-                  <div class="warn-staff-name">劉夢林</div>
-                  <div class="warn-staff-meta">管轄 5 個客戶 · 1 個高風險</div>
-                </div>
-                <div class="warn-staff-stat" style="color: var(--success);">20%</div>
-              </div>
-              <div class="warn-staff-item">
-                <div class="warn-staff-avatar" style="background: var(--success);">謝</div>
-                <div class="warn-staff-info">
-                  <div class="warn-staff-name">謝依樺</div>
-                  <div class="warn-staff-meta">管轄 5 個客戶 · 1 個高風險</div>
-                </div>
-                <div class="warn-staff-stat" style="color: var(--success);">20%</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+ <div class="panel" style="background: linear-gradient(135deg, #DBEAFE 0%, #DCFCE7 100%); border-color: #93C5FD;">
+ <div class="warn-card-title" style="color: #065F46;">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+ 客戶維護優等生 Top 3
+ </div>
+ <div class="warn-card-desc" style="color: #047857;">高頻拜訪且客戶穩定的業務，值得肯定與經驗分享</div>
+ <div class="warn-card-list">
+ <div class="warn-staff-item">
+ <div class="warn-staff-avatar" style="background: var(--success);">陳</div>
+ <div class="warn-staff-info">
+ <div class="warn-staff-name">陳志揚</div>
+ <div class="warn-staff-meta">管轄 6 個客戶 · 0 個高風險</div>
+ </div>
+ <div class="warn-staff-stat" style="color: var(--success);">0%</div>
+ </div>
+ <div class="warn-staff-item">
+ <div class="warn-staff-avatar" style="background: var(--success);">劉</div>
+ <div class="warn-staff-info">
+ <div class="warn-staff-name">劉夢林</div>
+ <div class="warn-staff-meta">管轄 5 個客戶 · 1 個高風險</div>
+ </div>
+ <div class="warn-staff-stat" style="color: var(--success);">20%</div>
+ </div>
+ <div class="warn-staff-item">
+ <div class="warn-staff-avatar" style="background: var(--success);">謝</div>
+ <div class="warn-staff-info">
+ <div class="warn-staff-name">謝依樺</div>
+ <div class="warn-staff-meta">管轄 5 個客戶 · 1 個高風險</div>
+ </div>
+ <div class="warn-staff-stat" style="color: var(--success);">20%</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
 
-      <!-- 客戶等級風險矩陣 + 行動建議 -->
-      <div class="sales-grid" style="margin-top:16px;">
-        <div class="panel">
-          <div class="panel-head">
-            <div>
-              <div class="panel-title">客戶等級風險分布</div>
-              <div class="panel-sub">A 級客戶流失損失最大，需優先處理</div>
-            </div>
-          </div>
-          <div class="grade-matrix">
-            <div class="grade-cell">
-              <div class="grade-cell-label">A 級客戶</div>
-              <div class="grade-cell-letter A">A</div>
-              <div class="grade-cell-stat"><strong>9</strong> / 高風險</div>
-              <div class="grade-cell-stat" style="font-size:11px; color:var(--text-3);">總 1,798 筆日誌</div>
-            </div>
-            <div class="grade-cell">
-              <div class="grade-cell-label">B 級客戶</div>
-              <div class="grade-cell-letter B">B</div>
-              <div class="grade-cell-stat"><strong>3</strong> / 高風險</div>
-              <div class="grade-cell-stat" style="font-size:11px; color:var(--text-3);">總 753 筆日誌</div>
-            </div>
-            <div class="grade-cell">
-              <div class="grade-cell-label">C 級客戶</div>
-              <div class="grade-cell-letter C">C</div>
-              <div class="grade-cell-stat"><strong>2</strong> / 高風險</div>
-              <div class="grade-cell-stat" style="font-size:11px; color:var(--text-3);">總 367 筆日誌</div>
-            </div>
-            <div class="grade-cell">
-              <div class="grade-cell-label">D 級客戶</div>
-              <div class="grade-cell-letter D">D</div>
-              <div class="grade-cell-stat"><strong>0</strong> / 高風險</div>
-              <div class="grade-cell-stat" style="font-size:11px; color:var(--text-3);">總 156 筆日誌</div>
-            </div>
-            <div class="grade-cell">
-              <div class="grade-cell-label">E 級客戶</div>
-              <div class="grade-cell-letter E">E</div>
-              <div class="grade-cell-stat"><strong>1</strong> / 高風險</div>
-              <div class="grade-cell-stat" style="font-size:11px; color:var(--text-3);">總 210 筆日誌</div>
-            </div>
-          </div>
-          <div style="margin-top: 20px;">
-            <div style="font-size: 13px; font-weight: 600; margin-bottom: 12px;">A 級客戶風險類型分布</div>
-            <div class="bar-chart">
-              <div class="bar-row"><div class="bar-label">競爭搶單</div><div class="bar-track"><div class="bar-fill" style="width: 78%; background: #DC2626;"></div></div><div class="bar-value">5</div></div>
-              <div class="bar-row"><div class="bar-label">品質客訴</div><div class="bar-track"><div class="bar-fill" style="width: 60%; background: #EA580C;"></div></div><div class="bar-value">4</div></div>
-              <div class="bar-row"><div class="bar-label">營運下滑</div><div class="bar-track"><div class="bar-fill" style="width: 45%; background: #7C3AED;"></div></div><div class="bar-value">3</div></div>
-              <div class="bar-row"><div class="bar-label">關係惡化</div><div class="bar-track"><div class="bar-fill" style="width: 30%; background: #BE185D;"></div></div><div class="bar-value">2</div></div>
-              <div class="bar-row"><div class="bar-label">帳款問題</div><div class="bar-track"><div class="bar-fill" style="width: 15%; background: #CA8A04;"></div></div><div class="bar-value">1</div></div>
-            </div>
-          </div>
-        </div>
+ <!-- 客戶等級風險矩陣 + 行動建議 -->
+ <div class="sales-grid" style="margin-top:16px;">
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">客戶等級風險分布</div>
+ <div class="panel-sub">A 級客戶流失損失最大，需優先處理</div>
+ </div>
+ </div>
+ <div class="grade-matrix">
+ <div class="grade-cell">
+ <div class="grade-cell-label">A 級客戶</div>
+ <div class="grade-cell-letter A">A</div>
+ <div class="grade-cell-stat"><strong>9</strong> / 高風險</div>
+ <div class="grade-cell-stat" style="font-size:11px; color:var(--text-3);">總 1,798 筆日誌</div>
+ </div>
+ <div class="grade-cell">
+ <div class="grade-cell-label">B 級客戶</div>
+ <div class="grade-cell-letter B">B</div>
+ <div class="grade-cell-stat"><strong>3</strong> / 高風險</div>
+ <div class="grade-cell-stat" style="font-size:11px; color:var(--text-3);">總 753 筆日誌</div>
+ </div>
+ <div class="grade-cell">
+ <div class="grade-cell-label">C 級客戶</div>
+ <div class="grade-cell-letter C">C</div>
+ <div class="grade-cell-stat"><strong>2</strong> / 高風險</div>
+ <div class="grade-cell-stat" style="font-size:11px; color:var(--text-3);">總 367 筆日誌</div>
+ </div>
+ <div class="grade-cell">
+ <div class="grade-cell-label">D 級客戶</div>
+ <div class="grade-cell-letter D">D</div>
+ <div class="grade-cell-stat"><strong>0</strong> / 高風險</div>
+ <div class="grade-cell-stat" style="font-size:11px; color:var(--text-3);">總 156 筆日誌</div>
+ </div>
+ <div class="grade-cell">
+ <div class="grade-cell-label">E 級客戶</div>
+ <div class="grade-cell-letter E">E</div>
+ <div class="grade-cell-stat"><strong>1</strong> / 高風險</div>
+ <div class="grade-cell-stat" style="font-size:11px; color:var(--text-3);">總 210 筆日誌</div>
+ </div>
+ </div>
+ <div style="margin-top: 20px;">
+ <div style="font-size: 13px; font-weight: 600; margin-bottom: 12px;">A 級客戶風險類型分布</div>
+ <div class="bar-chart">
+ <div class="bar-row"><div class="bar-label">競爭搶單</div><div class="bar-track"><div class="bar-fill" style="width: 78%; background: #DC2626;"></div></div><div class="bar-value">5</div></div>
+ <div class="bar-row"><div class="bar-label">品質客訴</div><div class="bar-track"><div class="bar-fill" style="width: 60%; background: #EA580C;"></div></div><div class="bar-value">4</div></div>
+ <div class="bar-row"><div class="bar-label">營運下滑</div><div class="bar-track"><div class="bar-fill" style="width: 45%; background: #7C3AED;"></div></div><div class="bar-value">3</div></div>
+ <div class="bar-row"><div class="bar-label">關係惡化</div><div class="bar-track"><div class="bar-fill" style="width: 30%; background: #BE185D;"></div></div><div class="bar-value">2</div></div>
+ <div class="bar-row"><div class="bar-label">帳款問題</div><div class="bar-track"><div class="bar-fill" style="width: 15%; background: #CA8A04;"></div></div><div class="bar-value">1</div></div>
+ </div>
+ </div>
+ </div>
 
-        <div class="panel">
-          <div class="panel-head">
-            <div>
-              <div class="panel-title">下週行動建議</div>
-              <div class="panel-sub">AI 根據風險訊號自動產出</div>
-            </div>
-          </div>
-          <div class="action-list" id="action-list"></div>
-        </div>
-      </div>
-    </div>
-  </section>
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">下週行動建議</div>
+ <div class="panel-sub">AI 根據風險訊號自動產出</div>
+ </div>
+ </div>
+ <div class="action-list" id="action-list"></div>
+ </div>
+ </div>
+ </div>
+ </section>
 
-  <!-- =========== SCREEN: Categories =========== -->
-  <section class="screen" id="screen-categories">
-    <div class="page">
-      <div class="page-head">
-        <div>
-          <h1 class="page-title">風險類別分析</h1>
-          <p class="page-subtitle">深入剖析各類風險的真實成因：誰在搶我們的單、什麼品質問題在惡化、哪些品牌在減量</p>
-        </div>
-      </div>
+ <!-- =========== SCREEN: Categories =========== -->
+ <section class="screen" id="screen-categories">
+ <div class="page">
+ <div class="page-head">
+ <div>
+ <h1 class="page-title">風險類別分析</h1>
+ <p class="page-subtitle">深入剖析各類風險的真實成因：誰在搶我們的單、什麼品質問題在惡化、哪些品牌在減量</p>
+ </div>
+ </div>
 
-      <!-- Category tabs (5 cards) -->
-      <div class="cat-tabs" id="cat-tabs"></div>
+ <!-- Category tabs (5 cards) -->
+ <div class="cat-tabs" id="cat-tabs"></div>
 
-      <!-- Detail area (changes by tab) -->
-      <div id="cat-detail-area"></div>
-    </div>
-  </section>
+ <!-- Detail area (changes by tab) -->
+ <div id="cat-detail-area"></div>
+ </div>
+ </section>
 
-  <!-- =========== SCREEN: Data Source =========== -->
-  <section class="screen" id="screen-datasource">
-    <div class="page">
-      <div class="page-head">
-        <div>
-          <h1 class="page-title">資料來源</h1>
-          <p class="page-subtitle">CRM 業務日誌資料即時同步，AI 分析自動更新</p>
-        </div>
-        <div style="display:flex; gap:8px;">
-          <button class="btn btn-ghost">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            匯入 Excel 補充
-          </button>
-          <button class="btn btn-primary" onclick="refreshData()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-            更新資料並重新分析
-          </button>
-        </div>
-      </div>
+ <!-- =========== SCREEN: Data Source =========== -->
+ <section class="screen" id="screen-datasource">
+ <div class="page">
+ <div class="page-head">
+ <div>
+ <h1 class="page-title">資料來源</h1>
+ <p class="page-subtitle">CRM 業務日誌資料即時同步，AI 分析自動更新</p>
+ </div>
+ <div style="display:flex; gap:8px;">
+ <button class="btn btn-ghost">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+ 匯入 Excel 補充
+ </button>
+ <button class="btn btn-primary" onclick="refreshData()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+ 更新資料並重新分析
+ </button>
+ </div>
+ </div>
 
-      <!-- Connection status -->
-      <div class="data-status-card">
-        <div class="data-status-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        </div>
-        <div class="data-status-info">
-          <div class="data-status-title">資料來源運作中</div>
-          <div class="data-status-meta">
-            最後同步：<strong>2026-05-27 09:42</strong> · 累積 <strong>4,050</strong> 筆業務日誌 · 已串接 <strong>3</strong> 個來源
-          </div>
-        </div>
-      </div>
+ <!-- Connection status -->
+ <div class="data-status-card">
+ <div class="data-status-icon">
+ <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+ </div>
+ <div class="data-status-info">
+ <div class="data-status-title">資料來源運作中</div>
+ <div class="data-status-meta">
+ 最後同步：<strong>2026-05-27 09:42</strong> · 累積 <strong>4,050</strong> 筆業務日誌 · 已串接 <strong>3</strong> 個來源
+ </div>
+ </div>
+ </div>
 
-      <!-- Connectors -->
-      <div class="panel" style="margin-bottom:16px;">
-        <div class="panel-head">
-          <div>
-            <div class="panel-title">資料來源連線</div>
-            <div class="panel-sub">CRM 系統、業務日誌填寫表單、Excel 手動匯入</div>
-          </div>
-        </div>
-        <div class="connector-list">
-          <div class="connector-item">
-            <div class="connector-head">
-              <div class="connector-logo">🔗</div>
-              <div class="connector-info">
-                <div class="connector-name">CRM 系統 API</div>
-                <div class="connector-status"><span class="dot"></span> 連線中 · 每小時同步</div>
-              </div>
-            </div>
-            <div class="connector-meta">最後同步：09:42 · 本次拉取 12 筆新日誌</div>
-          </div>
-          <div class="connector-item">
-            <div class="connector-head">
-              <div class="connector-logo">📝</div>
-              <div class="connector-info">
-                <div class="connector-name">業務日誌填寫表單</div>
-                <div class="connector-status"><span class="dot"></span> 即時接收</div>
-              </div>
-            </div>
-            <div class="connector-meta">今日已接收 8 筆業務送出日誌</div>
-          </div>
-          <div class="connector-item">
-            <div class="connector-head">
-              <div class="connector-logo">📊</div>
-              <div class="connector-info">
-                <div class="connector-name">Excel 手動匯入</div>
-                <div class="connector-status" style="color:var(--text-3);"><span class="dot" style="background:var(--text-3);"></span> 待補充歷史資料</div>
-              </div>
-            </div>
-            <div class="connector-meta">上次匯入：2026-04-09 · 4,050 筆</div>
-          </div>
-        </div>
-      </div>
+ <!-- Connectors -->
+ <div class="panel" style="margin-bottom:16px;">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">資料來源連線</div>
+ <div class="panel-sub">CRM 系統、業務日誌填寫表單、Excel 手動匯入</div>
+ </div>
+ </div>
+ <div class="connector-list">
+ <div class="connector-item">
+ <div class="connector-head">
+ <div class="connector-logo" style="font-size:14px;font-weight:700;">+</div>
+ <div class="connector-info">
+ <div class="connector-name">CRM 系統 API</div>
+ <div class="connector-status"><span class="dot"></span> 連線中 · 每小時同步</div>
+ </div>
+ </div>
+ <div class="connector-meta">最後同步：09:42 · 本次拉取 12 筆新日誌</div>
+ </div>
+ <div class="connector-item">
+ <div class="connector-head">
+ <div class="connector-logo" style="font-size:14px;font-weight:700;">+</div>
+ <div class="connector-info">
+ <div class="connector-name">業務日誌填寫表單</div>
+ <div class="connector-status"><span class="dot"></span> 即時接收</div>
+ </div>
+ </div>
+ <div class="connector-meta">今日已接收 8 筆業務送出日誌</div>
+ </div>
+ <div class="connector-item">
+ <div class="connector-head">
+ <div class="connector-logo" style="font-size:14px;font-weight:700;">+</div>
+ <div class="connector-info">
+ <div class="connector-name">Excel 手動匯入</div>
+ <div class="connector-status" style="color:var(--text-3);"><span class="dot" style="background:var(--text-3);"></span> 待補充歷史資料</div>
+ </div>
+ </div>
+ <div class="connector-meta">上次匯入：2026-04-09 · 4,050 筆</div>
+ </div>
+ </div>
+ </div>
 
-      <!-- Raw data preview -->
-      <div class="panel">
-        <div class="panel-head">
-          <div>
-            <div class="panel-title">原始日誌預覽</div>
-            <div class="panel-sub">顯示最近 10 筆業務日誌（總 4,050 筆 · 1,515 筆已去重）</div>
-          </div>
-        </div>
-        <div class="data-source-tabs">
-          <div class="data-tab active">最新日誌</div>
-          <div class="data-tab">今日新增 (8)</div>
-          <div class="data-tab">本週新增 (47)</div>
-          <div class="data-tab">已分析 (1,515)</div>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>日期</th>
-              <th>業務人員</th>
-              <th>公司簡稱</th>
-              <th>工作性質</th>
-              <th>工作描述</th>
-              <th>狀態</th>
-            </tr>
-          </thead>
-          <tbody id="raw-tbody"></tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+ <!-- Raw data preview -->
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">原始日誌預覽</div>
+ <div class="panel-sub">顯示最近 10 筆業務日誌（總 4,050 筆 · 1,515 筆已去重）</div>
+ </div>
+ </div>
+ <div class="data-source-tabs">
+ <div class="data-tab active">最新日誌</div>
+ <div class="data-tab">今日新增 (8)</div>
+ <div class="data-tab">本週新增 (47)</div>
+ <div class="data-tab">已分析 (1,515)</div>
+ </div>
+ <table>
+ <thead>
+ <tr>
+ <th>日期</th>
+ <th>業務人員</th>
+ <th>公司簡稱</th>
+ <th>工作性質</th>
+ <th>工作描述</th>
+ <th>狀態</th>
+ </tr>
+ </thead>
+ <tbody id="raw-tbody"></tbody>
+ </table>
+ </div>
+ </div>
+ </section>
 
 </main>
 
@@ -1132,24 +1132,24 @@ tbody tr:last-child td { border-bottom: none; }
 
 <!-- Analyzing overlay -->
 <div class="analyzing-overlay" id="analyzing-overlay">
-  <div class="analyzing-box">
-    <div class="ai-orb"></div>
-    <h2 class="analyzing-title">AI 正在重新分析…</h2>
-    <p class="analyzing-sub">為 1,515 筆業務日誌逐筆判讀風險，預計需要 6 秒</p>
-    <div class="stages">
-      <div class="stage" id="stage-0"><div class="stage-icon">📥</div><div class="stage-name">讀取資料</div></div>
-      <div class="stage" id="stage-1"><div class="stage-icon">🔍</div><div class="stage-name">過濾外部客戶</div></div>
-      <div class="stage" id="stage-2"><div class="stage-icon">🧠</div><div class="stage-name">AI 逐筆判讀</div></div>
-      <div class="stage" id="stage-3"><div class="stage-icon">📊</div><div class="stage-name">客戶風險彙整</div></div>
-    </div>
-    <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
-    <div class="progress-text" id="progress-text">準備開始…</div>
-  </div>
+ <div class="analyzing-box">
+ <div class="ai-orb"></div>
+ <h2 class="analyzing-title">AI 正在重新分析…</h2>
+ <p class="analyzing-sub">為 1,515 筆業務日誌逐筆判讀風險，預計需要 6 秒</p>
+ <div class="stages">
+ <div class="stage" id="stage-0"><div class="stage-icon">1</div><div class="stage-name">讀取資料</div></div>
+ <div class="stage" id="stage-1"><div class="stage-icon">2</div><div class="stage-name">過濾外部客戶</div></div>
+ <div class="stage" id="stage-2"><div class="stage-icon">3</div><div class="stage-name">AI 逐筆判讀</div></div>
+ <div class="stage" id="stage-3"><div class="stage-icon">4</div><div class="stage-name">客戶風險彙整</div></div>
+ </div>
+ <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
+ <div class="progress-text" id="progress-text">準備開始…</div>
+ </div>
 </div>
 
 <!-- Modal -->
 <div class="modal-backdrop" id="modal-backdrop" onclick="if(event.target===this) closeModal()">
-  <div class="modal" id="modal"></div>
+ <div class="modal" id="modal"></div>
 </div>
 
 <div class="proto-tag">PROTOTYPE · 僅供確認方向</div>
@@ -1157,751 +1157,751 @@ tbody tr:last-child td { border-bottom: none; }
 <script>
 // ===== DATA =====
 const CUSTOMERS = [
-  { name: '昆山-仁寶二廠', grade: 'A', staff: '張筱築', visits: 2, maxRisk: 4, highRiskLogs: 2, category: '品質客訴', totalScore: 13.5 },
-  { name: '昆山-杜爾伯', grade: 'A', staff: '彭鵬程', visits: 2, maxRisk: 4, highRiskLogs: 2, category: '競爭搶單', totalScore: 13.0 },
-  { name: '昆山-賓科汽車', grade: 'A', staff: '吳憲治', visits: 1, maxRisk: 4, highRiskLogs: 1, category: '品質客訴', totalScore: 13.0 },
-  { name: '嘉興-豐義汽車零部件', grade: 'C', staff: '王俊濤', visits: 1, maxRisk: 4, highRiskLogs: 1, category: '競爭搶單', totalScore: 12.5 },
-  { name: '太倉-文順(更名為金億嘉)', grade: 'E', staff: '孫曉靜', visits: 1, maxRisk: 4, highRiskLogs: 1, category: '帳款問題', totalScore: 12.5 },
-  { name: '蘇州吳中-偉吉-Local', grade: 'B', staff: '魯莉蕾', visits: 1, maxRisk: 4, highRiskLogs: 1, category: '帳款問題', totalScore: 12.5 },
-  { name: '嘉定-連盈', grade: 'A', staff: '任芳, 陳姮雪', visits: 4, maxRisk: 4, highRiskLogs: 3, category: '關係惡化', totalScore: 12.25 },
-  { name: '太倉-厚橋', grade: 'C', staff: '唐熏蓮, 李雷', visits: 3, maxRisk: 4, highRiskLogs: 2, category: '營運下滑', totalScore: 11.67 },
-  { name: '南通-聯鋼（昆一廠）', grade: 'A', staff: '吳偉齊, 吳涵潔, 武丹丹, 陳姮雪', visits: 15, maxRisk: 3, highRiskLogs: 3, category: '品質客訴', totalScore: 11.5 },
-  { name: '雷堤', grade: 'A', staff: '張昇源, 張智閔, 林敏玲, 辜子奇', visits: 12, maxRisk: 4, highRiskLogs: 4, category: '競爭搶單', totalScore: 11.33 },
-  { name: '金盈佳', grade: 'A', staff: '張文武', visits: 8, maxRisk: 4, highRiskLogs: 3, category: '競爭搶單', totalScore: 11.0 },
-  { name: '上海嘉定-熠昇', grade: 'B', staff: '唐熏蓮, 朱年霞', visits: 4, maxRisk: 4, highRiskLogs: 2, category: '營運下滑', totalScore: 11.0 },
-  { name: '昆山-揚皓', grade: 'B', staff: '劉夢林', visits: 2, maxRisk: 3, highRiskLogs: 2, category: '營運下滑', totalScore: 10.0 },
-  { name: '本原', grade: 'A', staff: '謝依樺', visits: 2, maxRisk: 3, highRiskLogs: 2, category: '營運下滑', totalScore: 10.0 },
-  { name: '金國琳', grade: 'A', staff: '吳善曉, 翁兆鈺', visits: 3, maxRisk: 3, highRiskLogs: 2, category: '品質客訴', totalScore: 10.0 }
+ { name: '昆山-仁寶二廠', grade: 'A', staff: '張筱築', visits: 2, maxRisk: 4, highRiskLogs: 2, category: '品質客訴', totalScore: 13.5 },
+ { name: '昆山-杜爾伯', grade: 'A', staff: '彭鵬程', visits: 2, maxRisk: 4, highRiskLogs: 2, category: '競爭搶單', totalScore: 13.0 },
+ { name: '昆山-賓科汽車', grade: 'A', staff: '吳憲治', visits: 1, maxRisk: 4, highRiskLogs: 1, category: '品質客訴', totalScore: 13.0 },
+ { name: '嘉興-豐義汽車零部件', grade: 'C', staff: '王俊濤', visits: 1, maxRisk: 4, highRiskLogs: 1, category: '競爭搶單', totalScore: 12.5 },
+ { name: '太倉-文順(更名為金億嘉)', grade: 'E', staff: '孫曉靜', visits: 1, maxRisk: 4, highRiskLogs: 1, category: '帳款問題', totalScore: 12.5 },
+ { name: '蘇州吳中-偉吉-Local', grade: 'B', staff: '魯莉蕾', visits: 1, maxRisk: 4, highRiskLogs: 1, category: '帳款問題', totalScore: 12.5 },
+ { name: '嘉定-連盈', grade: 'A', staff: '任芳, 陳姮雪', visits: 4, maxRisk: 4, highRiskLogs: 3, category: '關係惡化', totalScore: 12.25 },
+ { name: '太倉-厚橋', grade: 'C', staff: '唐熏蓮, 李雷', visits: 3, maxRisk: 4, highRiskLogs: 2, category: '營運下滑', totalScore: 11.67 },
+ { name: '南通-聯鋼（昆一廠）', grade: 'A', staff: '吳偉齊, 吳涵潔, 武丹丹, 陳姮雪', visits: 15, maxRisk: 3, highRiskLogs: 3, category: '品質客訴', totalScore: 11.5 },
+ { name: '雷堤', grade: 'A', staff: '張昇源, 張智閔, 林敏玲, 辜子奇', visits: 12, maxRisk: 4, highRiskLogs: 4, category: '競爭搶單', totalScore: 11.33 },
+ { name: '金盈佳', grade: 'A', staff: '張文武', visits: 8, maxRisk: 4, highRiskLogs: 3, category: '競爭搶單', totalScore: 11.0 },
+ { name: '上海嘉定-熠昇', grade: 'B', staff: '唐熏蓮, 朱年霞', visits: 4, maxRisk: 4, highRiskLogs: 2, category: '營運下滑', totalScore: 11.0 },
+ { name: '昆山-揚皓', grade: 'B', staff: '劉夢林', visits: 2, maxRisk: 3, highRiskLogs: 2, category: '營運下滑', totalScore: 10.0 },
+ { name: '本原', grade: 'A', staff: '謝依樺', visits: 2, maxRisk: 3, highRiskLogs: 2, category: '營運下滑', totalScore: 10.0 },
+ { name: '金國琳', grade: 'A', staff: '吳善曉, 翁兆鈺', visits: 3, maxRisk: 3, highRiskLogs: 2, category: '品質客訴', totalScore: 10.0 }
 ];
 
 const STAFF_DATA = [
-  { name: '張文武', clients: 12, highRiskClients: 5, totalVisits: 48, avgRisk: 2.6, type: '救火型' },
-  { name: '唐熏蓮', clients: 8, highRiskClients: 3, totalVisits: 32, avgRisk: 2.4, type: '高負擔' },
-  { name: '王俊濤', clients: 9, highRiskClients: 3, totalVisits: 35, avgRisk: 2.3, type: '救火型' },
-  { name: '武丹丹', clients: 4, highRiskClients: 2, totalVisits: 22, avgRisk: 2.5, type: '救火型' },
-  { name: '彭鵬程', clients: 6, highRiskClients: 2, totalVisits: 18, avgRisk: 2.1, type: '中等' },
-  { name: '辜子奇', clients: 5, highRiskClients: 2, totalVisits: 16, avgRisk: 2.0, type: '中等' },
-  { name: '魯莉蕾', clients: 7, highRiskClients: 2, totalVisits: 19, avgRisk: 1.9, type: '中等' },
-  { name: '陳志揚', clients: 6, highRiskClients: 0, totalVisits: 24, avgRisk: 1.2, type: '優等生' },
-  { name: '劉夢林', clients: 5, highRiskClients: 1, totalVisits: 20, avgRisk: 1.4, type: '優等生' },
-  { name: '謝依樺', clients: 5, highRiskClients: 1, totalVisits: 18, avgRisk: 1.5, type: '優等生' },
-  { name: '陳韋彤', clients: 6, highRiskClients: 1, totalVisits: 14, avgRisk: 1.6, type: '中等' },
-  { name: '黃勁方', clients: 4, highRiskClients: 1, totalVisits: 12, avgRisk: 1.7, type: '中等' },
-  { name: '張筱築', clients: 3, highRiskClients: 1, totalVisits: 5, avgRisk: 2.8, type: '失聯型' },
-  { name: '吳憲治', clients: 2, highRiskClients: 1, totalVisits: 3, avgRisk: 3.0, type: '失聯型' },
-  { name: '田賽蘭', clients: 5, highRiskClients: 1, totalVisits: 11, avgRisk: 1.8, type: '中等' }
+ { name: '張文武', clients: 12, highRiskClients: 5, totalVisits: 48, avgRisk: 2.6, type: '救火型' },
+ { name: '唐熏蓮', clients: 8, highRiskClients: 3, totalVisits: 32, avgRisk: 2.4, type: '高負擔' },
+ { name: '王俊濤', clients: 9, highRiskClients: 3, totalVisits: 35, avgRisk: 2.3, type: '救火型' },
+ { name: '武丹丹', clients: 4, highRiskClients: 2, totalVisits: 22, avgRisk: 2.5, type: '救火型' },
+ { name: '彭鵬程', clients: 6, highRiskClients: 2, totalVisits: 18, avgRisk: 2.1, type: '中等' },
+ { name: '辜子奇', clients: 5, highRiskClients: 2, totalVisits: 16, avgRisk: 2.0, type: '中等' },
+ { name: '魯莉蕾', clients: 7, highRiskClients: 2, totalVisits: 19, avgRisk: 1.9, type: '中等' },
+ { name: '陳志揚', clients: 6, highRiskClients: 0, totalVisits: 24, avgRisk: 1.2, type: '優等生' },
+ { name: '劉夢林', clients: 5, highRiskClients: 1, totalVisits: 20, avgRisk: 1.4, type: '優等生' },
+ { name: '謝依樺', clients: 5, highRiskClients: 1, totalVisits: 18, avgRisk: 1.5, type: '優等生' },
+ { name: '陳韋彤', clients: 6, highRiskClients: 1, totalVisits: 14, avgRisk: 1.6, type: '中等' },
+ { name: '黃勁方', clients: 4, highRiskClients: 1, totalVisits: 12, avgRisk: 1.7, type: '中等' },
+ { name: '張筱築', clients: 3, highRiskClients: 1, totalVisits: 5, avgRisk: 2.8, type: '失聯型' },
+ { name: '吳憲治', clients: 2, highRiskClients: 1, totalVisits: 3, avgRisk: 3.0, type: '失聯型' },
+ { name: '田賽蘭', clients: 5, highRiskClients: 1, totalVisits: 11, avgRisk: 1.8, type: '中等' }
 ];
 
 const STAFF_ADVICE = {
-  '救火型': { color: 'var(--danger)', label: '建議 1-on-1' },
-  '高負擔': { color: 'var(--warning)', label: '考慮減負' },
-  '失聯型': { color: 'var(--warning)', label: '增加拜訪' },
-  '中等': { color: 'var(--text-2)', label: '持續觀察' },
-  '優等生': { color: 'var(--success)', label: '經驗分享' }
+ '救火型': { color: 'var(--danger)', label: '建議 1-on-1' },
+ '高負擔': { color: 'var(--warning)', label: '考慮減負' },
+ '失聯型': { color: 'var(--warning)', label: '增加拜訪' },
+ '中等': { color: 'var(--text-2)', label: '持續觀察' },
+ '優等生': { color: 'var(--success)', label: '經驗分享' }
 };
 
 const ACTION_ITEMS = [
-  { priority: 'p1', title: '昆山-仁寶二廠', desc: '1/23 前需提供改善報告，否則開立罰款單。建議業務主管與張筱築一同前往。', tags: ['品質客訴', '本週內'] },
-  { priority: 'p1', title: '雷堤', desc: 'GB200 料號被越南廠商切走。建議辜子奇盡快確認新料件進度、爭取富士康新單。', tags: ['競爭搶單', '本週內'] },
-  { priority: 'p1', title: '金盈佳', desc: '小米 MP 訂單將轉特耐。需爭取 P50 三星「865」項目報價空間。', tags: ['競爭搶單', '本週內'] },
-  { priority: 'p2', title: '嘉定-連盈', desc: '客戶分單給穩固。建議與老闆/老闆娘層級溝通，確認往來意願。', tags: ['關係惡化'] },
-  { priority: 'p2', title: '昆山-賓科汽車', desc: '1/26 需提報 2026 整改計畫。蕭副理已安排。', tags: ['品質客訴'] },
-  { priority: 'p2', title: '上海嘉定-熠昇', desc: '北汽 2026 減量 70%。需評估客戶業績下滑對訂單的影響。', tags: ['營運下滑'] }
+ { priority: 'p1', title: '昆山-仁寶二廠', desc: '1/23 前需提供改善報告，否則開立罰款單。建議業務主管與張筱築一同前往。', tags: ['品質客訴', '本週內'] },
+ { priority: 'p1', title: '雷堤', desc: 'GB200 料號被越南廠商切走。建議辜子奇盡快確認新料件進度、爭取富士康新單。', tags: ['競爭搶單', '本週內'] },
+ { priority: 'p1', title: '金盈佳', desc: '小米 MP 訂單將轉特耐。需爭取 P50 三星「865」項目報價空間。', tags: ['競爭搶單', '本週內'] },
+ { priority: 'p2', title: '嘉定-連盈', desc: '客戶分單給穩固。建議與老闆/老闆娘層級溝通，確認往來意願。', tags: ['關係惡化'] },
+ { priority: 'p2', title: '昆山-賓科汽車', desc: '1/26 需提報 2026 整改計畫。蕭副理已安排。', tags: ['品質客訴'] },
+ { priority: 'p2', title: '上海嘉定-熠昇', desc: '北汽 2026 減量 70%。需評估客戶業績下滑對訂單的影響。', tags: ['營運下滑'] }
 ];
 
 const CATEGORY_DATA = [
-  { name: '競爭搶單', value: 24, color: '#DC2626' },
-  { name: '品質客訴', value: 22, color: '#EA580C' },
-  { name: '營運下滑', value: 16, color: '#7C3AED' },
-  { name: '帳款問題', value: 7, color: '#CA8A04' },
-  { name: '關係惡化', value: 3, color: '#BE185D' }
+ { name: '競爭搶單', value: 24, color: '#DC2626' },
+ { name: '品質客訴', value: 22, color: '#EA580C' },
+ { name: '營運下滑', value: 16, color: '#7C3AED' },
+ { name: '帳款問題', value: 7, color: '#CA8A04' },
+ { name: '關係惡化', value: 3, color: '#BE185D' }
 ];
 
 const CATEGORY_CLASS = { '競爭搶單': 'cat-competition', '品質客訴': 'cat-quality', '營運下滑': 'cat-decline', '帳款問題': 'cat-payment', '關係惡化': 'cat-relation' };
 
 const RAW_LOGS = [
-  { date: '2026-01-15 14:22', staff: '武丹丹', company: '南通-聯鋼（昆一廠）', nature: '異常服務處理', desc: '近期聯鋼來料異常比例升高，主要表現是起泡，聚焦在 FSGAH/FAMAO 的項目中…', status: '已分析', risk: 3 },
-  { date: '2026-01-15 11:08', staff: '陳姮雪', company: '嘉定-連盈', nature: '行政作業', desc: '12 月逾期帳款催收：連盈、偉吉、史丹利、金億嘉', status: '已分析', risk: 3 },
-  { date: '2026-01-14 16:45', staff: '張筱築', company: '昆山-仁寶二廠', nature: '客戶品質會議', desc: '反饋頭部相連返工，到現場確認不良率 10%…將按流程開立罰款單', status: '已分析', risk: 4 },
-  { date: '2026-01-14 09:30', staff: '彭鵬程', company: '昆山-杜爾伯', nature: '人脈建立維護', desc: '杜爾伯越南廠新料下給了和諧，越南光寶新料被國林搶走…', status: '已分析', risk: 4 },
-  { date: '2026-01-13 17:12', staff: '吳憲治', company: '昆山-賓科汽車', nature: '客戶品質會議', desc: '我司 2025 年在賓科不良比例最高和評比為最後段的供應商…', status: '已分析', risk: 4 },
-  { date: '2026-01-13 14:30', staff: '王俊濤', company: '嘉興-豐義汽車零部件', nature: '訂單追蹤', desc: '新訂單被其它家切單，懷疑是其它家低價切單…', status: '已分析', risk: 4 },
-  { date: '2026-01-12 10:15', staff: '張文武', company: '金盈佳', nature: '探詢客戶產品資訊', desc: 'MP 訂單會繼續減量…呂總表示會逐步轉給特耐加工', status: '已分析', risk: 4 },
-  { date: '2026-01-11 15:20', staff: '林敏玲', company: '雷堤', nature: '人脈建立維護', desc: '鴻海 Server 訂單流失，認為有被搶單問題…', status: '已分析', risk: 4 },
-  { date: '2026-01-09 11:30', staff: '辜子奇', company: '雷堤', nature: '人脈建立維護', desc: 'GB200 富士康料號被越南當地廠商切走…', status: '已分析', risk: 4 },
-  { date: '2026-01-08 16:00', staff: '孫曉靜', company: '太倉-文順(更名為金億嘉)', nature: '客戶來廠參觀', desc: '催收貨款，賓科貨款上個月又沒付，還在跟催…', status: '已分析', risk: 4 }
+ { date: '2026-01-15 14:22', staff: '武丹丹', company: '南通-聯鋼（昆一廠）', nature: '異常服務處理', desc: '近期聯鋼來料異常比例升高，主要表現是起泡，聚焦在 FSGAH/FAMAO 的項目中…', status: '已分析', risk: 3 },
+ { date: '2026-01-15 11:08', staff: '陳姮雪', company: '嘉定-連盈', nature: '行政作業', desc: '12 月逾期帳款催收：連盈、偉吉、史丹利、金億嘉', status: '已分析', risk: 3 },
+ { date: '2026-01-14 16:45', staff: '張筱築', company: '昆山-仁寶二廠', nature: '客戶品質會議', desc: '反饋頭部相連返工，到現場確認不良率 10%…將按流程開立罰款單', status: '已分析', risk: 4 },
+ { date: '2026-01-14 09:30', staff: '彭鵬程', company: '昆山-杜爾伯', nature: '人脈建立維護', desc: '杜爾伯越南廠新料下給了和諧，越南光寶新料被國林搶走…', status: '已分析', risk: 4 },
+ { date: '2026-01-13 17:12', staff: '吳憲治', company: '昆山-賓科汽車', nature: '客戶品質會議', desc: '我司 2025 年在賓科不良比例最高和評比為最後段的供應商…', status: '已分析', risk: 4 },
+ { date: '2026-01-13 14:30', staff: '王俊濤', company: '嘉興-豐義汽車零部件', nature: '訂單追蹤', desc: '新訂單被其它家切單，懷疑是其它家低價切單…', status: '已分析', risk: 4 },
+ { date: '2026-01-12 10:15', staff: '張文武', company: '金盈佳', nature: '探詢客戶產品資訊', desc: 'MP 訂單會繼續減量…呂總表示會逐步轉給特耐加工', status: '已分析', risk: 4 },
+ { date: '2026-01-11 15:20', staff: '林敏玲', company: '雷堤', nature: '人脈建立維護', desc: '鴻海 Server 訂單流失，認為有被搶單問題…', status: '已分析', risk: 4 },
+ { date: '2026-01-09 11:30', staff: '辜子奇', company: '雷堤', nature: '人脈建立維護', desc: 'GB200 富士康料號被越南當地廠商切走…', status: '已分析', risk: 4 },
+ { date: '2026-01-08 16:00', staff: '孫曉靜', company: '太倉-文順(更名為金億嘉)', nature: '客戶來廠參觀', desc: '催收貨款，賓科貨款上個月又沒付，還在跟催…', status: '已分析', risk: 4 }
 ];
 
 const LOG_DETAILS = {
-  '昆山-仁寶二廠': {
-    summary: '半年內連續發生「頭部相連」異常，客戶已警告「再發生將開立罰款單」。並將我司列為 2026 年重要觀察對象。',
-    logs: [
-      { date: '2026-01-14', staff: '張筱築', nature: '異常服務處理', risk: 4, category: '品質客訴', reason: '連續半年頭部相連異常,客戶將開立罰款單', original: '料號 MA00002HIGO M2*0.4*2.5 頭部相連，現場確認不良率 10%，今日返工庫存 188K，產線庫存 140K。由於近半年連續發生頭部相連異常，請我方重視並需盡快提供改善報告，後續再發生，將按流程開立罰款單。' },
-      { date: '2026-01-14', staff: '張筱築', nature: '客戶品質會議', risk: 4, category: '品質客訴', reason: '連續半年頭部相連異常需返工', original: '反饋頭部相連返工，到現場確認不良率 10%，現場庫存約 250K，產線庫存 140K。安排隔日將庫存返工完畢，並請廠內回覆改善報告。' }
-    ]
-  },
-  '雷堤': {
-    summary: '原本交富士康 GB200 料號被越南當地廠商切走，每月加工量銳減。鴻海 Server 訂單流失，需積極開發新客戶追趕。',
-    logs: [
-      { date: '2026-01-09', staff: '辜子奇', nature: '人脈建立維護', risk: 4, category: '競爭搶單', reason: '料號被越南當地廠商切走', original: '關於原本交 GB200 富士康料號，盧小姐表示確定被越南當地廠商切走，因為少了這些數量，預計雷堤每月加工量約在 250 萬上下。' },
-      { date: '2026-01-11', staff: '林敏玲', nature: '人脈建立維護', risk: 4, category: '競爭搶單', reason: '鴻海Server訂單流失+下修', original: '鴻海 Server 訂單追蹤，表示客戶有要求在地生產，但短期無法設置，以致訂單流失，認為有被搶單問題。鴻海訂單下修，目前正積極開發新客戶進行追趕計畫。' },
-      { date: '2026-01-13', staff: '張智閔', nature: '人脈建立維護', risk: 3, category: '營運下滑', reason: '訂單下滑+越南訂單轉當地', original: '客戶表示訂單下滑許多，越南富士康訂單轉當地廠商生產，近期有三款新產品通過認證後再量產。' }
-    ]
-  },
-  '金盈佳': {
-    summary: '小米手機 MP 訂單因成本問題，客戶明確表示「會逐步轉給特耐加工」。手機螺絲市場明年將下降 20-30%。',
-    logs: [
-      { date: '2026-01-10', staff: '張文武', nature: '探詢客戶產品資訊', risk: 4, category: '競爭搶單', reason: 'MP訂單會轉給別家加工', original: '呂總表示 MP 訂單會繼續減量，明年降低 20-30%。此部分訂單因成本問題呂總表示會逐步轉給特耐加工。中國市場手機螺絲呂總表示會繼續萎縮。' },
-      { date: '2026-01-08', staff: '張文武', nature: '探詢客戶產品資訊', risk: 4, category: '競爭搶單', reason: 'P50單價高出對手2倍以上', original: '金盈佳交環力的三星「865」項目，鐵材 M1.2*1.1 加工 P50。我司 P50 性能優於 ND593，但單價未稅 30 元/k，高出 ND593 2 倍以上。' }
-    ]
-  },
-  '昆山-杜爾伯': {
-    summary: '越南光寶新料被國林搶走，越南仁寶新料則下給和諧，只有老料維持。客戶正積極派人出差越南維繫客情關係。',
-    logs: [
-      { date: '2026-01-14', staff: '彭鵬程', nature: '人脈建立維護', risk: 4, category: '競爭搶單', reason: '新料被和諧/國林搶走', original: '越南仁寶新料沒有下給越南杜爾伯，下給了和諧，只有老料維持下給了昆山杜爾伯。越南光寶國琳比杜爾伯早，新料基本上被國林搶走。' }
-    ]
-  },
-  '嘉定-連盈': {
-    summary: '品質協議異常與貨款催收問題持續發生。客戶老闆已暗示「會找時機幫忙說好話」，發貨給我司比例已被分流給穩固。',
-    logs: [
-      { date: '2026-01-07', staff: '任芳', nature: '電話案例追蹤', risk: 4, category: '關係惡化', reason: '異常+催款+客戶分單給穩固', original: '連盈的品質協議現階段不能執行了。跟胡總互動發貨給我司的比例太低了，胡總說是老板的意思，他會找時機幫忙我們說好話，讓我耐心等待時機。' },
-      { date: '2026-01-13', staff: '任芳', nature: '異常服務處理', risk: 4, category: '關係惡化', reason: '品質協議異常+催收+發貨量太低', original: '處理異常、跟催貨款、尾牙金溝通。連盈不扣款處理。關於發貨給穩固的訂單調整，也是老板和老板娘的決定。' }
-    ]
-  },
-  '昆山-賓科汽車': {
-    summary: '我司在賓科 2025 年不良率最高，已被評比為最後段供應商。2026 年將我司列為「重要觀察和落實改善供應商」。',
-    logs: [
-      { date: '2026-01-13', staff: '吳憲治', nature: '客戶品質會議', risk: 4, category: '品質客訴', reason: '不良率0.52%,2026列重要觀察', original: '耐落 2023、2024、2025 年度不良率分別為 0.4%-0.2%-0.52%，我司 2025 年在賓科不良比例最高和評比為最後段的供應商，故 2026 年將我司列為重要觀察和落實改善供應商。' }
-    ]
-  },
-  '太倉-文順(更名為金億嘉)': { summary: '客戶資金緊張，貨款上個月又沒付，要用「其他客戶付的款」支付我司貨款。', logs: [{ date: '2026-01-08', staff: '孫曉靜', nature: '客戶來廠參觀', risk: 4, category: '帳款問題', reason: '貨款延遲,客戶資金緊張', original: '催收貨款，聶總表示，賓科的貨款上個月又沒付，還在跟催。我司貨款盡量本週先用其他客戶付的款支付。' }] },
-  '蘇州吳中-偉吉-Local': { summary: '貨款延遲且客戶要求降價 10%。客戶因購買新機台導致現金短缺。', logs: [{ date: '2026-01-09', staff: '魯莉蕾', nature: '客戶來廠參觀', risk: 4, category: '帳款問題', reason: '貨款逾期+客戶資金緊張+要求降價10%', original: '12/30 到期的貨款 6 萬多未到帳，鍾總表示有承兌可付，年底購買了新機臺，暫時沒有現金，上個月員工工資用承兌貼息支付。' }] },
-  '嘉興-豐義汽車零部件': { summary: '新訂單被其他家低價切單，懷疑對手用「仿冒產品」。', logs: [{ date: '2026-01-10', staff: '王俊濤', nature: '訂單追蹤', risk: 4, category: '競爭搶單', reason: '新訂單被其它家低價切單', original: '新訂單被其它家切單，懷疑是其它家低價切單，螺帽成本應該差異不大，但塗膠如果其它家用仿冒產品則可能會有優勢。' }] },
-  '太倉-厚橋': { summary: '客戶 2025 年業績下滑 20%、奇瑞需求下修 30%、貨款延遲到 2 月底。', logs: [{ date: '2026-01-13', staff: '李雷', nature: '訂單追蹤', risk: 4, category: '營運下滑', reason: '客戶業績下降20%+奇瑞下修30%+貨款延遲', original: '2024 年營業額 4000 萬元，2025 年 3200 萬元，同比下降 20%。奇瑞 1 月給厚橋需求下修 30% 左右，預計持續到 3 月份。' }] },
-  '南通-聯鋼（昆一廠）': { summary: '兩週內 15 次接觸、6 次異常處理。拉絲異常報告爭議、來料起泡異常、富士康混料退關費用爭議。是高頻維護的高風險客戶。', logs: [{ date: '2026-01-15', staff: '武丹丹', nature: '異常服務處理', risk: 3, category: '品質客訴', reason: '來料起泡異常+富士康混料+亞馬遜異常', original: '近期聯鋼來料異常比例升高，主要表現是起泡。指交富士康 FSAPH24X217-G 混料異常，異常已經出貨到客戶端，最終請聯鋼協助召回退貨。' }] },
-  '上海嘉定-熠昇': { summary: '北汽 2026 年降量 70%，整體主機廠減 20%。客戶要求降價。', logs: [{ date: '2026-01-08', staff: '朱年霞', nature: '訂單追蹤', risk: 4, category: '營運下滑', reason: '北汽減產70%+客戶要降價', original: '12 月底陸續接到主機廠資訊，2026 年會減量，北汽會減產 70%，其它客戶在 20% 左右。對市場不看好。' }] },
-  '昆山-揚皓': { summary: '日本厘光沒有新機種訂單，廠內訂單量少一半。', logs: [{ date: '2026-01-09', staff: '劉夢林', nature: '人脈建立維護', risk: 3, category: '營運下滑', reason: '品牌訂單縮減', original: '因現在品牌訂單有所縮減，國輝/航鈺基本不再交易。' }] },
-  '本原': { summary: '匯率及關稅導致整體營業額下滑。', logs: [{ date: '2026-01-08', staff: '謝依樺', nature: '人脈建立維護', risk: 3, category: '營運下滑', reason: '整體營業額下滑+價格劣勢', original: '2025 年度因匯率及關稅客戶要求降價影響，整體營業額下滑。報價部分，仍處於劣勢。' }] },
-  '金國琳': { summary: '12 月份進貨螺絲未達高效要求需返工。', logs: [{ date: '2026-01-12', staff: '吳善曉', nature: '異常服務處理', risk: 3, category: '品質客訴', reason: '未通過24小時鹽霧測試需返工', original: '該司交高效 M2~3 加工耐落，因 12 月份進貨的螺絲本司加工後只通過 17 小時鹽霧測試未達高效要求需返工。' }] }
+ '昆山-仁寶二廠': {
+ summary: '半年內連續發生「頭部相連」異常，客戶已警告「再發生將開立罰款單」。並將我司列為 2026 年重要觀察對象。',
+ logs: [
+ { date: '2026-01-14', staff: '張筱築', nature: '異常服務處理', risk: 4, category: '品質客訴', reason: '連續半年頭部相連異常,客戶將開立罰款單', original: '料號 MA00002HIGO M2*0.4*2.5 頭部相連，現場確認不良率 10%，今日返工庫存 188K，產線庫存 140K。由於近半年連續發生頭部相連異常，請我方重視並需盡快提供改善報告，後續再發生，將按流程開立罰款單。' },
+ { date: '2026-01-14', staff: '張筱築', nature: '客戶品質會議', risk: 4, category: '品質客訴', reason: '連續半年頭部相連異常需返工', original: '反饋頭部相連返工，到現場確認不良率 10%，現場庫存約 250K，產線庫存 140K。安排隔日將庫存返工完畢，並請廠內回覆改善報告。' }
+ ]
+ },
+ '雷堤': {
+ summary: '原本交富士康 GB200 料號被越南當地廠商切走，每月加工量銳減。鴻海 Server 訂單流失，需積極開發新客戶追趕。',
+ logs: [
+ { date: '2026-01-09', staff: '辜子奇', nature: '人脈建立維護', risk: 4, category: '競爭搶單', reason: '料號被越南當地廠商切走', original: '關於原本交 GB200 富士康料號，盧小姐表示確定被越南當地廠商切走，因為少了這些數量，預計雷堤每月加工量約在 250 萬上下。' },
+ { date: '2026-01-11', staff: '林敏玲', nature: '人脈建立維護', risk: 4, category: '競爭搶單', reason: '鴻海Server訂單流失+下修', original: '鴻海 Server 訂單追蹤，表示客戶有要求在地生產，但短期無法設置，以致訂單流失，認為有被搶單問題。鴻海訂單下修，目前正積極開發新客戶進行追趕計畫。' },
+ { date: '2026-01-13', staff: '張智閔', nature: '人脈建立維護', risk: 3, category: '營運下滑', reason: '訂單下滑+越南訂單轉當地', original: '客戶表示訂單下滑許多，越南富士康訂單轉當地廠商生產，近期有三款新產品通過認證後再量產。' }
+ ]
+ },
+ '金盈佳': {
+ summary: '小米手機 MP 訂單因成本問題，客戶明確表示「會逐步轉給特耐加工」。手機螺絲市場明年將下降 20-30%。',
+ logs: [
+ { date: '2026-01-10', staff: '張文武', nature: '探詢客戶產品資訊', risk: 4, category: '競爭搶單', reason: 'MP訂單會轉給別家加工', original: '呂總表示 MP 訂單會繼續減量，明年降低 20-30%。此部分訂單因成本問題呂總表示會逐步轉給特耐加工。中國市場手機螺絲呂總表示會繼續萎縮。' },
+ { date: '2026-01-08', staff: '張文武', nature: '探詢客戶產品資訊', risk: 4, category: '競爭搶單', reason: 'P50單價高出對手2倍以上', original: '金盈佳交環力的三星「865」項目，鐵材 M1.2*1.1 加工 P50。我司 P50 性能優於 ND593，但單價未稅 30 元/k，高出 ND593 2 倍以上。' }
+ ]
+ },
+ '昆山-杜爾伯': {
+ summary: '越南光寶新料被國林搶走，越南仁寶新料則下給和諧，只有老料維持。客戶正積極派人出差越南維繫客情關係。',
+ logs: [
+ { date: '2026-01-14', staff: '彭鵬程', nature: '人脈建立維護', risk: 4, category: '競爭搶單', reason: '新料被和諧/國林搶走', original: '越南仁寶新料沒有下給越南杜爾伯，下給了和諧，只有老料維持下給了昆山杜爾伯。越南光寶國琳比杜爾伯早，新料基本上被國林搶走。' }
+ ]
+ },
+ '嘉定-連盈': {
+ summary: '品質協議異常與貨款催收問題持續發生。客戶老闆已暗示「會找時機幫忙說好話」，發貨給我司比例已被分流給穩固。',
+ logs: [
+ { date: '2026-01-07', staff: '任芳', nature: '電話案例追蹤', risk: 4, category: '關係惡化', reason: '異常+催款+客戶分單給穩固', original: '連盈的品質協議現階段不能執行了。跟胡總互動發貨給我司的比例太低了，胡總說是老板的意思，他會找時機幫忙我們說好話，讓我耐心等待時機。' },
+ { date: '2026-01-13', staff: '任芳', nature: '異常服務處理', risk: 4, category: '關係惡化', reason: '品質協議異常+催收+發貨量太低', original: '處理異常、跟催貨款、尾牙金溝通。連盈不扣款處理。關於發貨給穩固的訂單調整，也是老板和老板娘的決定。' }
+ ]
+ },
+ '昆山-賓科汽車': {
+ summary: '我司在賓科 2025 年不良率最高，已被評比為最後段供應商。2026 年將我司列為「重要觀察和落實改善供應商」。',
+ logs: [
+ { date: '2026-01-13', staff: '吳憲治', nature: '客戶品質會議', risk: 4, category: '品質客訴', reason: '不良率0.52%,2026列重要觀察', original: '耐落 2023、2024、2025 年度不良率分別為 0.4%-0.2%-0.52%，我司 2025 年在賓科不良比例最高和評比為最後段的供應商，故 2026 年將我司列為重要觀察和落實改善供應商。' }
+ ]
+ },
+ '太倉-文順(更名為金億嘉)': { summary: '客戶資金緊張，貨款上個月又沒付，要用「其他客戶付的款」支付我司貨款。', logs: [{ date: '2026-01-08', staff: '孫曉靜', nature: '客戶來廠參觀', risk: 4, category: '帳款問題', reason: '貨款延遲,客戶資金緊張', original: '催收貨款，聶總表示，賓科的貨款上個月又沒付，還在跟催。我司貨款盡量本週先用其他客戶付的款支付。' }] },
+ '蘇州吳中-偉吉-Local': { summary: '貨款延遲且客戶要求降價 10%。客戶因購買新機台導致現金短缺。', logs: [{ date: '2026-01-09', staff: '魯莉蕾', nature: '客戶來廠參觀', risk: 4, category: '帳款問題', reason: '貨款逾期+客戶資金緊張+要求降價10%', original: '12/30 到期的貨款 6 萬多未到帳，鍾總表示有承兌可付，年底購買了新機臺，暫時沒有現金，上個月員工工資用承兌貼息支付。' }] },
+ '嘉興-豐義汽車零部件': { summary: '新訂單被其他家低價切單，懷疑對手用「仿冒產品」。', logs: [{ date: '2026-01-10', staff: '王俊濤', nature: '訂單追蹤', risk: 4, category: '競爭搶單', reason: '新訂單被其它家低價切單', original: '新訂單被其它家切單，懷疑是其它家低價切單，螺帽成本應該差異不大，但塗膠如果其它家用仿冒產品則可能會有優勢。' }] },
+ '太倉-厚橋': { summary: '客戶 2025 年業績下滑 20%、奇瑞需求下修 30%、貨款延遲到 2 月底。', logs: [{ date: '2026-01-13', staff: '李雷', nature: '訂單追蹤', risk: 4, category: '營運下滑', reason: '客戶業績下降20%+奇瑞下修30%+貨款延遲', original: '2024 年營業額 4000 萬元，2025 年 3200 萬元，同比下降 20%。奇瑞 1 月給厚橋需求下修 30% 左右，預計持續到 3 月份。' }] },
+ '南通-聯鋼（昆一廠）': { summary: '兩週內 15 次接觸、6 次異常處理。拉絲異常報告爭議、來料起泡異常、富士康混料退關費用爭議。是高頻維護的高風險客戶。', logs: [{ date: '2026-01-15', staff: '武丹丹', nature: '異常服務處理', risk: 3, category: '品質客訴', reason: '來料起泡異常+富士康混料+亞馬遜異常', original: '近期聯鋼來料異常比例升高，主要表現是起泡。指交富士康 FSAPH24X217-G 混料異常，異常已經出貨到客戶端，最終請聯鋼協助召回退貨。' }] },
+ '上海嘉定-熠昇': { summary: '北汽 2026 年降量 70%，整體主機廠減 20%。客戶要求降價。', logs: [{ date: '2026-01-08', staff: '朱年霞', nature: '訂單追蹤', risk: 4, category: '營運下滑', reason: '北汽減產70%+客戶要降價', original: '12 月底陸續接到主機廠資訊，2026 年會減量，北汽會減產 70%，其它客戶在 20% 左右。對市場不看好。' }] },
+ '昆山-揚皓': { summary: '日本厘光沒有新機種訂單，廠內訂單量少一半。', logs: [{ date: '2026-01-09', staff: '劉夢林', nature: '人脈建立維護', risk: 3, category: '營運下滑', reason: '品牌訂單縮減', original: '因現在品牌訂單有所縮減，國輝/航鈺基本不再交易。' }] },
+ '本原': { summary: '匯率及關稅導致整體營業額下滑。', logs: [{ date: '2026-01-08', staff: '謝依樺', nature: '人脈建立維護', risk: 3, category: '營運下滑', reason: '整體營業額下滑+價格劣勢', original: '2025 年度因匯率及關稅客戶要求降價影響，整體營業額下滑。報價部分，仍處於劣勢。' }] },
+ '金國琳': { summary: '12 月份進貨螺絲未達高效要求需返工。', logs: [{ date: '2026-01-12', staff: '吳善曉', nature: '異常服務處理', risk: 3, category: '品質客訴', reason: '未通過24小時鹽霧測試需返工', original: '該司交高效 M2~3 加工耐落，因 12 月份進貨的螺絲本司加工後只通過 17 小時鹽霧測試未達高效要求需返工。' }] }
 };
 
 // ===== Navigation =====
 function goTo(screen) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + screen).classList.add('active');
-  document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.remove('active'));
-  const navMap = { dashboard: 'nav-dashboard', sales: 'nav-sales', categories: 'nav-categories', datasource: 'nav-datasource' };
-  const navEl = document.getElementById(navMap[screen]);
-  if (navEl) navEl.classList.add('active');
-  const titleMap = { dashboard: '風險總覽', sales: '業務分析', categories: '風險類別分析', datasource: '資料來源' };
-  document.getElementById('breadcrumb-current').textContent = titleMap[screen];
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+ document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+ document.getElementById('screen-' + screen).classList.add('active');
+ document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.remove('active'));
+ const navMap = { dashboard: 'nav-dashboard', sales: 'nav-sales', categories: 'nav-categories', datasource: 'nav-datasource' };
+ const navEl = document.getElementById(navMap[screen]);
+ if (navEl) navEl.classList.add('active');
+ const titleMap = { dashboard: '風險總覽', sales: '業務分析', categories: '風險類別分析', datasource: '資料來源' };
+ document.getElementById('breadcrumb-current').textContent = titleMap[screen];
+ window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ===== Category Analysis =====
 const CATEGORY_DETAILS = {
-  '競爭搶單': {
-    color: '#DC2626', bg: 'linear-gradient(135deg, #DC2626 0%, #991B1B 100%)',
-    icon: '⚔️', count: 24, customers: 7, trend: '+12%',
-    desc: '客戶將訂單轉給競爭對手、或被搶走特定料號。本期最常被點名的對手集中在越南當地廠商與低價競品。',
-    insight: '雷堤、金盈佳、杜爾伯三家共貢獻 9 筆，建議業務主管針對「越南產線轉移」議題集體應對。',
-    topCustomers: [
-      { name: '雷堤', score: 11.33, reason: 'GB200 富士康料號被越南當地廠商切走 + 鴻海 Server 訂單下修' },
-      { name: '金盈佳', score: 11.0, reason: '小米 MP 訂單將「逐步轉給特耐」加工，P50 單價高出對手 2 倍' },
-      { name: '昆山-杜爾伯', score: 13.0, reason: '越南光寶新料被國林搶走、越南仁寶新料下給和諧' },
-      { name: '嘉興-豐義汽車零部件', score: 12.5, reason: '新訂單被別家低價切單，疑似使用仿冒產品' },
-      { name: '蘇州-勝利', score: 9.5, reason: '訂單被春秋（合肥經緯、六安博大）搶走' }
-    ],
-    competitors: [
-      { name: '越南當地廠商', cases: 5, customers: '雷堤、思庫特、和碩、立訊', impact: '富士康在地化策略下，訂單從中國轉越南' },
-      { name: '特耐', cases: 3, customers: '金盈佳', impact: '小米手機螺絲因成本問題逐步轉移' },
-      { name: '國林（昆山）', cases: 2, customers: '杜爾伯、惠州友仁', impact: '越南光寶新料先被國林拿下' },
-      { name: '和諧山川', cases: 2, customers: '杜爾伯、聯鋼指交', impact: '越南仁寶新料優先給和諧' },
-      { name: '春秋系（合肥經緯、六安博大）', cases: 2, customers: '蘇州-勝利', impact: '搶聯寶機種訂單' },
-      { name: 'Fuller', cases: 1, customers: '本原', impact: '塗膠價格採階段式調漲，瓜分歐美市場' },
-      { name: '無錫金梅', cases: 1, customers: '蘇州-聚聯（指交雅固拉）', impact: '搶雅固拉的 AI 相關料號' },
-      { name: 'DT', cases: 1, customers: '協達車料', impact: '台中昇展輻帽防鬆都向 DT 採購' },
-      { name: 'ND593', cases: 1, customers: '金盈佳（環力三星 865 項目）', impact: '對手單價約我司一半' }
-    ],
-    affectedStaff: [{ name: '辜子奇', count: 4 }, { name: '張文武', count: 3 }, { name: '林敏玲', count: 2 }, { name: '彭鵬程', count: 2 }, { name: '王俊濤', count: 1 }]
-  },
+ '競爭搶單': {
+ color: '#DC2626', bg: 'linear-gradient(135deg, #DC2626 0%, #991B1B 100%)',
+ icon: 'C', count: 24, customers: 7, trend: '+12%',
+ desc: '客戶將訂單轉給競爭對手、或被搶走特定料號。本期最常被點名的對手集中在越南當地廠商與低價競品。',
+ insight: '雷堤、金盈佳、杜爾伯三家共貢獻 9 筆，建議業務主管針對「越南產線轉移」議題集體應對。',
+ topCustomers: [
+ { name: '雷堤', score: 11.33, reason: 'GB200 富士康料號被越南當地廠商切走 + 鴻海 Server 訂單下修' },
+ { name: '金盈佳', score: 11.0, reason: '小米 MP 訂單將「逐步轉給特耐」加工，P50 單價高出對手 2 倍' },
+ { name: '昆山-杜爾伯', score: 13.0, reason: '越南光寶新料被國林搶走、越南仁寶新料下給和諧' },
+ { name: '嘉興-豐義汽車零部件', score: 12.5, reason: '新訂單被別家低價切單，疑似使用仿冒產品' },
+ { name: '蘇州-勝利', score: 9.5, reason: '訂單被春秋（合肥經緯、六安博大）搶走' }
+ ],
+ competitors: [
+ { name: '越南當地廠商', cases: 5, customers: '雷堤、思庫特、和碩、立訊', impact: '富士康在地化策略下，訂單從中國轉越南' },
+ { name: '特耐', cases: 3, customers: '金盈佳', impact: '小米手機螺絲因成本問題逐步轉移' },
+ { name: '國林（昆山）', cases: 2, customers: '杜爾伯、惠州友仁', impact: '越南光寶新料先被國林拿下' },
+ { name: '和諧山川', cases: 2, customers: '杜爾伯、聯鋼指交', impact: '越南仁寶新料優先給和諧' },
+ { name: '春秋系（合肥經緯、六安博大）', cases: 2, customers: '蘇州-勝利', impact: '搶聯寶機種訂單' },
+ { name: 'Fuller', cases: 1, customers: '本原', impact: '塗膠價格採階段式調漲，瓜分歐美市場' },
+ { name: '無錫金梅', cases: 1, customers: '蘇州-聚聯（指交雅固拉）', impact: '搶雅固拉的 AI 相關料號' },
+ { name: 'DT', cases: 1, customers: '協達車料', impact: '台中昇展輻帽防鬆都向 DT 採購' },
+ { name: 'ND593', cases: 1, customers: '金盈佳（環力三星 865 項目）', impact: '對手單價約我司一半' }
+ ],
+ affectedStaff: [{ name: '辜子奇', count: 4 }, { name: '張文武', count: 3 }, { name: '林敏玲', count: 2 }, { name: '彭鵬程', count: 2 }, { name: '王俊濤', count: 1 }]
+ },
 
-  '品質客訴': {
-    color: '#EA580C', bg: 'linear-gradient(135deg, #EA580C 0%, #9A3412 100%)',
-    icon: '🔧', count: 22, customers: 6, trend: '+8%',
-    desc: '客戶反映我司產品品質問題，從來料異常到終端客訴皆有。最嚴重的兩個案例已收到罰款威脅。',
-    insight: '仁寶二廠半年內連續發生頭部相連異常，賓科已將我司列為「最後段供應商」，這兩個 A 級客戶需立即介入。',
-    topCustomers: [
-      { name: '昆山-仁寶二廠', score: 13.5, reason: '連續半年「頭部相連」異常，將開立罰款單' },
-      { name: '昆山-賓科汽車', score: 13.0, reason: '不良率 0.52% 評比最後段，2026 年列重要觀察' },
-      { name: '南通-聯鋼（昆一廠）', score: 11.5, reason: '來料起泡異常 + 富士康混料 + 亞馬遜鎖附異常' },
-      { name: '金國琳', score: 10.0, reason: '12 月進貨螺絲未達 24 小時鹽霧要求，需返工' },
-      { name: '常熟-和諧山川', score: 9.5, reason: 'AVC 反饋耐落膠漏點膠、掉膠異常' }
-    ],
-    issues: [
-      { icon: '🔩', name: '頭部相連 / 異常', cases: 6 },
-      { icon: '🫧', name: '鼓包 / 起泡', cases: 4 },
-      { icon: '⚖️', name: '罰款威脅 / 索賠', cases: 3 },
-      { icon: '🚫', name: '漏點膠 / 掉膠', cases: 3 },
-      { icon: '⚙️', name: '混料 / 召回退貨', cases: 2 },
-      { icon: '💧', name: '鹽霧測試未通過', cases: 2 },
-      { icon: '🔁', name: '退貨重工', cases: 2 }
-    ],
-    affectedStaff: [{ name: '武丹丹', count: 5 }, { name: '張筱築', count: 2 }, { name: '吳憲治', count: 1 }, { name: '吳善曉', count: 1 }, { name: '楊梅', count: 1 }]
-  },
+ '品質客訴': {
+ color: '#EA580C', bg: 'linear-gradient(135deg, #EA580C 0%, #9A3412 100%)',
+ icon: 'Q', count: 22, customers: 6, trend: '+8%',
+ desc: '客戶反映我司產品品質問題，從來料異常到終端客訴皆有。最嚴重的兩個案例已收到罰款威脅。',
+ insight: '仁寶二廠半年內連續發生頭部相連異常，賓科已將我司列為「最後段供應商」，這兩個 A 級客戶需立即介入。',
+ topCustomers: [
+ { name: '昆山-仁寶二廠', score: 13.5, reason: '連續半年「頭部相連」異常，將開立罰款單' },
+ { name: '昆山-賓科汽車', score: 13.0, reason: '不良率 0.52% 評比最後段，2026 年列重要觀察' },
+ { name: '南通-聯鋼（昆一廠）', score: 11.5, reason: '來料起泡異常 + 富士康混料 + 亞馬遜鎖附異常' },
+ { name: '金國琳', score: 10.0, reason: '12 月進貨螺絲未達 24 小時鹽霧要求，需返工' },
+ { name: '常熟-和諧山川', score: 9.5, reason: 'AVC 反饋耐落膠漏點膠、掉膠異常' }
+ ],
+ issues: [
+ { icon: '-', name: '頭部相連 / 異常', cases: 6 },
+ { icon: '-', name: '鼓包 / 起泡', cases: 4 },
+ { icon: '-', name: '罰款威脅 / 索賠', cases: 3 },
+ { icon: '-', name: '漏點膠 / 掉膠', cases: 3 },
+ { icon: '-', name: '混料 / 召回退貨', cases: 2 },
+ { icon: '-', name: '鹽霧測試未通過', cases: 2 },
+ { icon: '-', name: '退貨重工', cases: 2 }
+ ],
+ affectedStaff: [{ name: '武丹丹', count: 5 }, { name: '張筱築', count: 2 }, { name: '吳憲治', count: 1 }, { name: '吳善曉', count: 1 }, { name: '楊梅', count: 1 }]
+ },
 
-  '營運下滑': {
-    color: '#7C3AED', bg: 'linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%)',
-    icon: '📉', count: 16, customers: 5, trend: '+18%',
-    desc: '客戶整體業績下滑、終端品牌減量，連帶影響我司加工訂單。汽車與消費電子兩大市場最受衝擊。',
-    insight: '北汽 -70%、奇瑞 -30% 是最大警訊，影響至少 4 個客戶。建議業務主管預先評估這些客戶 2026 年訂單。',
-    topCustomers: [
-      { name: '上海嘉定-熠昇', score: 11.0, reason: '北汽 2026 年減量 70%，整體主機廠減 20%' },
-      { name: '太倉-厚橋', score: 11.67, reason: '客戶業績年減 20%，奇瑞需求下修 30%' },
-      { name: '本原', score: 10.0, reason: '匯率與關稅導致整體營業額下滑，報價劣勢' },
-      { name: '昆山-揚皓', score: 10.0, reason: '日本厘光無新機種，廠內訂單少一半' },
-      { name: '溫州-雲端', score: 9.5, reason: '比亞迪、理想訂單停滯，貨量縮減一半' }
-    ],
-    brands: [
-      { name: '北汽', code: 'BAIC', color: '#DC2626', change: '-70%', meta: '2026 年減量；影響：熠昇' },
-      { name: '奇瑞', code: 'CHERY', color: '#EA580C', change: '-30%', meta: '1 月下修，持續到 3 月；影響：厚橋、媒圖' },
-      { name: '小米', code: 'MI', color: '#F97316', change: '-20~30%', meta: '手機螺絲市場萎縮；影響：金盈佳' },
-      { name: '聯想', code: 'LENOVO', color: '#7C3AED', change: '↓', meta: '大陸在地化、機種收尾；影響：新普、富鈺、揚皓' },
-      { name: '比亞迪', code: 'BYD', color: '#0891B2', change: '停滯', meta: '訂單停滯、客戶備料多；影響：雲端' },
-      { name: '理想', code: 'LIXIANG', color: '#0891B2', change: '停滯', meta: '訂單停滯；影響：雲端' },
-      { name: '小鵬', code: 'XPENG', color: '#CA8A04', change: '掉案', meta: '幾個項目掉案；影響：洪塞爾' },
-      { name: 'GM (通用)', code: 'GM', color: '#BE185D', change: '禁採', meta: '要求不得於台灣中國採購；影響：旭和、祥頂' }
-    ],
-    affectedStaff: [{ name: '謝依樺', count: 3 }, { name: '唐熏蓮', count: 3 }, { name: '王俊濤', count: 2 }, { name: '陳志揚', count: 2 }, { name: '劉夢林', count: 2 }]
-  },
+ '營運下滑': {
+ color: '#7C3AED', bg: 'linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%)',
+ icon: 'D', count: 16, customers: 5, trend: '+18%',
+ desc: '客戶整體業績下滑、終端品牌減量，連帶影響我司加工訂單。汽車與消費電子兩大市場最受衝擊。',
+ insight: '北汽 -70%、奇瑞 -30% 是最大警訊，影響至少 4 個客戶。建議業務主管預先評估這些客戶 2026 年訂單。',
+ topCustomers: [
+ { name: '上海嘉定-熠昇', score: 11.0, reason: '北汽 2026 年減量 70%，整體主機廠減 20%' },
+ { name: '太倉-厚橋', score: 11.67, reason: '客戶業績年減 20%，奇瑞需求下修 30%' },
+ { name: '本原', score: 10.0, reason: '匯率與關稅導致整體營業額下滑，報價劣勢' },
+ { name: '昆山-揚皓', score: 10.0, reason: '日本厘光無新機種，廠內訂單少一半' },
+ { name: '溫州-雲端', score: 9.5, reason: '比亞迪、理想訂單停滯，貨量縮減一半' }
+ ],
+ brands: [
+ { name: '北汽', code: 'BAIC', color: '#DC2626', change: '-70%', meta: '2026 年減量；影響：熠昇' },
+ { name: '奇瑞', code: 'CHERY', color: '#EA580C', change: '-30%', meta: '1 月下修，持續到 3 月；影響：厚橋、媒圖' },
+ { name: '小米', code: 'MI', color: '#F97316', change: '-20~30%', meta: '手機螺絲市場萎縮；影響：金盈佳' },
+ { name: '聯想', code: 'LENOVO', color: '#7C3AED', change: '↓', meta: '大陸在地化、機種收尾；影響：新普、富鈺、揚皓' },
+ { name: '比亞迪', code: 'BYD', color: '#0891B2', change: '停滯', meta: '訂單停滯、客戶備料多；影響：雲端' },
+ { name: '理想', code: 'LIXIANG', color: '#0891B2', change: '停滯', meta: '訂單停滯；影響：雲端' },
+ { name: '小鵬', code: 'XPENG', color: '#CA8A04', change: '掉案', meta: '幾個項目掉案；影響：洪塞爾' },
+ { name: 'GM (通用)', code: 'GM', color: '#BE185D', change: '禁採', meta: '要求不得於台灣中國採購；影響：旭和、祥頂' }
+ ],
+ affectedStaff: [{ name: '謝依樺', count: 3 }, { name: '唐熏蓮', count: 3 }, { name: '王俊濤', count: 2 }, { name: '陳志揚', count: 2 }, { name: '劉夢林', count: 2 }]
+ },
 
-  '帳款問題': {
-    color: '#CA8A04', bg: 'linear-gradient(135deg, #CA8A04 0%, #854D0E 100%)',
-    icon: '💰', count: 7, customers: 4, trend: '+5%',
-    desc: '客戶貨款延遲、催收困難。多數源於客戶端資金緊張，並非結算流程問題。',
-    insight: '太倉-文順與蘇州-偉吉是兩大警訊：客戶用「其他客戶款」付我司、或以承兌貼息支付員工薪資，代表客戶現金流已亮紅燈。',
-    topCustomers: [
-      { name: '太倉-文順(更名為金億嘉)', score: 12.5, reason: '客戶資金緊張，貨款須用其他客戶款項支付' },
-      { name: '蘇州吳中-偉吉-Local', score: 12.5, reason: '12/30 到期貨款 6 萬未到帳，客戶員工薪資以承兌貼息支付' },
-      { name: '重慶-重慶汽標', score: 9.83, reason: '2 月整個集團公司不會付款' },
-      { name: '嘉定-連盈', score: 12.25, reason: '12 月逾期帳款：連盈、偉吉、史丹利、金億嘉多家催收' }
-    ],
-    paymentIssues: [
-      { icon: '⏰', name: '貨款逾期 10 天以上', cases: 4 },
-      { icon: '💸', name: '客戶資金流動性緊張', cases: 3 },
-      { icon: '🔄', name: '用其他客戶款支付', cases: 2 },
-      { icon: '📝', name: '以承兌貼息應急', cases: 1 },
-      { icon: '⛔', name: '集團公司暫停付款', cases: 1 }
-    ],
-    affectedStaff: [{ name: '張文武', count: 2 }, { name: '魯莉蕾', count: 1 }, { name: '孫曉靜', count: 1 }, { name: '陳姮雪', count: 1 }, { name: '余娟', count: 1 }]
-  },
+ '帳款問題': {
+ color: '#CA8A04', bg: 'linear-gradient(135deg, #CA8A04 0%, #854D0E 100%)',
+ icon: 'P', count: 7, customers: 4, trend: '+5%',
+ desc: '客戶貨款延遲、催收困難。多數源於客戶端資金緊張，並非結算流程問題。',
+ insight: '太倉-文順與蘇州-偉吉是兩大警訊：客戶用「其他客戶款」付我司、或以承兌貼息支付員工薪資，代表客戶現金流已亮紅燈。',
+ topCustomers: [
+ { name: '太倉-文順(更名為金億嘉)', score: 12.5, reason: '客戶資金緊張，貨款須用其他客戶款項支付' },
+ { name: '蘇州吳中-偉吉-Local', score: 12.5, reason: '12/30 到期貨款 6 萬未到帳，客戶員工薪資以承兌貼息支付' },
+ { name: '重慶-重慶汽標', score: 9.83, reason: '2 月整個集團公司不會付款' },
+ { name: '嘉定-連盈', score: 12.25, reason: '12 月逾期帳款：連盈、偉吉、史丹利、金億嘉多家催收' }
+ ],
+ paymentIssues: [
+ { icon: '-', name: '貨款逾期 10 天以上', cases: 4 },
+ { icon: '-', name: '客戶資金流動性緊張', cases: 3 },
+ { icon: '-', name: '用其他客戶款支付', cases: 2 },
+ { icon: '-', name: '以承兌貼息應急', cases: 1 },
+ { icon: '-', name: '集團公司暫停付款', cases: 1 }
+ ],
+ affectedStaff: [{ name: '張文武', count: 2 }, { name: '魯莉蕾', count: 1 }, { name: '孫曉靜', count: 1 }, { name: '陳姮雪', count: 1 }, { name: '余娟', count: 1 }]
+ },
 
-  '關係惡化': {
-    color: '#BE185D', bg: 'linear-gradient(135deg, #BE185D 0%, #831843 100%)',
-    icon: '💔', count: 3, customers: 3, trend: '持平',
-    desc: '客戶不滿價格、交期或服務態度，已影響合作意願。雖然件數少，但每一筆都關乎合作存續。',
-    insight: '連盈的「老闆會找時機說好話」是最危險的訊號 — 表示窗口已無力影響高層決策，需直接向客戶決策層拜訪。',
-    topCustomers: [
-      { name: '嘉定-連盈', score: 12.25, reason: '客戶分單給穩固，老闆暗示「等時機說好話」' },
-      { name: '昆山-延陵精密', score: 8.5, reason: '客戶抱怨交期回覆不具體，要求改善' },
-      { name: '中盛達(中興達)', score: 9.5, reason: '客戶不滿我司價格和交期，向終端 TTI 抱怨' }
-    ],
-    relationIssues: [
-      { icon: '👔', name: '客戶決策層拒絕互動', cases: 1 },
-      { icon: '🏭', name: '訂單分流給競爭廠', cases: 1 },
-      { icon: '⏰', name: '交期承諾爭議', cases: 1 },
-      { icon: '💢', name: '價格不滿、向終端抱怨', cases: 1 }
-    ],
-    affectedStaff: [{ name: '任芳', count: 2 }, { name: '韓敏', count: 1 }, { name: '劉平', count: 1 }]
-  }
+ '關係惡化': {
+ color: '#BE185D', bg: 'linear-gradient(135deg, #BE185D 0%, #831843 100%)',
+ icon: 'R', count: 3, customers: 3, trend: '持平',
+ desc: '客戶不滿價格、交期或服務態度，已影響合作意願。雖然件數少，但每一筆都關乎合作存續。',
+ insight: '連盈的「老闆會找時機說好話」是最危險的訊號 — 表示窗口已無力影響高層決策，需直接向客戶決策層拜訪。',
+ topCustomers: [
+ { name: '嘉定-連盈', score: 12.25, reason: '客戶分單給穩固，老闆暗示「等時機說好話」' },
+ { name: '昆山-延陵精密', score: 8.5, reason: '客戶抱怨交期回覆不具體，要求改善' },
+ { name: '中盛達(中興達)', score: 9.5, reason: '客戶不滿我司價格和交期，向終端 TTI 抱怨' }
+ ],
+ relationIssues: [
+ { icon: '-', name: '客戶決策層拒絕互動', cases: 1 },
+ { icon: '-', name: '訂單分流給競爭廠', cases: 1 },
+ { icon: '-', name: '交期承諾爭議', cases: 1 },
+ { icon: '-', name: '價格不滿、向終端抱怨', cases: 1 }
+ ],
+ affectedStaff: [{ name: '任芳', count: 2 }, { name: '韓敏', count: 1 }, { name: '劉平', count: 1 }]
+ }
 };
 
 function renderCategoryTabs(activeKey) {
-  const html = Object.entries(CATEGORY_DETAILS).map(([key, d]) => `
-    <div class="cat-tab ${key === activeKey ? 'active' : ''}" style="color:${d.color};" onclick="renderCategoryDetail('${key}')">
-      <div class="cat-tab-icon">${d.icon}</div>
-      <div class="cat-tab-content">
-        <div class="cat-tab-name">${key}</div>
-        <div class="cat-tab-stat">${d.customers} 個客戶 · 較上期 ${d.trend}</div>
-      </div>
-      <div class="cat-tab-value" style="color:${d.color};">${d.count}</div>
-    </div>
-  `).join('');
-  document.getElementById('cat-tabs').innerHTML = html;
+ const html = Object.entries(CATEGORY_DETAILS).map(([key, d]) => `
+ <div class="cat-tab ${key === activeKey ? 'active' : ''}" style="color:${d.color};" onclick="renderCategoryDetail('${key}')">
+ <div class="cat-tab-icon">${d.icon}</div>
+ <div class="cat-tab-content">
+ <div class="cat-tab-name">${key}</div>
+ <div class="cat-tab-stat">${d.customers} 個客戶 · 較上期 ${d.trend}</div>
+ </div>
+ <div class="cat-tab-value" style="color:${d.color};">${d.count}</div>
+ </div>
+ `).join('');
+ document.getElementById('cat-tabs').innerHTML = html;
 }
 
 function renderCategoryDetail(key) {
-  renderCategoryTabs(key);
-  const d = CATEGORY_DETAILS[key];
+ renderCategoryTabs(key);
+ const d = CATEGORY_DETAILS[key];
 
-  // Build category-specific middle panel
-  let middlePanel = '';
-  if (key === '競爭搶單') {
-    middlePanel = `
-      <div class="panel">
-        <div class="panel-head">
-          <div>
-            <div class="panel-title">🎯 競爭對手點名</div>
-            <div class="panel-sub">本期出現在業務日誌中的競爭對手</div>
-          </div>
-        </div>
-        <div class="competitor-list">
-          ${d.competitors.map(c => `
-            <div class="competitor-row">
-              <div class="competitor-icon">${c.name.slice(0, 2)}</div>
-              <div class="competitor-info">
-                <div class="competitor-name">${c.name}</div>
-                <div class="competitor-meta">影響客戶：${c.customers}　·　${c.impact}</div>
-              </div>
-              <div class="competitor-count">${c.cases}</div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  } else if (key === '品質客訴') {
-    middlePanel = `
-      <div class="panel">
-        <div class="panel-head">
-          <div>
-            <div class="panel-title">🔧 品質問題類型分布</div>
-            <div class="panel-sub">本期業務日誌中提到的具體品質問題</div>
-          </div>
-        </div>
-        <div class="issue-list">
-          ${d.issues.map(i => `
-            <div class="issue-tag">
-              <div class="issue-tag-icon">${i.icon}</div>
-              <div class="issue-tag-name">${i.name}</div>
-              <div class="issue-tag-count">${i.cases}</div>
-            </div>
-          `).join('')}
-        </div>
-        <div style="margin-top:16px; padding:14px; background:var(--danger-light); border-radius:10px; font-size:13px; color:#7F1D1D;">
-          ⚠️ <strong>3 筆已收到罰款威脅</strong>：仁寶二廠（半年連續異常）、賓科汽車（不良率最後段）、聯鋼（混料退關費）
-        </div>
-      </div>
-    `;
-  } else if (key === '營運下滑') {
-    middlePanel = `
-      <div class="panel">
-        <div class="panel-head">
-          <div>
-            <div class="panel-title">🏭 終端品牌影響地圖</div>
-            <div class="panel-sub">客戶日誌中提到的減量品牌</div>
-          </div>
-        </div>
-        <div class="brand-impact-list">
-          ${d.brands.map(b => `
-            <div class="brand-impact-row">
-              <div class="brand-impact-logo" style="background:${b.color};">${b.code.slice(0, 4)}</div>
-              <div class="brand-impact-info">
-                <div class="brand-impact-name">${b.name}</div>
-                <div class="brand-impact-meta">${b.meta}</div>
-              </div>
-              <div class="brand-impact-stat">
-                <div class="brand-impact-change">${b.change}</div>
-                <div class="brand-impact-label">${b.change === '停滯' || b.change === '↓' || b.change === '掉案' || b.change === '禁採' ? '訂單狀況' : '2026 預估'}</div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  } else if (key === '帳款問題') {
-    middlePanel = `
-      <div class="panel">
-        <div class="panel-head">
-          <div>
-            <div class="panel-title">💸 帳款警訊分布</div>
-            <div class="panel-sub">客戶資金狀態的具體訊號</div>
-          </div>
-        </div>
-        <div class="issue-list">
-          ${d.paymentIssues.map(i => `
-            <div class="issue-tag" style="background:var(--yellow-light);">
-              <div class="issue-tag-icon">${i.icon}</div>
-              <div class="issue-tag-name" style="color:var(--yellow);">${i.name}</div>
-              <div class="issue-tag-count" style="color:var(--yellow);">${i.cases}</div>
-            </div>
-          `).join('')}
-        </div>
-        <div style="margin-top:16px; padding:14px; background:#FEF3C7; border-radius:10px; font-size:13px; color:#78350F; line-height:1.6;">
-          📌 <strong>關鍵觀察</strong>：當客戶說「貨款用其他客戶付的款支付」、「員工薪資以承兌貼息發放」這類描述出現，代表客戶現金流已亮紅燈，可能影響未來訂單下單意願。建議財務部與業務主管同步檢視應收帳款風險。
-        </div>
-      </div>
-    `;
-  } else if (key === '關係惡化') {
-    middlePanel = `
-      <div class="panel">
-        <div class="panel-head">
-          <div>
-            <div class="panel-title">💔 關係警訊類型</div>
-            <div class="panel-sub">關係惡化的具體表現形式</div>
-          </div>
-        </div>
-        <div class="issue-list">
-          ${d.relationIssues.map(i => `
-            <div class="issue-tag" style="background:#FCE7F3;">
-              <div class="issue-tag-icon">${i.icon}</div>
-              <div class="issue-tag-name" style="color:#BE185D;">${i.name}</div>
-              <div class="issue-tag-count" style="color:#BE185D;">${i.cases}</div>
-            </div>
-          `).join('')}
-        </div>
-        <div style="margin-top:16px; padding:14px; background:#FCE7F3; border-radius:10px; font-size:13px; color:#831843; line-height:1.6;">
-          📌 <strong>最危險訊號</strong>：嘉定-連盈業務反映「胡總說是老闆的意思，他會找時機幫忙我們說好話」— 這代表既有窗口已無力影響高層決策。<br>
-          建議行動：跳過採購窗口，由業務主管或更高層直接拜訪客戶決策層（老闆/老闆娘層級）。
-        </div>
-      </div>
-    `;
-  }
+ // Build category-specific middle panel
+ let middlePanel = '';
+ if (key === '競爭搶單') {
+ middlePanel = `
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">競爭對手點名</div>
+ <div class="panel-sub">本期出現在業務日誌中的競爭對手</div>
+ </div>
+ </div>
+ <div class="competitor-list">
+ ${d.competitors.map(c => `
+ <div class="competitor-row">
+ <div class="competitor-icon">${c.name.slice(0, 2)}</div>
+ <div class="competitor-info">
+ <div class="competitor-name">${c.name}</div>
+ <div class="competitor-meta">影響客戶：${c.customers}　·　${c.impact}</div>
+ </div>
+ <div class="competitor-count">${c.cases}</div>
+ </div>
+ `).join('')}
+ </div>
+ </div>
+ `;
+ } else if (key === '品質客訴') {
+ middlePanel = `
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">品質問題類型分布</div>
+ <div class="panel-sub">本期業務日誌中提到的具體品質問題</div>
+ </div>
+ </div>
+ <div class="issue-list">
+ ${d.issues.map(i => `
+ <div class="issue-tag">
+ <div class="issue-tag-icon">${i.icon}</div>
+ <div class="issue-tag-name">${i.name}</div>
+ <div class="issue-tag-count">${i.cases}</div>
+ </div>
+ `).join('')}
+ </div>
+ <div style="margin-top:16px; padding:14px; background:var(--danger-light); border-radius:10px; font-size:13px; color:#7F1D1D;">
+ <strong>3 筆已收到罰款威脅</strong>：仁寶二廠（半年連續異常）、賓科汽車（不良率最後段）、聯鋼（混料退關費）
+ </div>
+ </div>
+ `;
+ } else if (key === '營運下滑') {
+ middlePanel = `
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">終端品牌影響地圖</div>
+ <div class="panel-sub">客戶日誌中提到的減量品牌</div>
+ </div>
+ </div>
+ <div class="brand-impact-list">
+ ${d.brands.map(b => `
+ <div class="brand-impact-row">
+ <div class="brand-impact-logo" style="background:${b.color};">${b.code.slice(0, 4)}</div>
+ <div class="brand-impact-info">
+ <div class="brand-impact-name">${b.name}</div>
+ <div class="brand-impact-meta">${b.meta}</div>
+ </div>
+ <div class="brand-impact-stat">
+ <div class="brand-impact-change">${b.change}</div>
+ <div class="brand-impact-label">${b.change === '停滯' || b.change === '↓' || b.change === '掉案' || b.change === '禁採' ? '訂單狀況' : '2026 預估'}</div>
+ </div>
+ </div>
+ `).join('')}
+ </div>
+ </div>
+ `;
+ } else if (key === '帳款問題') {
+ middlePanel = `
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">帳款警訊分布</div>
+ <div class="panel-sub">客戶資金狀態的具體訊號</div>
+ </div>
+ </div>
+ <div class="issue-list">
+ ${d.paymentIssues.map(i => `
+ <div class="issue-tag" style="background:var(--yellow-light);">
+ <div class="issue-tag-icon">${i.icon}</div>
+ <div class="issue-tag-name" style="color:var(--yellow);">${i.name}</div>
+ <div class="issue-tag-count" style="color:var(--yellow);">${i.cases}</div>
+ </div>
+ `).join('')}
+ </div>
+ <div style="margin-top:16px; padding:14px; background:#FEF3C7; border-radius:10px; font-size:13px; color:#78350F; line-height:1.6;">
+ <strong>關鍵觀察</strong>：當客戶說「貨款用其他客戶付的款支付」、「員工薪資以承兌貼息發放」這類描述出現，代表客戶現金流已亮紅燈，可能影響未來訂單下單意願。建議財務部與業務主管同步檢視應收帳款風險。
+ </div>
+ </div>
+ `;
+ } else if (key === '關係惡化') {
+ middlePanel = `
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">關係警訊類型</div>
+ <div class="panel-sub">關係惡化的具體表現形式</div>
+ </div>
+ </div>
+ <div class="issue-list">
+ ${d.relationIssues.map(i => `
+ <div class="issue-tag" style="background:#FCE7F3;">
+ <div class="issue-tag-icon">${i.icon}</div>
+ <div class="issue-tag-name" style="color:#BE185D;">${i.name}</div>
+ <div class="issue-tag-count" style="color:#BE185D;">${i.cases}</div>
+ </div>
+ `).join('')}
+ </div>
+ <div style="margin-top:16px; padding:14px; background:#FCE7F3; border-radius:10px; font-size:13px; color:#831843; line-height:1.6;">
+ <strong>最危險訊號</strong>：嘉定-連盈業務反映「胡總說是老闆的意思，他會找時機幫忙我們說好話」— 這代表既有窗口已無力影響高層決策。<br>
+ 建議行動：跳過採購窗口，由業務主管或更高層直接拜訪客戶決策層（老闆/老闆娘層級）。
+ </div>
+ </div>
+ `;
+ }
 
-  const html = `
-    <!-- Summary card -->
-    <div class="cat-summary-card" style="background:${d.bg};">
-      <div class="cat-summary-icon">${d.icon}</div>
-      <div class="cat-summary-name">${key}</div>
-      <div class="cat-summary-desc">${d.desc}</div>
-      <div class="cat-summary-stats">
-        <div><div class="cat-summary-stat-label">高風險日誌</div><div class="cat-summary-stat-value">${d.count}</div></div>
-        <div><div class="cat-summary-stat-label">涉及客戶</div><div class="cat-summary-stat-value">${d.customers}</div></div>
-        <div><div class="cat-summary-stat-label">較上期</div><div class="cat-summary-stat-value">${d.trend}</div></div>
-      </div>
-    </div>
+ const html = `
+ <!-- Summary card -->
+ <div class="cat-summary-card" style="background:${d.bg};">
+ <div class="cat-summary-icon">${d.icon}</div>
+ <div class="cat-summary-name">${key}</div>
+ <div class="cat-summary-desc">${d.desc}</div>
+ <div class="cat-summary-stats">
+ <div><div class="cat-summary-stat-label">高風險日誌</div><div class="cat-summary-stat-value">${d.count}</div></div>
+ <div><div class="cat-summary-stat-label">涉及客戶</div><div class="cat-summary-stat-value">${d.customers}</div></div>
+ <div><div class="cat-summary-stat-label">較上期</div><div class="cat-summary-stat-value">${d.trend}</div></div>
+ </div>
+ </div>
 
-    <!-- AI Insight banner -->
-    <div style="background:white; border-left:4px solid ${d.color}; padding:14px 18px; border-radius:10px; margin:16px 0; box-shadow:0 1px 2px rgba(15,23,42,0.04);">
-      <div style="font-size:11px; font-weight:600; color:${d.color}; margin-bottom:4px; letter-spacing:0.5px;">🧠 AI 洞察</div>
-      <div style="font-size:13px; color:var(--text); line-height:1.6;">${d.insight}</div>
-    </div>
+ <!-- AI Insight banner -->
+ <div style="background:white; border-left:4px solid ${d.color}; padding:14px 18px; border-radius:10px; margin:16px 0; box-shadow:0 1px 2px rgba(15,23,42,0.04);">
+ <div style="font-size:11px; font-weight:600; color:${d.color}; margin-bottom:4px; letter-spacing:0.5px;">AI 洞察</div>
+ <div style="font-size:13px; color:var(--text); line-height:1.6;">${d.insight}</div>
+ </div>
 
-    <!-- Two columns: middle panel + (top customers + staff) -->
-    <div class="cat-detail-grid" style="grid-template-columns: 1.2fr 1fr;">
-      ${middlePanel}
+ <!-- Two columns: middle panel + (top customers + staff) -->
+ <div class="cat-detail-grid" style="grid-template-columns: 1.2fr 1fr;">
+ ${middlePanel}
 
-      <div>
-        <div class="panel">
-          <div class="panel-head">
-            <div>
-              <div class="panel-title">🎯 此類別 Top 客戶</div>
-              <div class="panel-sub">點擊查看 AI 判讀詳情</div>
-            </div>
-          </div>
-          ${d.topCustomers.map((c, i) => `
-            <div class="cat-customer-card" onclick="openCustomer('${c.name}')">
-              <div class="cat-customer-rank" style="background:${d.color};">${i + 1}</div>
-              <div class="cat-customer-info">
-                <div class="cat-customer-name">${c.name}</div>
-                <div class="cat-customer-reason">${c.reason}</div>
-              </div>
-              <div class="cat-customer-score" style="color:${d.color};">${c.score}</div>
-            </div>
-          `).join('')}
-        </div>
+ <div>
+ <div class="panel">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">此類別 Top 客戶</div>
+ <div class="panel-sub">點擊查看 AI 判讀詳情</div>
+ </div>
+ </div>
+ ${d.topCustomers.map((c, i) => `
+ <div class="cat-customer-card" onclick="openCustomer('${c.name}')">
+ <div class="cat-customer-rank" style="background:${d.color};">${i + 1}</div>
+ <div class="cat-customer-info">
+ <div class="cat-customer-name">${c.name}</div>
+ <div class="cat-customer-reason">${c.reason}</div>
+ </div>
+ <div class="cat-customer-score" style="color:${d.color};">${c.score}</div>
+ </div>
+ `).join('')}
+ </div>
 
-        <div class="panel" style="margin-top:16px;">
-          <div class="panel-head">
-            <div>
-              <div class="panel-title">👤 此類別影響業務</div>
-              <div class="panel-sub">業務人員遇到此類風險的次數</div>
-            </div>
-          </div>
-          <div class="bar-chart">
-            ${d.affectedStaff.map(s => {
-              const max = Math.max(...d.affectedStaff.map(x => x.count));
-              const pct = (s.count / max) * 100;
-              return `<div class="bar-row">
-                <div class="bar-label">${s.name}</div>
-                <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${d.color};"></div></div>
-                <div class="bar-value">${s.count}</div>
-              </div>`;
-            }).join('')}
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
+ <div class="panel" style="margin-top:16px;">
+ <div class="panel-head">
+ <div>
+ <div class="panel-title">此類別影響業務</div>
+ <div class="panel-sub">業務人員遇到此類風險的次數</div>
+ </div>
+ </div>
+ <div class="bar-chart">
+ ${d.affectedStaff.map(s => {
+ const max = Math.max(...d.affectedStaff.map(x => x.count));
+ const pct = (s.count / max) * 100;
+ return `<div class="bar-row">
+ <div class="bar-label">${s.name}</div>
+ <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${d.color};"></div></div>
+ <div class="bar-value">${s.count}</div>
+ </div>`;
+ }).join('')}
+ </div>
+ </div>
+ </div>
+ </div>
+ `;
 
-  document.getElementById('cat-detail-area').innerHTML = html;
+ document.getElementById('cat-detail-area').innerHTML = html;
 }
 
 // ===== Refresh data (analyzing animation) =====
 function refreshData() {
-  const overlay = document.getElementById('analyzing-overlay');
-  overlay.classList.add('show');
-  runAnalysis(() => {
-    overlay.classList.remove('show');
-    document.getElementById('last-sync-time').textContent = '剛剛';
-  });
+ const overlay = document.getElementById('analyzing-overlay');
+ overlay.classList.add('show');
+ runAnalysis(() => {
+ overlay.classList.remove('show');
+ document.getElementById('last-sync-time').textContent = '剛剛';
+ });
 }
 
 function runAnalysis(onDone) {
-  const stages = ['stage-0', 'stage-1', 'stage-2', 'stage-3'];
-  const stageMsgs = ['正在讀取 CRM 資料庫…', '排除集團內部、去重 1,515 筆…', 'AI 正在逐筆判讀風險…', '正在彙整客戶層級風險分數…'];
-  const progressFill = document.getElementById('progress-fill');
-  const progressText = document.getElementById('progress-text');
-  stages.forEach(s => document.getElementById(s).classList.remove('active', 'done'));
-  let currentStage = 0;
-  function activate(idx) {
-    if (idx >= stages.length) return;
-    if (idx > 0) document.getElementById(stages[idx - 1]).classList.replace('active', 'done');
-    document.getElementById(stages[idx]).classList.add('active');
-    progressText.textContent = stageMsgs[idx];
-  }
-  activate(0);
-  const total = 6000;
-  const start = Date.now();
-  progressFill.style.width = '0%';
-  const tick = setInterval(() => {
-    const elapsed = Date.now() - start;
-    const progress = Math.min(100, (elapsed / total) * 100);
-    progressFill.style.width = progress + '%';
-    const stageIdx = Math.floor(progress / 25);
-    if (stageIdx !== currentStage && stageIdx < stages.length) { currentStage = stageIdx; activate(stageIdx); }
-    if (stageIdx === 2) {
-      const done = Math.floor(((progress - 50) / 25) * 1515);
-      progressText.textContent = `AI 正在逐筆判讀風險（已處理 ${Math.max(0, Math.min(1515, done))} / 1,515）…`;
-    }
-    if (progress >= 100) {
-      clearInterval(tick);
-      document.getElementById(stages[stages.length - 1]).classList.replace('active', 'done');
-      progressText.textContent = '✓ 分析完成！';
-      setTimeout(onDone, 600);
-    }
-  }, 50);
+ const stages = ['stage-0', 'stage-1', 'stage-2', 'stage-3'];
+ const stageMsgs = ['正在讀取 CRM 資料庫…', '排除集團內部、去重 1,515 筆…', 'AI 正在逐筆判讀風險…', '正在彙整客戶層級風險分數…'];
+ const progressFill = document.getElementById('progress-fill');
+ const progressText = document.getElementById('progress-text');
+ stages.forEach(s => document.getElementById(s).classList.remove('active', 'done'));
+ let currentStage = 0;
+ function activate(idx) {
+ if (idx >= stages.length) return;
+ if (idx > 0) document.getElementById(stages[idx - 1]).classList.replace('active', 'done');
+ document.getElementById(stages[idx]).classList.add('active');
+ progressText.textContent = stageMsgs[idx];
+ }
+ activate(0);
+ const total = 6000;
+ const start = Date.now();
+ progressFill.style.width = '0%';
+ const tick = setInterval(() => {
+ const elapsed = Date.now() - start;
+ const progress = Math.min(100, (elapsed / total) * 100);
+ progressFill.style.width = progress + '%';
+ const stageIdx = Math.floor(progress / 25);
+ if (stageIdx !== currentStage && stageIdx < stages.length) { currentStage = stageIdx; activate(stageIdx); }
+ if (stageIdx === 2) {
+ const done = Math.floor(((progress - 50) / 25) * 1515);
+ progressText.textContent = `AI 正在逐筆判讀風險（已處理 ${Math.max(0, Math.min(1515, done))} / 1,515）…`;
+ }
+ if (progress >= 100) {
+ clearInterval(tick);
+ document.getElementById(stages[stages.length - 1]).classList.replace('active', 'done');
+ progressText.textContent = '分析完成！';
+ setTimeout(onDone, 600);
+ }
+ }, 50);
 }
 
 // ===== Customer Table =====
 function renderCustomerTable() {
-  const tbody = document.getElementById('customer-tbody');
-  tbody.innerHTML = CUSTOMERS.map(c => `
-    <tr style="cursor:pointer" onclick="openCustomer('${c.name}')">
-      <td><div class="company-cell">
-        <svg class="company-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
-        ${c.name}
-      </div></td>
-      <td style="color:var(--text-2); font-size:12px;">${c.staff}</td>
-      <td><span class="badge grade">${c.grade}</span></td>
-      <td>${c.visits}</td>
-      <td><span class="badge risk-${c.maxRisk}">${c.maxRisk}</span></td>
-      <td>${c.highRiskLogs}</td>
-      <td><span class="badge ${CATEGORY_CLASS[c.category]}">${c.category}</span></td>
-      <td><span class="score-cell ${c.totalScore >= 12 ? 'high' : ''}">${c.totalScore.toFixed(2)}</span></td>
-      <td><div class="action-icons" onclick="event.stopPropagation();">
-        <button class="icon-btn" onclick="openCustomer('${c.name}')" title="查看 AI 判讀">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </button>
-      </div></td>
-    </tr>
-  `).join('');
+ const tbody = document.getElementById('customer-tbody');
+ tbody.innerHTML = CUSTOMERS.map(c => `
+ <tr style="cursor:pointer" onclick="openCustomer('${c.name}')">
+ <td><div class="company-cell">
+ <svg class="company-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
+ ${c.name}
+ </div></td>
+ <td style="color:var(--text-2); font-size:12px;">${c.staff}</td>
+ <td><span class="badge grade">${c.grade}</span></td>
+ <td>${c.visits}</td>
+ <td><span class="badge risk-${c.maxRisk}">${c.maxRisk}</span></td>
+ <td>${c.highRiskLogs}</td>
+ <td><span class="badge ${CATEGORY_CLASS[c.category]}">${c.category}</span></td>
+ <td><span class="score-cell ${c.totalScore >= 12 ? 'high' : ''}">${c.totalScore.toFixed(2)}</span></td>
+ <td><div class="action-icons" onclick="event.stopPropagation();">
+ <button class="icon-btn" onclick="openCustomer('${c.name}')" title="查看 AI 判讀">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+ </button>
+ </div></td>
+ </tr>
+ `).join('');
 }
 
 // ===== Pie chart =====
 function renderPieChart() {
-  const svg = document.querySelector('.pie');
-  const total = CATEGORY_DATA.reduce((s, d) => s + d.value, 0);
-  const cx = 50, cy = 50, r = 40;
-  let cumulative = 0, svgContent = '';
-  CATEGORY_DATA.forEach(d => {
-    const startAngle = (cumulative / total) * Math.PI * 2 - Math.PI / 2;
-    cumulative += d.value;
-    const endAngle = (cumulative / total) * Math.PI * 2 - Math.PI / 2;
-    const x1 = cx + r * Math.cos(startAngle), y1 = cy + r * Math.sin(startAngle);
-    const x2 = cx + r * Math.cos(endAngle), y2 = cy + r * Math.sin(endAngle);
-    const large = (endAngle - startAngle) > Math.PI ? 1 : 0;
-    svgContent += `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z" fill="${d.color}" />`;
-  });
-  svgContent += `<circle cx="${cx}" cy="${cy}" r="20" fill="white"/>`;
-  svgContent += `<text x="${cx}" y="${cy - 2}" text-anchor="middle" font-size="14" font-weight="700" fill="#0F172A">${total}</text>`;
-  svgContent += `<text x="${cx}" y="${cy + 10}" text-anchor="middle" font-size="6" fill="#94A3B8">高風險日誌</text>`;
-  svg.innerHTML = svgContent;
-  document.getElementById('legend').innerHTML = CATEGORY_DATA.map(d => `
-    <div class="legend-item"><div class="legend-dot" style="background:${d.color}"></div><div class="legend-name">${d.name}</div><div class="legend-value">${d.value}</div></div>
-  `).join('');
+ const svg = document.querySelector('.pie');
+ const total = CATEGORY_DATA.reduce((s, d) => s + d.value, 0);
+ const cx = 50, cy = 50, r = 40;
+ let cumulative = 0, svgContent = '';
+ CATEGORY_DATA.forEach(d => {
+ const startAngle = (cumulative / total) * Math.PI * 2 - Math.PI / 2;
+ cumulative += d.value;
+ const endAngle = (cumulative / total) * Math.PI * 2 - Math.PI / 2;
+ const x1 = cx + r * Math.cos(startAngle), y1 = cy + r * Math.sin(startAngle);
+ const x2 = cx + r * Math.cos(endAngle), y2 = cy + r * Math.sin(endAngle);
+ const large = (endAngle - startAngle) > Math.PI ? 1 : 0;
+ svgContent += `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z" fill="${d.color}" />`;
+ });
+ svgContent += `<circle cx="${cx}" cy="${cy}" r="20" fill="white"/>`;
+ svgContent += `<text x="${cx}" y="${cy - 2}" text-anchor="middle" font-size="14" font-weight="700" fill="#0F172A">${total}</text>`;
+ svgContent += `<text x="${cx}" y="${cy + 10}" text-anchor="middle" font-size="6" fill="#94A3B8">高風險日誌</text>`;
+ svg.innerHTML = svgContent;
+ document.getElementById('legend').innerHTML = CATEGORY_DATA.map(d => `
+ <div class="legend-item"><div class="legend-dot" style="background:${d.color}"></div><div class="legend-name">${d.name}</div><div class="legend-value">${d.value}</div></div>
+ `).join('');
 }
 
 // ===== Top list =====
 function renderTopList() {
-  const top5 = CUSTOMERS.slice(0, 5);
-  document.getElementById('top-list').innerHTML = top5.map((c, i) => {
-    const detail = LOG_DETAILS[c.name];
-    const reason = detail ? detail.summary.split('。')[0] + '。' : c.category;
-    return `<div class="top-item" onclick="openCustomer('${c.name}')">
-      <div class="top-rank">${i + 1}</div>
-      <div class="top-content"><div class="top-name">${c.name}</div><div class="top-reason">${reason}</div></div>
-      <div class="top-score">${c.totalScore.toFixed(1)}</div>
-    </div>`;
-  }).join('');
+ const top5 = CUSTOMERS.slice(0, 5);
+ document.getElementById('top-list').innerHTML = top5.map((c, i) => {
+ const detail = LOG_DETAILS[c.name];
+ const reason = detail ? detail.summary.split('。')[0] + '。' : c.category;
+ return `<div class="top-item" onclick="openCustomer('${c.name}')">
+ <div class="top-rank">${i + 1}</div>
+ <div class="top-content"><div class="top-name">${c.name}</div><div class="top-reason">${reason}</div></div>
+ <div class="top-score">${c.totalScore.toFixed(1)}</div>
+ </div>`;
+ }).join('');
 }
 
 // ===== Scatter chart =====
 function renderScatter() {
-  const svg = document.getElementById('scatter');
-  const W = 700, H = 360, pad = { top: 30, right: 30, bottom: 50, left: 60 };
-  const xMin = 0, xMax = 50, yMin = 0, yMax = 3.5;
-  const xScale = v => pad.left + ((v - xMin) / (xMax - xMin)) * (W - pad.left - pad.right);
-  const yScale = v => H - pad.bottom - ((v - yMin) / (yMax - yMin)) * (H - pad.top - pad.bottom);
-  const colorMap = { '救火型': '#DC2626', '高負擔': '#EA580C', '失聯型': '#CA8A04', '優等生': '#16A34A', '中等': '#94A3B8' };
+ const svg = document.getElementById('scatter');
+ const W = 700, H = 360, pad = { top: 30, right: 30, bottom: 50, left: 60 };
+ const xMin = 0, xMax = 50, yMin = 0, yMax = 3.5;
+ const xScale = v => pad.left + ((v - xMin) / (xMax - xMin)) * (W - pad.left - pad.right);
+ const yScale = v => H - pad.bottom - ((v - yMin) / (yMax - yMin)) * (H - pad.top - pad.bottom);
+ const colorMap = { '救火型': '#DC2626', '高負擔': '#EA580C', '失聯型': '#CA8A04', '優等生': '#16A34A', '中等': '#94A3B8' };
 
-  let content = '';
-  // Quadrant background (right-top = danger)
-  content += `<rect x="${xScale(20)}" y="${pad.top}" width="${W - pad.right - xScale(20)}" height="${yScale(2) - pad.top}" fill="#FEE2E2" opacity="0.3" />`;
-  // Grid lines
-  for (let x = 10; x <= 40; x += 10) {
-    content += `<line class="scatter-grid-line" x1="${xScale(x)}" y1="${pad.top}" x2="${xScale(x)}" y2="${H - pad.bottom}" />`;
-  }
-  for (let y = 1; y <= 3; y++) {
-    content += `<line class="scatter-grid-line" x1="${pad.left}" y1="${yScale(y)}" x2="${W - pad.right}" y2="${yScale(y)}" />`;
-  }
-  // Axes
-  content += `<line class="scatter-axis" x1="${pad.left}" y1="${H - pad.bottom}" x2="${W - pad.right}" y2="${H - pad.bottom}" />`;
-  content += `<line class="scatter-axis" x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${H - pad.bottom}" />`;
-  // X labels
-  for (let x = 0; x <= 50; x += 10) {
-    content += `<text class="scatter-label" x="${xScale(x)}" y="${H - pad.bottom + 16}" text-anchor="middle">${x}</text>`;
-  }
-  content += `<text class="scatter-label" x="${W/2}" y="${H - 10}" text-anchor="middle" style="font-size:11px;fill:#475569;font-weight:500;">拜訪總次數</text>`;
-  // Y labels
-  for (let y = 0; y <= 3; y++) {
-    content += `<text class="scatter-label" x="${pad.left - 8}" y="${yScale(y) + 4}" text-anchor="end">${y}.0</text>`;
-  }
-  content += `<text class="scatter-label" x="20" y="${H/2}" text-anchor="middle" transform="rotate(-90, 20, ${H/2})" style="font-size:11px;fill:#475569;font-weight:500;">平均風險分</text>`;
+ let content = '';
+ // Quadrant background (right-top = danger)
+ content += `<rect x="${xScale(20)}" y="${pad.top}" width="${W - pad.right - xScale(20)}" height="${yScale(2) - pad.top}" fill="#FEE2E2" opacity="0.3" />`;
+ // Grid lines
+ for (let x = 10; x <= 40; x += 10) {
+ content += `<line class="scatter-grid-line" x1="${xScale(x)}" y1="${pad.top}" x2="${xScale(x)}" y2="${H - pad.bottom}" />`;
+ }
+ for (let y = 1; y <= 3; y++) {
+ content += `<line class="scatter-grid-line" x1="${pad.left}" y1="${yScale(y)}" x2="${W - pad.right}" y2="${yScale(y)}" />`;
+ }
+ // Axes
+ content += `<line class="scatter-axis" x1="${pad.left}" y1="${H - pad.bottom}" x2="${W - pad.right}" y2="${H - pad.bottom}" />`;
+ content += `<line class="scatter-axis" x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${H - pad.bottom}" />`;
+ // X labels
+ for (let x = 0; x <= 50; x += 10) {
+ content += `<text class="scatter-label" x="${xScale(x)}" y="${H - pad.bottom + 16}" text-anchor="middle">${x}</text>`;
+ }
+ content += `<text class="scatter-label" x="${W/2}" y="${H - 10}" text-anchor="middle" style="font-size:11px;fill:#475569;font-weight:500;">拜訪總次數</text>`;
+ // Y labels
+ for (let y = 0; y <= 3; y++) {
+ content += `<text class="scatter-label" x="${pad.left - 8}" y="${yScale(y) + 4}" text-anchor="end">${y}.0</text>`;
+ }
+ content += `<text class="scatter-label" x="20" y="${H/2}" text-anchor="middle" transform="rotate(-90, 20, ${H/2})" style="font-size:11px;fill:#475569;font-weight:500;">平均風險分</text>`;
 
-  // Quadrant labels
-  content += `<text class="quadrant-label" x="${W - pad.right - 10}" y="${pad.top + 15}" text-anchor="end">🔴 救火型</text>`;
-  content += `<text class="quadrant-label" x="${pad.left + 10}" y="${pad.top + 15}" text-anchor="start">🟡 失聯型</text>`;
-  content += `<text class="quadrant-label" x="${W - pad.right - 10}" y="${H - pad.bottom - 8}" text-anchor="end">🟢 穩定型</text>`;
+ // Quadrant labels
+ content += `<text class="quadrant-label" x="${W - pad.right - 10}" y="${pad.top + 15}" text-anchor="end">救火型</text>`;
+ content += `<text class="quadrant-label" x="${pad.left + 10}" y="${pad.top + 15}" text-anchor="start">失聯型</text>`;
+ content += `<text class="quadrant-label" x="${W - pad.right - 10}" y="${H - pad.bottom - 8}" text-anchor="end">穩定型</text>`;
 
-  // Points
-  STAFF_DATA.forEach(s => {
-    const cx = xScale(s.totalVisits);
-    const cy = yScale(s.avgRisk);
-    const r = 4 + s.highRiskClients * 1.5;
-    const color = colorMap[s.type];
-    content += `<circle class="scatter-point" cx="${cx}" cy="${cy}" r="${r}" fill="${color}" fill-opacity="0.7" stroke="${color}" stroke-width="1.5"><title>${s.name} | 拜訪 ${s.totalVisits} 次 | 平均風險 ${s.avgRisk} | 高風險客戶 ${s.highRiskClients}</title></circle>`;
-    // Label only for notable points
-    if (s.highRiskClients >= 2 || s.type === '優等生') {
-      content += `<text class="scatter-point-label" x="${cx + r + 4}" y="${cy + 4}">${s.name}</text>`;
-    }
-  });
+ // Points
+ STAFF_DATA.forEach(s => {
+ const cx = xScale(s.totalVisits);
+ const cy = yScale(s.avgRisk);
+ const r = 4 + s.highRiskClients * 1.5;
+ const color = colorMap[s.type];
+ content += `<circle class="scatter-point" cx="${cx}" cy="${cy}" r="${r}" fill="${color}" fill-opacity="0.7" stroke="${color}" stroke-width="1.5"><title>${s.name} | 拜訪 ${s.totalVisits} 次 | 平均風險 ${s.avgRisk} | 高風險客戶 ${s.highRiskClients}</title></circle>`;
+ // Label only for notable points
+ if (s.highRiskClients >= 2 || s.type === '優等生') {
+ content += `<text class="scatter-point-label" x="${cx + r + 4}" y="${cy + 4}">${s.name}</text>`;
+ }
+ });
 
-  svg.innerHTML = content;
+ svg.innerHTML = content;
 }
 
 // ===== Staff table =====
 function renderStaffTable() {
-  const sorted = [...STAFF_DATA].sort((a, b) => b.highRiskClients - a.highRiskClients || b.avgRisk - a.avgRisk);
-  document.getElementById('staff-tbody').innerHTML = sorted.slice(0, 10).map(s => {
-    const advice = STAFF_ADVICE[s.type] || STAFF_ADVICE['中等'];
-    return `<tr>
-      <td><strong>${s.name}</strong></td>
-      <td>${s.clients}</td>
-      <td><span style="color:${s.highRiskClients >= 2 ? 'var(--danger)' : 'var(--text)'};font-weight:600;">${s.highRiskClients}</span></td>
-      <td>${s.totalVisits}</td>
-      <td><span class="badge risk-${Math.min(4, Math.ceil(s.avgRisk))}">${s.avgRisk.toFixed(1)}</span></td>
-      <td><span style="color:${advice.color};font-size:12px;font-weight:500;">${s.type} · ${advice.label}</span></td>
-    </tr>`;
-  }).join('');
+ const sorted = [...STAFF_DATA].sort((a, b) => b.highRiskClients - a.highRiskClients || b.avgRisk - a.avgRisk);
+ document.getElementById('staff-tbody').innerHTML = sorted.slice(0, 10).map(s => {
+ const advice = STAFF_ADVICE[s.type] || STAFF_ADVICE['中等'];
+ return `<tr>
+ <td><strong>${s.name}</strong></td>
+ <td>${s.clients}</td>
+ <td><span style="color:${s.highRiskClients >= 2 ? 'var(--danger)' : 'var(--text)'};font-weight:600;">${s.highRiskClients}</span></td>
+ <td>${s.totalVisits}</td>
+ <td><span class="badge risk-${Math.min(4, Math.ceil(s.avgRisk))}">${s.avgRisk.toFixed(1)}</span></td>
+ <td><span style="color:${advice.color};font-size:12px;font-weight:500;">${s.type} · ${advice.label}</span></td>
+ </tr>`;
+ }).join('');
 }
 
 // ===== Action list =====
 function renderActionList() {
-  document.getElementById('action-list').innerHTML = ACTION_ITEMS.map(a => `
-    <div class="action-item" onclick="openCustomer('${a.title}')">
-      <div class="action-priority ${a.priority}">${a.priority === 'p1' ? 'P1' : 'P2'}</div>
-      <div class="action-content">
-        <div class="action-title">${a.title}</div>
-        <div class="action-desc">${a.desc}</div>
-        <div>${a.tags.map(t => `<span class="action-tag">${t}</span>`).join('')}</div>
-      </div>
-    </div>
-  `).join('');
+ document.getElementById('action-list').innerHTML = ACTION_ITEMS.map(a => `
+ <div class="action-item" onclick="openCustomer('${a.title}')">
+ <div class="action-priority ${a.priority}">${a.priority === 'p1' ? 'P1' : 'P2'}</div>
+ <div class="action-content">
+ <div class="action-title">${a.title}</div>
+ <div class="action-desc">${a.desc}</div>
+ <div>${a.tags.map(t => `<span class="action-tag">${t}</span>`).join('')}</div>
+ </div>
+ </div>
+ `).join('');
 }
 
 // ===== Raw logs =====
 function renderRawLogs() {
-  document.getElementById('raw-tbody').innerHTML = RAW_LOGS.map(l => `
-    <tr>
-      <td style="white-space:nowrap;color:var(--text-2);font-size:12px;">${l.date}</td>
-      <td><strong>${l.staff}</strong></td>
-      <td>${l.company}</td>
-      <td style="color:var(--text-2);font-size:12px;">${l.nature}</td>
-      <td style="max-width:380px;color:var(--text-2);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${l.desc.replace(/"/g, '&quot;')}">${l.desc}</td>
-      <td>
-        <span class="badge ${l.risk >= 4 ? 'risk-4' : l.risk >= 3 ? 'risk-3' : 'risk-2'}" style="margin-right:4px;">Risk ${l.risk}</span>
-        <span class="badge" style="background:var(--success-light);color:var(--success);">${l.status}</span>
-      </td>
-    </tr>
-  `).join('');
+ document.getElementById('raw-tbody').innerHTML = RAW_LOGS.map(l => `
+ <tr>
+ <td style="white-space:nowrap;color:var(--text-2);font-size:12px;">${l.date}</td>
+ <td><strong>${l.staff}</strong></td>
+ <td>${l.company}</td>
+ <td style="color:var(--text-2);font-size:12px;">${l.nature}</td>
+ <td style="max-width:380px;color:var(--text-2);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${l.desc.replace(/"/g, '&quot;')}">${l.desc}</td>
+ <td>
+ <span class="badge ${l.risk >= 4 ? 'risk-4' : l.risk >= 3 ? 'risk-3' : 'risk-2'}" style="margin-right:4px;">Risk ${l.risk}</span>
+ <span class="badge" style="background:var(--success-light);color:var(--success);">${l.status}</span>
+ </td>
+ </tr>
+ `).join('');
 }
 
 // ===== Customer modal =====
 function openCustomer(name) {
-  const c = CUSTOMERS.find(x => x.name === name);
-  const detail = LOG_DETAILS[name];
-  if (!c) return;
-  const logs = detail ? detail.logs : [];
-  const summary = detail ? detail.summary : 'AI 偵測到此客戶有多個風險信號，建議進一步追蹤。';
+ const c = CUSTOMERS.find(x => x.name === name);
+ const detail = LOG_DETAILS[name];
+ if (!c) return;
+ const logs = detail ? detail.logs : [];
+ const summary = detail ? detail.summary : 'AI 偵測到此客戶有多個風險信號，建議進一步追蹤。';
 
-  document.getElementById('modal').innerHTML = `
-    <div class="modal-header">
-      <div class="modal-title-area">
-        <div class="modal-title">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${c.maxRisk === 4 ? '#DC2626' : '#EA580C'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
-          ${c.name}
-          <span class="badge ${CATEGORY_CLASS[c.category]}">${c.category}</span>
-        </div>
-        <div class="modal-meta">
-          <div class="modal-meta-item">客戶等級 <span class="badge grade">${c.grade}</span></div>
-          <div class="modal-meta-item">業務人員：<strong>${c.staff}</strong></div>
-          <div class="modal-meta-item">兩週接觸 <strong>${c.visits}</strong> 次</div>
-          <div class="modal-meta-item">高風險日誌 <strong>${c.highRiskLogs}</strong> 筆</div>
-          <div class="modal-meta-item">綜合風險分 <strong style="color:var(--danger);font-size:15px;">${c.totalScore.toFixed(2)}</strong></div>
-        </div>
-      </div>
-      <button class="close-btn" onclick="closeModal()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <div class="risk-summary">
-      <div class="risk-summary-icon">⚠️</div>
-      <div class="risk-summary-text">
-        <div class="risk-summary-title">AI 風險摘要</div>
-        <div class="risk-summary-desc">${summary}</div>
-      </div>
-    </div>
-    <div class="modal-body">
-      <div class="section-title">高風險日誌（${logs.length} 筆）</div>
-      ${logs.map(log => `
-        <div class="log-entry">
-          <div class="log-entry-head">
-            <span class="log-date">${log.date}</span>
-            <span class="log-meta-sep">·</span>
-            <span class="log-staff">${log.staff}</span>
-            <span class="log-meta-sep">·</span>
-            <span class="log-nature">${log.nature}</span>
-            <div class="log-badges">
-              <span class="badge risk-${log.risk}">Risk ${log.risk}</span>
-              <span class="badge ${CATEGORY_CLASS[log.category]}">${log.category}</span>
-            </div>
-          </div>
-          <div class="log-entry-body">
-            <div class="ai-reason-box">
-              <div class="ai-icon">🧠</div>
-              <div class="ai-reason-content">
-                <div class="ai-reason-label">AI 判讀理由</div>
-                <div class="ai-reason-text">${log.reason}</div>
-              </div>
-            </div>
-            <div class="log-original-label">原始日誌</div>
-            <div class="log-original">${log.original}</div>
-          </div>
-        </div>
-      `).join('')}
-    </div>
-  `;
-  document.getElementById('modal-backdrop').classList.add('show');
+ document.getElementById('modal').innerHTML = `
+ <div class="modal-header">
+ <div class="modal-title-area">
+ <div class="modal-title">
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${c.maxRisk === 4 ? '#DC2626' : '#EA580C'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
+ ${c.name}
+ <span class="badge ${CATEGORY_CLASS[c.category]}">${c.category}</span>
+ </div>
+ <div class="modal-meta">
+ <div class="modal-meta-item">客戶等級 <span class="badge grade">${c.grade}</span></div>
+ <div class="modal-meta-item">業務人員：<strong>${c.staff}</strong></div>
+ <div class="modal-meta-item">兩週接觸 <strong>${c.visits}</strong> 次</div>
+ <div class="modal-meta-item">高風險日誌 <strong>${c.highRiskLogs}</strong> 筆</div>
+ <div class="modal-meta-item">綜合風險分 <strong style="color:var(--danger);font-size:15px;">${c.totalScore.toFixed(2)}</strong></div>
+ </div>
+ </div>
+ <button class="close-btn" onclick="closeModal()">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+ </button>
+ </div>
+ <div class="risk-summary">
+ <div class="risk-summary-icon" style="font-size:16px;font-weight:700;">!</div>
+ <div class="risk-summary-text">
+ <div class="risk-summary-title">AI 風險摘要</div>
+ <div class="risk-summary-desc">${summary}</div>
+ </div>
+ </div>
+ <div class="modal-body">
+ <div class="section-title">高風險日誌（${logs.length} 筆）</div>
+ ${logs.map(log => `
+ <div class="log-entry">
+ <div class="log-entry-head">
+ <span class="log-date">${log.date}</span>
+ <span class="log-meta-sep">·</span>
+ <span class="log-staff">${log.staff}</span>
+ <span class="log-meta-sep">·</span>
+ <span class="log-nature">${log.nature}</span>
+ <div class="log-badges">
+ <span class="badge risk-${log.risk}">Risk ${log.risk}</span>
+ <span class="badge ${CATEGORY_CLASS[log.category]}">${log.category}</span>
+ </div>
+ </div>
+ <div class="log-entry-body">
+ <div class="ai-reason-box">
+ <div class="ai-icon" style="font-size:14px;font-weight:700;color:var(--primary);">AI</div>
+ <div class="ai-reason-content">
+ <div class="ai-reason-label">AI 判讀理由</div>
+ <div class="ai-reason-text">${log.reason}</div>
+ </div>
+ </div>
+ <div class="log-original-label">原始日誌</div>
+ <div class="log-original">${log.original}</div>
+ </div>
+ </div>
+ `).join('')}
+ </div>
+ `;
+ document.getElementById('modal-backdrop').classList.add('show');
 }
 
 function closeModal() { document.getElementById('modal-backdrop').classList.remove('show'); }
