@@ -97,6 +97,37 @@ import { BrowserRouter } from "react-router-dom";
 
 ---
 
+### 規則 5：Action 沙盒禁止模組 — 必須用 `httpx`
+
+平台 Action 執行在安全沙盒中，**禁止匯入 `ssl`、`os` 等模組**。呼叫外部 API 必須使用 `httpx`（平台預裝）。
+
+```python
+# ✅ 正確 — 使用 httpx
+import httpx
+
+def _call_ai(ctx, prompt):
+    api_key = ctx.secrets.get("OPENAI_API_KEY")
+    if not api_key:
+        return "- AI 金鑰未設定"
+    resp = httpx.post(
+        "https://api.openai.com/v1/chat/completions",
+        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+        json={"model": "gpt-4o-mini", "messages": [{"role": "user", "content": prompt}]},
+        timeout=30,
+    )
+    return resp.json()["choices"][0]["message"]["content"].strip()
+
+# ❌ 錯誤 — ssl 被禁止，會直接報錯「禁止匯入模組: ssl」
+import urllib.request
+import ssl  # ← 平台會拒絕執行
+ssl._create_default_https_context = ssl._create_unverified_context
+```
+
+**已知被禁止的模組**：`ssl`、`os`（部分功能）、`subprocess`
+**平台預裝可用的模組**：`httpx`、`json`、`re`、`collections`
+
+---
+
 ## CSS 規範
 
 ### Shadow DOM 限制
@@ -155,6 +186,8 @@ import { BrowserRouter } from "react-router-dom";
 | `ctx.response.json(data)` | 回傳 JSON | — |
 | `ctx.http.call()` | 外部 HTTP 請求 | — |
 | ~~`ctx.env`~~ | **不可用** | 是字串 `"online"`，不是 dict |
+| ~~`import ssl`~~ | **被禁止** | 使用 `httpx` 取代 |
+| ~~`import os`~~ | **被禁止** | `os.environ` 不可用，用 `ctx.secrets` |
 
 ### Reference API
 
@@ -227,6 +260,8 @@ POST /compile/compile/{SLUG}
 - [ ] 確認 CSS 使用 `:host, :root`（不是 `:root`）
 - [ ] 確認路由使用 `HashRouter`
 - [ ] 確認 AI 邏輯在 Action 中（不在前端）
+- [ ] 確認 Action 中使用 `httpx`（不是 `urllib.request + ssl`）
+- [ ] 確認 Action 中使用 `ctx.secrets.get()`（不是 `os.environ`）
 
 ### 每次部署後
 - [ ] `GET /builder/apps/{APP}` 驗證 `published_vfs` 已更新
