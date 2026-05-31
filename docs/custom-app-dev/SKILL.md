@@ -6,7 +6,7 @@ description: AI GO Custom App 開發規範。在開發或修改任何 AI GO Cust
 # AI GO Custom App 開發規範
 
 > **適用範圍**：所有透過 AI GO 平台 (`ai-go.app`) Builder API 開發的 Custom App
-> **最後更新**：2026-05-31
+> **最後更新**：2026-05-31（含坑 15-19 教訓）
 > **平台文件**：https://www.ai-go.app/zh-TW/docs/custom-app-dev
 
 ---
@@ -133,14 +133,20 @@ ssl._create_default_https_context = ssl._create_unverified_context
 ### Shadow DOM 限制
 
 1. **`:host, :root`** — 所有 CSS 變數必須用此宣告
-2. **避免 `overflow: hidden`** — Shadow DOM 容器需要正確的滾動設定：
+2. **滾動佈局**：外層容器用固定 `height` + `overflow: hidden`，只讓 `.app-content` 可捲動：
    ```css
-   /* ✅ 允許滾動 */
-   html, body, #root { height: 100%; }
-
-   /* ❌ 整個頁面無法滾動 */
+   /* ✅ 正確 — 外層鎖死高度，app-content 為唯一捲動區 */
    html, body, #root { height: 100%; overflow: hidden; }
+   .app-layout { display: flex; height: 100vh; height: 100dvh; overflow: hidden; }
+   .app-main { flex: 1; height: 100vh; overflow: hidden; }
+   .app-content { flex: 1; overflow-y: auto; }
+
+   /* ❌ 錯誤 — min-height 讓容器無限延伸，overflow 永遠不觸發 */
+   .app-layout { min-height: 100vh; }
+   .app-main { min-height: 100vh; }
+   .app-content { overflow-y: auto; }  /* 滾軸不會出現！ */
    ```
+   **原理**：`overflow-y: auto` 只在內容超過容器「固定高度」時生效。`min-height` 允許容器隨內容延伸 → 永遠不溢出 → 滾軸不出現。
 3. **`confirm()` / `alert()` 不可用** — 用 React state 實作確認對話框
 4. **字體建議**：使用 `-apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif`
 
@@ -175,6 +181,26 @@ ssl._create_default_https_context = ssl._create_unverified_context
 |-----|------|---------|---------|
 | `api.ts` | `submitRecord()` | Custom Table（自建表） | `/data/objects/` |
 | `db.ts` | `insert()` / `query()` | Proxy Table（SaaS 既有表） | `/proxy/{appId}/` |
+
+### `runAction()` 回傳格式（前端必讀）
+
+`action.ts` 的 `runAction()` 回傳 `{ data, file }`，**不是直接回傳 Action 結果**。
+所有前端接收 `runAction` 結果時，**必須先解包 `r.data`**：
+
+```typescript
+// ✅ 正確 — 先解包 data
+runAction("sales_log", { action: "list_logs" })
+  .then((r: any) => {
+    const d = r?.data || r;
+    if (d?.logs) setLogs(d.logs);
+  });
+
+// ❌ 錯誤 — r.logs 永遠是 undefined
+runAction("sales_log", { action: "list_logs" })
+  .then((r: any) => {
+    if (r?.logs) setLogs(r.logs);
+  });
+```
 
 ### Action 的 `ctx` 物件可用屬性
 
@@ -241,6 +267,47 @@ ReactDOM.createRoot(rootEl!).render(
 
 ---
 
+## React 前端規範
+
+### Hooks 順序（違反會白屏）
+
+所有 `useState`、`useEffect`、`useRef`、`useCallback` **必須在 early return 之前**，否則元件會靜默崩潰（全白無錯誤訊息）：
+
+```tsx
+// ✅ 正確 — Hooks 全部在 early return 之前
+const [data, setData] = useState(null);
+const [loading, setLoading] = useState(true);
+useEffect(() => { load(); }, []);
+useEffect(() => { /* click outside handler */ }, []);
+
+if (loading) return <Loading />;
+if (!data) return <NoData />;
+
+// ❌ 錯誤 — useEffect 在 early return 之後，違反 Hooks 規則
+if (loading) return <Loading />;
+useEffect(() => { /* 這裡不該有 Hook */ }, []);
+```
+
+### Dropdown / Popover 選項事件
+
+凡是有「點擊外部關閉」邏輯的 dropdown，選項互動一律用 **`onMouseDown` + `e.preventDefault()`**，不能用 `onClick`：
+
+```tsx
+// ✅ 正確 — onMouseDown 先於 blur 執行，preventDefault 阻止 input 失焦
+<div className="ac-item"
+  onMouseDown={e => { e.preventDefault(); selectItem(c); }}
+>
+
+// ❌ 錯誤 — 事件順序 mousedown→blur→click，blur 時 React 可能已移除 DOM
+<div className="ac-item"
+  onClick={() => selectItem(c)}
+>
+```
+
+**原理**：瀏覽器事件順序是 `mousedown → blur → mouseup → click`。`document.addEventListener("mousedown")` 的 click-outside handler 在 `click` 之前觸發，若 input 因此失焦引起重渲染，dropdown DOM 被移除，`click` 事件永遠無法觸發。
+
+---
+
 ## Compile API（僅供驗證）
 
 ```
@@ -262,12 +329,19 @@ POST /compile/compile/{SLUG}
 - [ ] 確認 AI 邏輯在 Action 中（不在前端）
 - [ ] 確認 Action 中使用 `httpx`（不是 `urllib.request + ssl`）
 - [ ] 確認 Action 中使用 `ctx.secrets.get()`（不是 `os.environ`）
+- [ ] 確認所有 React Hooks 在 early return 之前
+- [ ] 確認 `runAction` 回傳用 `r?.data || r` 解包
 
 ### 每次部署後
 - [ ] `GET /builder/apps/{APP}` 驗證 `published_vfs` 已更新
 - [ ] 確認 `published_assets` 為空（html=0, css=0, bundle_js=0）
 - [ ] 可選：`POST /compile/compile/{SLUG}` 驗證無編譯錯誤
 - [ ] 瀏覽器 Ctrl+Shift+R 強制重整確認
+
+### VFS 字串替換後
+- [ ] 驗證目標函數/元件只出現 **1 次**（避免殘留舊版本）
+- [ ] 檢查無孤立 `}) {`、`};` 等殘留語法碎片
+- [ ] 上傳前先呼叫 compile API 確認無錯誤
 
 ### 遇到問題時
 1. **先看成功的 reference app**（`GET /builder/apps/{REF_APP}`）
